@@ -51,5 +51,6 @@ public class App {
         commands.put("help", new HelpCommand(commands));
         commands.put("exit", new ExitCommand());
         commands.put("ver", new VersionCommand());
+        commands.put("title", new TitleCommand());
     }
 }
