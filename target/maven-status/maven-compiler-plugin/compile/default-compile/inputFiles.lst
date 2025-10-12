@@ -4,6 +4,7 @@
 /workspaces/MyCMD/src/main/java/com/mycmd/commands/CdCommand.java
 /workspaces/MyCMD/src/main/java/com/mycmd/commands/ClsCommand.java
 /workspaces/MyCMD/src/main/java/com/mycmd/commands/CopyCommand.java
+/workspaces/MyCMD/src/main/java/com/mycmd/commands/DateCommand.java
 /workspaces/MyCMD/src/main/java/com/mycmd/commands/DelCommand.java
 /workspaces/MyCMD/src/main/java/com/mycmd/commands/DirCommand.java
 /workspaces/MyCMD/src/main/java/com/mycmd/commands/EchoCommand.java
