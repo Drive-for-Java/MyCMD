@@ -1,4 +1,4 @@
-# Contributing to [Project Name]
+# Contributing to MyCMD (Java Command Prompt)
 
 Thank you for considering contributing to this project! 🎉
 
