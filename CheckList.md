@@ -9,7 +9,7 @@
 ## 🧭 System Information & Management
 - [ ] systeminfo  
 - [ ] hostname  
-- [ ] ver  
+- [x] ver  
 - [ ] vol  
 - [ ] set  
 - [ ] setx  
@@ -27,19 +27,19 @@
 ---
 
 ## 📁 File & Directory Operations
-- [ ] dir  
-- [ ] cd / chdir  
-- [ ] md / mkdir  
-- [ ] rd / rmdir  
-- [ ] del / erase  
-- [ ] copy  
+- [x] dir  
+- [x] cd / chdir  
+- [x] md / mkdir  
+- [x] rd / rmdir  
+- [x] del / erase  
+- [x] copy  
 - [ ] xcopy  
 - [ ] robocopy  
-- [ ] move  
+- [x] move  
 - [ ] rename / ren  
 - [ ] attrib  
 - [ ] tree  
-- [ ] type  
+- [x] type  
 - [ ] more  
 - [ ] find  
 - [ ] findstr  
@@ -52,7 +52,7 @@
 ---
 
 ## 🌐 Network & Internet Commands
-- [ ] ping  
+- [x] ping  
 - [ ] ipconfig  
 - [ ] getmac  
 - [ ] nslookup  
@@ -107,14 +107,14 @@
 ---
 
 ## ⚙️ Automation & Scripting
-- [ ] echo  
+- [x] echo  
 - [ ] pause  
-- [ ] cls  
-- [ ] exit  
+- [x] cls  
+- [x] exit  
 - [ ] title  
 - [ ] color  
 - [ ] time  
-- [ ] date  
+- [x] date  
 - [ ] shutdown  
 - [ ] choice  
 - [ ] timeout  
@@ -152,7 +152,7 @@
 ---
 
 ## 🧩 Miscellaneous & Helpers
-- [ ] help  
+- [x] help  
 - [ ] /? (help flag for any command)  
 - [ ] doskey  
 - [ ] mode  
@@ -160,7 +160,7 @@
 - [ ] subst  
 - [ ] clip  
 - [ ] msg  
-- [ ] ver  
+- [x] ver  
 - [ ] verify  
 - [ ] vol  
 
@@ -170,28 +170,30 @@
 - [ ] assoc  
 - [ ] break  
 - [ ] call  
-- [ ] cd / chdir  
-- [ ] cls  
+- [x] cd / chdir  
+- [x] cls  
 - [ ] color  
-- [ ] copy  
-- [ ] date  
-- [ ] del / erase  
-- [ ] dir  
-- [ ] echo  
+- [x] copy  
+- [x] date  
+- [x] del / erase  
+- [x] dir  
+- [x] echo
+- [x] ls
 - [ ] endlocal  
-- [ ] exit  
+- [x] exit  
 - [ ] for  
 - [ ] ftype  
 - [ ] goto  
 - [ ] if  
-- [ ] md / mkdir  
-- [ ] move  
+- [x] md / mkdir  
+- [x] move  
 - [ ] path  
 - [ ] pause  
 - [ ] popd  
 - [ ] prompt  
-- [ ] pushd  
-- [ ] rd / rmdir  
+- [ ] pushd
+- [x] ping  
+- [x] rd / rmdir  
 - [ ] rem  
 - [ ] ren / rename  
 - [ ] set  
@@ -200,8 +202,8 @@
 - [ ] start  
 - [ ] time  
 - [ ] title  
-- [ ] type  
-- [ ] ver  
+- [x] type  
+- [x] ver  
 - [ ] verify  
 - [ ] vol  
 
