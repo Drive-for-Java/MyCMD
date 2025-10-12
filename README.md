@@ -1,3 +1,8 @@
+<p align="center"><a name="readme-top"></a>
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&text=💻+Java+CMD&height=100&section=header"/>
+
+</p>
+
 # 💻 MyCMD – A Custom Command Prompt in Java
 
 ![Build](https://img.shields.io/badge/build-passing-brightgreen)
@@ -143,3 +148,5 @@ You can now use commands like:
 Licensed under the Apache License
 You are free to use, modify, and distribute.
 
+
+ <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=120&section=footer&text=Java,%20Java,%20and%20My%20Java&fontSize=20&fontColor=fff&animation=twinkling"/>
