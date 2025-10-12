@@ -4,7 +4,7 @@ import com.mycmd.Command;
 import com.mycmd.ShellContext;
 import java.io.File;
 
-public class TreeCommand implements Command{
+public class TreeCommand implements Command {
     public void execute(String[] args, ShellContext context){
         File[] files = context.getCurrentDir().listFiles();
 
