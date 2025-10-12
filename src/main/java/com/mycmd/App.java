@@ -52,5 +52,6 @@ public class App {
         commands.put("exit", new ExitCommand());
         commands.put("ver", new VersionCommand());
         commands.put("hostname", new HostnameCommand());
+        commands.put("date", new DateCommand());
     }
 }
