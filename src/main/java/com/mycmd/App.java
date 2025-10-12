@@ -51,6 +51,7 @@ public class App {
         commands.put("help", new HelpCommand(commands));
         commands.put("exit", new ExitCommand());
         commands.put("ver", new VersionCommand());
+        commands.put("title", new TitleCommand());
         commands.put("hostname", new HostnameCommand());
         commands.put("whoami", new WhoamiCommand());
         commands.put("touch", new TouchCommand());
