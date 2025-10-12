@@ -5,7 +5,7 @@ import com.mycmd.ShellContext;
 import java.io.File;
 
 public class TreeCommand implements Command {
-    public void execute(String[] args, ShellContext context){
+    public void execute(String[] args, ShellContext context) {
         File[] files = context.getCurrentDir().listFiles();
 
         if (files == null || files.length == 0) {
