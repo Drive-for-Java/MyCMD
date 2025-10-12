@@ -52,5 +52,6 @@ public class App {
         commands.put("exit", new ExitCommand());
         commands.put("ver", new VersionCommand());
         commands.put("color", new ColorCommand());
+        commands.put("date", new DateCommand());
     }
 }
