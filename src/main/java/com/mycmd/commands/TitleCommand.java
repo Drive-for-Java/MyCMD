@@ -9,6 +9,8 @@ public class TitleCommand implements Command {
         if (args.length > 0) {
             String title = String.join(" ", args);
             System.out.println("\033]0;" + title + "\007");
+        } else {
+            System.out.println("Usage: title <new title>");
         }
     }
     
