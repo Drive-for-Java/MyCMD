@@ -52,5 +52,7 @@ public class App {
         commands.put("exit", new ExitCommand());
         commands.put("ver", new VersionCommand());
         commands.put("touch", new TouchCommand());
+        commands.put("time", new TimeCommand());
+        commands.put("date", new DateCommand());
     }
 }
