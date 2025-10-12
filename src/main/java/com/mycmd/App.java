@@ -57,6 +57,7 @@ public class App {
         commands.put("whoami", new WhoamiCommand());
         commands.put("touch", new TouchCommand());
         commands.put("time", new TimeCommand());
+        commands.put("tree", new TreeCommand());
         commands.put("date", new DateCommand());
     }
 }

@@ -8,7 +8,7 @@
 
 ## 🧭 System Information & Management
 - [ ] systeminfo  
-- [ ] hostname  
+- [x] hostname  
 - [x] ver  
 - [ ] vol  
 - [ ] set  
@@ -38,7 +38,7 @@
 - [x] move  
 - [ ] rename / ren  
 - [ ] attrib  
-- [ ] tree  
+- [x] tree  
 - [x] type  
 - [ ] more  
 - [ ] find  
@@ -97,7 +97,7 @@
 - [ ] net user  
 - [ ] net localgroup  
 - [ ] runas  
-- [ ] whoami  
+- [x] whoami  
 - [ ] cacls  
 - [ ] icacls  
 - [ ] cipher  
@@ -111,9 +111,9 @@
 - [ ] pause  
 - [x] cls  
 - [x] exit  
-- [ ] title  
-- [ ] color  
-- [ ] time  
+- [x] title  
+- [x] color  
+- [x] time  
 - [x] date  
 - [ ] shutdown  
 - [ ] choice  
@@ -172,7 +172,7 @@
 - [ ] call  
 - [x] cd / chdir  
 - [x] cls  
-- [ ] color  
+- [x] color  
 - [x] copy  
 - [x] date  
 - [x] del / erase  
@@ -200,8 +200,8 @@
 - [ ] setlocal  
 - [ ] shift  
 - [ ] start  
-- [ ] time  
-- [ ] title  
+- [x] time  
+- [x] title  
 - [x] type  
 - [x] ver  
 - [ ] verify  
