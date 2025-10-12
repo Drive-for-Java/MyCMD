@@ -24,7 +24,7 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 - [ ] Test B
 
 **Test Configuration**:
-* Java version:
+* Language/Framework version:
 * Operating System:
 
 ## Checklist
