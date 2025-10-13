@@ -7,27 +7,16 @@ import java.io.File;
 public class CdCommand implements Command {
     @Override
     public void execute(String[] args, ShellContext context) {
-        // No argument -> print current directory
+        // If no argument, print current directory
         if (args.length == 0) {
             System.out.println(context.getCurrentDir().getAbsolutePath());
             return;
         }
 
         String dir = args[0];
+        File newDir;
 
-        // Normalize "cd.." without space to ".."
-        if (dir.equals("cd..")) {
-            dir = "..";
-        }
-
-        File newDir = new File(dir);
-
-        // If relative path, resolve from current directory
-        if (!newDir.isAbsolute()) {
-            newDir = new File(context.getCurrentDir(), dir);
-        }
-
-        // Handle "cd .." when already at root
+        // Handle "cd .." (go to parent directory)
         if (dir.equals("..")) {
             File parent = context.getCurrentDir().getParentFile();
             if (parent == null) {
@@ -35,8 +24,14 @@ public class CdCommand implements Command {
                 return;
             }
             newDir = parent;
+        } else {
+            newDir = new File(dir);
+            if (!newDir.isAbsolute()) {
+                newDir = new File(context.getCurrentDir(), dir);
+            }
         }
 
+        // Change directory if valid
         if (newDir.exists() && newDir.isDirectory()) {
             context.setCurrentDir(newDir);
         } else {
