@@ -4,6 +4,23 @@ import com.mycmd.Command;
 import com.mycmd.ShellContext;
 import java.io.File;
 
+/**
+ * Displays the directory tree structure in a graphical ASCII format.
+ * 
+ * This command recursively traverses the directory tree starting from the
+ * current working directory and displays files and subdirectories using
+ * box-drawing characters to show the hierarchical structure. Hidden files
+ * are excluded from the output.
+ * 
+ * Usage: tree
+ * 
+ * The output uses Unicode characters for tree branches:
+ * - Vertical lines and horizontal connectors for hierarchy
+ * - Corner characters for the last item in each directory
+ * 
+ * The command recursively processes subdirectories to show the complete
+ * directory structure beneath the current location.
+ */
 public class TreeCommand implements Command {
     public void execute(String[] args, ShellContext context) {
         File[] files = context.getCurrentDir().listFiles();

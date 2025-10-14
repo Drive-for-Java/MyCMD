@@ -4,6 +4,19 @@ import com.mycmd.Command;
 import com.mycmd.ShellContext;
 import java.io.File;
 
+/**
+ * Deletes one or more files from the file system.
+ * 
+ * This command accepts one or more file names as arguments and attempts to
+ * delete each file. File paths are resolved relative to the current working
+ * directory. The command provides feedback for each file indicating whether
+ * the deletion was successful or if the file was not found.
+ * 
+ * Usage: del file1 [file2 file3 ...]
+ * 
+ * Note: This command only deletes files, not directories. Use rmdir for
+ * directory removal.
+ */
 public class DelCommand implements Command {
     @Override
     public void execute(String[] args, ShellContext context) {

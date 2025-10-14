@@ -3,6 +3,22 @@ package com.mycmd.commands;
 import com.mycmd.Command;
 import com.mycmd.ShellContext;
 
+/**
+ * Changes the console text and background colors using ANSI escape codes.
+ * 
+ * This command accepts a two-character hexadecimal code where the first digit
+ * represents the background color and the second digit represents the text color.
+ * Valid color codes are 0-9 and A-F (hexadecimal). When called without arguments,
+ * it resets colors to terminal defaults.
+ * 
+ * Usage:
+ * - color       : Reset to default colors
+ * - color XY    : Set background to X and text to Y (hex digits 0-F)
+ * 
+ * Example: color 0A sets black background with bright green text.
+ * 
+ * Note: Background and text colors cannot be the same value.
+ */
 public class ColorCommand implements Command {
     @Override
     public void execute(String[] args, ShellContext context) {
