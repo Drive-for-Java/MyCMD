@@ -3,6 +3,19 @@ package com.mycmd.commands;
 import com.mycmd.Command;
 import com.mycmd.ShellContext;
 
+/**
+ * Displays text messages to the console output.
+ * 
+ * This command prints all provided arguments to standard output, joining
+ * multiple arguments with spaces. When called without arguments, it prints
+ * a blank line.
+ * 
+ * Usage:
+ * - echo         : Print a blank line
+ * - echo message : Print the message to console
+ * 
+ * Multiple words are automatically joined with spaces between them.
+ */
 public class EchoCommand implements Command {
     @Override
     public void execute(String[] args, ShellContext context) {
