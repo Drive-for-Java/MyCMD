@@ -29,6 +29,8 @@ public class App {
             if (command != null) {
                 try {
                     command.execute(cmdArgs, context);
+                    // Add to history after successful execution
+                    context.addToHistory(input);
                 } catch (Exception e) {
                     System.out.println("Error: " + e.getMessage());
                 }
@@ -59,5 +61,6 @@ public class App {
         commands.put("time", new TimeCommand());
         commands.put("tree", new TreeCommand());
         commands.put("date", new DateCommand());
+        commands.put("history", new HistoryCommand());
     }
 }
