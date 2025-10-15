@@ -4,6 +4,20 @@ import com.mycmd.Command;
 import com.mycmd.ShellContext;
 import java.io.*;
 
+/**
+ * Copies a file from source to destination location.
+ * 
+ * This command reads the contents of a source file and writes it to a
+ * destination file using buffered I/O streams for efficient copying. Both
+ * source and destination paths are resolved relative to the current working
+ * directory unless absolute paths are provided.
+ * 
+ * Usage: copy source destination
+ * 
+ * The command verifies that the source exists and is a regular file before
+ * attempting the copy operation. If the destination file already exists, it
+ * will be overwritten.
+ */
 public class CopyCommand implements Command {
     @Override
     public void execute(String[] args, ShellContext context) {
