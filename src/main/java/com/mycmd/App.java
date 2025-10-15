@@ -35,7 +35,14 @@ public class App {
                     System.out.println("Error: " + e.getMessage());
                 }
             } else {
-                System.out.println("'" + cmd + "' is not recognized as an internal or external command.");
+                // Suggest closest command
+                List<String> validCommands = new ArrayList<>(commands.keySet());
+                String suggestion = StringUtils.findClosest(cmd, validCommands);
+                if (suggestion != null && !suggestion.equals(cmd)) {
+                    System.out.println("'" + cmd + "' is not recognized as an internal or external command. Did you mean '" + suggestion + "'?");
+                } else {
+                    System.out.println("'" + cmd + "' is not recognized as an internal or external command.");
+                }
             }
         }
     }
