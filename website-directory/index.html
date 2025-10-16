@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyCMD - Custom Command Prompt in Java</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Plexus Background -->
+  <svg id="plexus"></svg>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="logo">💻 MyCMD</div>
+      <ul class="nav-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#join">Join Us</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero">
+    <div class="container hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">MyCMD</h1>
+        <p class="hero-subtitle">A Fully Custom Command Prompt Built in Java</p>
+        <p class="hero-description">Experience the power of a Windows-like terminal, reimagined from scratch with extensibility and modern design.</p>
+        <div class="hero-buttons">
+          <a href="https://github.com/Drive-for-Java/MyCMD" class="btn btn-primary">Clone Now</a>
+          <a href="#features" class="btn btn-secondary">Learn More</a>
+        </div>
+        <div class="hero-badges">
+          <span class="badge">Java 17+</span>
+          <span class="badge">Windows | Linux</span>
+          <span class="badge">Apache License</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tagline Section -->
+  <section class="tagline">
+    <div class="container">
+      <h2 class="tagline-text">The CMD that works for developers, by developers</h2>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features">
+    <div class="container">
+      <h2 class="section-title">Powerful Functionality</h2>
+      <p class="section-subtitle">Built with performance and extensibility in mind</p>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📁</div>
+          <h3>Windows-Like Commands</h3>
+          <p>Familiar commands like <code>dir</code>, <code>cd</code>, <code>mkdir</code>, <code>del</code>, <code>copy</code>, and <code>type</code></p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🔧</div>
+          <h3>Fully Extensible</h3>
+          <p>Easy to add new commands via Java classes. Built with clean architecture and command pattern</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Lightning Fast</h3>
+          <p>Native performance with Java optimization. Minimal resource usage for maximum speed</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">📦</div>
+          <h3>Easy Installation</h3>
+          <p>Packaged as .exe with Launch4j. Includes installer wizard via Inno Setup</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🌐</div>
+          <h3>Cross-Platform</h3>
+          <p>Works seamlessly on Windows and Linux through jpackage support</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🔓</div>
+          <h3>Open Source</h3>
+          <p>Apache licensed, free to use, modify, and distribute for any purpose</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section id="how-it-works" class="how-it-works">
+    <div class="container">
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-subtitle">Get started in three simple steps</p>
+      
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Download & Install</h3>
+          <p>Run the setup.exe installer or build from source using Maven. Installation takes less than a minute.</p>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Launch MyCMD</h3>
+          <p>Open the application from your desktop or run <code>MyCMD.exe</code> from the command line.</p>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Start Coding</h3>
+          <p>Use familiar commands or extend MyCMD by adding your own custom commands in Java.</p>
+        </div>
+      </div>
+
+      <div class="code-example">
+        <h3>Example Usage</h3>
+        <pre><code>> dir
+> cd ..
+> mkdir myproject
+> echo Hello World!
+> type readme.txt
+> help
+> exit</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Us Section -->
+  <section id="about" class="about">
+    <div class="container">
+      <h2 class="section-title">About Drive For Java</h2>
+      <img src="images/logo.jpeg" alt="Drive For Java Logo" class="about-logo">
+      <div class="about-content">
+        <p>Drive For Java is a passionate global community dedicated to empowering developers. Our mission is simple: to connect learners and professionals, to share knowledge, and to build powerful projects together.</p>
+        
+        <p>Beyond code, we foster meaningful collaboration and mentorship, ensuring that everyone has the opportunity to grow their skills. Whether you are a beginner eager to contribute or a seasoned developer looking to collaborate on advanced projects — this is your home.</p>
+        
+        <p>At Drive For Java, collaboration is not just encouraged, it is celebrated. Together, we're creating innovative tools, open-source repositories, and a supportive network that inspires future generations of developers.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Code of Conduct Section -->
+  <section class="conduct">
+    <div class="container">
+      <h2 class="section-title">Code of Conduct</h2>
+      <p class="section-subtitle">Building a welcoming and inclusive environment</p>
+      
+      <div class="conduct-grid">
+        <div class="conduct-item">
+          <div class="conduct-icon">🤝</div>
+          <h3>Respect and Inclusivity</h3>
+          <p>Treat all contributors with kindness. We do not tolerate harassment, discrimination, or disrespectful behavior.</p>
+        </div>
+        
+        <div class="conduct-item">
+          <div class="conduct-icon">💡</div>
+          <h3>Collaboration</h3>
+          <p>Support one another, share knowledge, and contribute constructively to discussions and code reviews.</p>
+        </div>
+        
+        <div class="conduct-item">
+          <div class="conduct-icon">🌍</div>
+          <h3>Openness</h3>
+          <p>Value diverse perspectives and experiences. Different backgrounds bring stronger solutions.</p>
+        </div>
+        
+        <div class="conduct-item">
+          <div class="conduct-icon">✨</div>
+          <h3>Professionalism</h3>
+          <p>Use welcoming and appropriate language across all interactions, whether in code, issues, or discussions.</p>
+        </div>
+        
+        <div class="conduct-item">
+          <div class="conduct-icon">💬</div>
+          <h3>Constructive Feedback</h3>
+          <p>Critique ideas, not people. Provide actionable and respectful suggestions.</p>
+        </div>
+        
+        <div class="conduct-item">
+          <div class="conduct-icon">🛡️</div>
+          <h3>Zero Tolerance</h3>
+          <p>Any form of intimidation, offensive comments, or personal attacks are prohibited.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Collaborate Section -->
+  <section class="collaborate">
+    <div class="container">
+      <h2 class="section-title">Why Collaboration Matters</h2>
+      <p class="section-intro">Collaboration is the heartbeat of Drive For Java. In the world of software development, teamwork fuels innovation and leads to impactful outcomes.</p>
+      
+      <div class="collab-grid">
+        <div class="collab-card">
+          <h3>📚 Learn Faster</h3>
+          <p>Share experiences and learn from peers worldwide</p>
+        </div>
+        
+        <div class="collab-card">
+          <h3>🚀 Build Bigger</h3>
+          <p>Collaborate on projects beyond the scope of individual effort</p>
+        </div>
+        
+        <div class="collab-card">
+          <h3>🌐 Stronger Network</h3>
+          <p>Connect with developers, mentors, and innovators across the globe</p>
+        </div>
+        
+        <div class="collab-card">
+          <h3>💪 Empower Others</h3>
+          <p>Contributing to open-source inspires and helps future developers</p>
+        </div>
+      </div>
+      
+      <p class="collab-footer">Together, we are not just coding — we are building a better tomorrow for developers everywhere.</p>
+    </div>
+  </section>
+
+  <!-- Join Us Section -->
+  <section id="join" class="join">
+    <div class="container">
+      <h2 class="section-title">Join Us</h2>
+      <p class="join-intro">We're always looking for passionate members to collaborate. Join our Community and Contribute to our awesome repos.</p>
+      
+      <p class="join-highlight">💖 Your Work can make this community glow and shine in Moonlight 💖</p>
+      
+      <div class="legend-card">
+        <h3>🌟 Your Face Here?</h3>
+        <p class="legend-subtitle">Future Legend @yourusername</p>
+        <p>We're on the lookout for elite-level developers to join our fast-moving, global, modern team. If you're a builder with vision, speed, and taste - we want to see you here.</p>
+        <a href="https://github.com/Drive-for-Java/support/issues/new?assignees=&labels=invite+me+to+the+organisation&template=invitation.yml&title=Please+invite+me+to+the+GitHub+Community+Organization" class="btn btn-primary">👾 Join Drive-for-Java</a>
+      </div>
+    </div>
+  </section>
+  <img src="./images/banner.png" alt="Banner Image" class="banner-img"/>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2025 Drive For Java. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
