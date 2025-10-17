@@ -1,11 +1,19 @@
 # Auto-label files changed by path
 # Requires: actions/labeler action in a workflow if you want auto-labeling.
 rules:
-  docs:
+  "docs":
     - "docs/**"
-  python:
+  "python":
     - "**/*.py"
-  javascript:
+  "javascript":
     - "**/*.js"
-    java:
+    "java":
     - "**/*.java"
+"documentation":
+  - '**/*.md'
+"workflow":
+  - '.github/workflows/**'
+"enhancement":
+  - 'src/**'
+"bug":
+  - '*/bug*/**'
