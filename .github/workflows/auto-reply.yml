@@ -23,30 +23,11 @@ jobs:
             const eventName = context.eventName;
             const repo = context.repo;
 
-            const footer = `
----
-
-🌐 **Stay Connected with the MyCMD Community:**
-
-- 💻 [Website](https://Drive-for-java.github.io)
-- 💬 [Discord Server](https://discord.gg/MYdZbvR5gC)
-- 📱 [WhatsApp Channel](https://whatsapp.com/channel/0029VbAsOiM8KMqmrdpdUG2W)
-
-Thank you for being part of **Drive for Java 🚗☕**
-`;
-
             if (eventName === "issues") {
               const user = context.payload.issue.user.login;
-              const message = `👋 Hi @${user}!
-
-Thank you for opening an issue in **MyCMD**.  
-Our maintainers will review it soon. Please make sure your report includes:
-
-- ✅ Clear reproduction steps  
-- 📋 Logs or stack traces (if applicable)  
-- 🧠 Details about your environment (Java version, OS, etc.)
-
-This helps us fix and improve faster!${footer}`;
+              const message = `👋 Hi @${user}!  
+              Thanks for opening an issue in **MyCMD**.  
+              We’ll review it soon — meanwhile, please ensure logs and reproduction steps are clear. `;
 
               await github.rest.issues.createComment({
                 owner: repo.owner,
@@ -65,17 +46,9 @@ This helps us fix and improve faster!${footer}`;
 
             if (eventName === "pull_request") {
               const user = context.payload.pull_request.user.login;
-              const message = `🚀 Hi @${user}!
-
-Thank you for contributing to **MyCMD** 🎉  
-Your pull request has been received and will be reviewed shortly by our maintainers.
-
-Meanwhile, please ensure:
-- 🧱 Your code passes CI checks  
-- 📖 You’ve updated docs or comments if needed  
-- 🧩 You’ve tested it locally
-
-We appreciate your efforts to make MyCMD better!${footer}`;
+              const message = `🚀 Hi @${user}!  
+              Thank you for contributing to **MyCMD**.  
+              A maintainer will review your PR shortly. 🎉`;
 
               await github.rest.issues.createComment({
                 owner: repo.owner,
