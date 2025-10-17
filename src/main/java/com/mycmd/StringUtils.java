@@ -32,6 +32,17 @@ public class StringUtils {
                 closest = candidate;
             }
         }
-        return closest;
+        // Only return a suggestion when the distance is small enough to be useful.
+        // A threshold of 2 works well for short typos (e.g. "di" -> "dir"),
+        // and we also allow a slightly larger threshold for longer candidates.
+        if (closest == null) return null;
+        int threshold = 2;
+        int len = Math.max(input.length(), closest.length());
+        // allow up to ~25% of the length as distance for long words (min 2)
+        int adaptive = Math.max(threshold, len / 4);
+        if (minDist <= adaptive) {
+            return closest;
+        }
+        return null;
     }
 }
