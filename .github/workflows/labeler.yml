@@ -1,0 +1,21 @@
+name: 🏷️ Auto Label Issues & PRs
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  issues:
+    types: [opened, edited]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏷️ Apply labels automatically
+        uses: actions/labeler@v5
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
