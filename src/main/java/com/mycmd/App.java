@@ -1,7 +1,10 @@
 package com.mycmd;
 
 import com.mycmd.commands.*;
+import com.mycmd.utils.StringUtils;
+
 import java.util.*;
+import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
@@ -35,12 +38,18 @@ public class App {
                     System.out.println("Error: " + e.getMessage());
                 }
             } else {
-                List<String> validCommands = new ArrayList<>(commands.keySet());
-                String suggestion = StringUtils.findClosest(cmd, validCommands);
-                if (suggestion != null && !suggestion.equals(cmd)) {
-                    System.out.println("'" + cmd + "' is not recognized as an internal or external command. Did you mean '" + suggestion + "'?");
-                } else {
-                    System.out.println("'" + cmd + "' is not recognized as an internal or external command.");
+                // Single, clear not-recognized message + optional suggestion
+                System.out.println("'" + cmd + "' is not recognized as an internal or external command.");
+
+                // compute suggestion safely
+                try {
+                    List<String> validCommands = new ArrayList<>(commands.keySet());
+                    String suggestion = StringUtils.findClosest(cmd, validCommands);
+                    if (suggestion != null && !suggestion.equalsIgnoreCase(cmd)) {
+                        System.out.println("Did you mean '" + suggestion + "'?");
+                    }
+                } catch (Exception ex) {
+                    // don't let suggestion errors break the shell
                 }
             }
         }
