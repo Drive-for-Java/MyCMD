@@ -20,4 +20,13 @@ public class WhoamiCommand implements Command {
     public void execute(String[] args, ShellContext context) {
         System.out.println(System.getProperty("user.name"));
     }
+    @Override
+    public String description() {
+        return "Displays the name of the current user.";
+    }
+
+    @Override
+    public String usage() {
+        return "Usage: whoami";
+    }
 }

@@ -21,19 +21,33 @@ import java.io.IOException;
  */
 public class TouchCommand implements Command {
     @Override
-    public void execute(String[] args, ShellContext context) throws IOException {
+    public void execute(String[] args, ShellContext context) {
         if (args.length < 1) {  // ✅ Check for at least 1 argument
             System.out.println("Usage: touch <filename>");
             return;
         }
-        
-        File file = new File(context.getCurrentDir(), args[0]);  // ✅ Use args[0]
-        if (file.createNewFile()) {
-            System.out.println("File created: " + args[0]);  // ✅ Use args[0]
-        } else {
-            // Update timestamp
-            file.setLastModified(System.currentTimeMillis());
-            System.out.println("File timestamp updated: " + args[0]);  // ✅ Use args[0]
+        try {
+            File file = new File(context.getCurrentDir(), args[0]);  // ✅ Use args[0]
+            if (file.createNewFile()) {
+                System.out.println("File created: " + args[0]);  // ✅ Use args[0]
+            } else {
+                // Update timestamp
+                file.setLastModified(System.currentTimeMillis());
+                System.out.println("File timestamp updated: " + args[0]);  // ✅ Use args[0]
+            }
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
         }
+    }
+
+    @Override
+    public String description() {
+        return "Creates a new empty file or updates an existing file's timestamp.";
+    }
+
+
+    @Override
+    public String usage() {
+        return "Usage: touch <filename>";
     }
 }

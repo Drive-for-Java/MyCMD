@@ -20,4 +20,15 @@ public class VersionCommand implements Command {
     public void execute(String[] args, ShellContext context) {
         System.out.println("MyCMD Java Shell v1.0");
     }
+    @Override
+    public String description() {
+        // Retirado dos comentários do seu próprio código
+        return "Copy one or more files to another location.";
+    }
+
+    @Override
+    public String usage() {
+        // Retirado dos comentários do seu próprio código
+        return "ver";
+    }
 }

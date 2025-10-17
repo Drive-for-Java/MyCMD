@@ -40,4 +40,13 @@ public class TypeCommand implements Command {
             System.out.println("Error reading file: " + e.getMessage());
         }
     }
+    @Override
+    public String description() {
+
+        return "Displays the contents of a text file.";
+    }
+    @Override
+    public String usage() {
+        return "Usage: type <filename>";
+    }
 }

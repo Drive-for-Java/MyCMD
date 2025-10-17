@@ -67,4 +67,13 @@ public class ColorCommand implements Command {
             System.out.println("\033[0m");
         }
     }
+    @Override
+    public String description() {
+        return "Sets the console foreground and background colors.";
+    }
+
+    @Override
+    public String usage() {
+        return "Usage: color <attribute>";
+    }
 }

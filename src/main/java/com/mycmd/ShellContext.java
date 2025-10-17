@@ -3,6 +3,8 @@ package com.mycmd;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class ShellContext {
     private File currentDir;
@@ -33,5 +35,14 @@ public class ShellContext {
                 commandHistory.remove(0);
             }
         }
+    }
+    public Path resolvePath(String path) {
+        Path inputPath = Paths.get(path);
+
+        if (inputPath.isAbsolute()) {
+            return inputPath;
+        }
+
+        return Paths.get(this.getCurrentDir().getAbsolutePath()).resolve(inputPath);
     }
 }
