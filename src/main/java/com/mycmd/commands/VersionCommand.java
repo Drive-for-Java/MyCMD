@@ -22,13 +22,13 @@ public class VersionCommand implements Command {
     }
     @Override
     public String description() {
-        // Retirado dos comentários do seu próprio código
+
         return "Copy one or more files to another location.";
     }
 
     @Override
     public String usage() {
-        // Retirado dos comentários do seu próprio código
+
         return "ver";
     }
 }
