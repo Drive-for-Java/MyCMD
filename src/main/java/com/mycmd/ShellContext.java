@@ -41,6 +41,10 @@ public class ShellContext {
         }
     }
 
+    public void clearHistory() {
+        commandHistory.clear();
+    }
+
     /**
      * Resolve the given path (absolute or relative) to a File using the current directory.
      * If the provided path is absolute, returns it directly; otherwise returns a File rooted at currentDir.

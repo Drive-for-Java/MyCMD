@@ -79,5 +79,6 @@ public class App {
         commands.put("history", new HistoryCommand());
         commands.put("pwd", new PwdCommand());
         commands.put("uptime", new UptimeCommand());
+        commands.put("clearhistory", new ClearHistoryCommand());
     }
 }
