@@ -1,21 +1,65 @@
 name: 🏷️ Auto Label Issues & PRs
 
+# Use pull_request_target so labels can be applied for PRs from forks.
+# SECURITY: Do NOT check out or execute untrusted PR code here.
 on:
-  pull_request:
-    types: [opened, reopened, synchronize]
   issues:
-    types: [opened, edited]
+    types: [opened, reopened]
+  pull_request_target:
+    types: [opened, reopened, synchronize]
 
 permissions:
-  contents: read
   issues: write
   pull-requests: write
 
 jobs:
-  label:
+  apply-labels:
     runs-on: ubuntu-latest
     steps:
-      - name: 🏷️ Apply labels automatically
-        uses: actions/labeler@v5
+      - name: Determine and apply labels
+        uses: actions/github-script@v7
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const repo = context.repo;
+
+            if (context.payload.issue) {
+              const number = context.payload.issue.number;
+              // Example: add triage label to new issues
+              try {
+                await github.rest.issues.addLabels({
+                  owner: repo.owner,
+                  repo: repo.repo,
+                  issue_number: number,
+                  labels: ["triage"]
+                });
+              } catch (err) {
+                core && core.info && core.info("Could not add labels to issue: " + err.message);
+              }
+              return;
+            }
+
+            if (context.payload.pull_request) {
+              const pr = context.payload.pull_request;
+              const prNumber = pr.number;
+              const headRepoFull = pr.head && pr.head.repo && pr.head.repo.full_name ? pr.head.repo.full_name : '';
+              const baseFull = `${repo.owner}/${repo.repo}`;
+              const isFork = headRepoFull.toLowerCase() !== baseFull.toLowerCase();
+
+              const labels = ["needs-review"];
+              if (isFork) labels.push("from-fork");
+
+              try {
+                await github.rest.issues.addLabels({
+                  owner: repo.owner,
+                  repo: repo.repo,
+                  issue_number: prNumber,
+                  labels: labels
+                });
+              } catch (err) {
+                core && core.info && core.info("Could not add labels to PR: " + err.message);
+              }
+              return;
+            }
+
+            core && core.info && core.info("No issue or PR payload found; skipping labeling.");
