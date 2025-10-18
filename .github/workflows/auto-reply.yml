@@ -25,9 +25,8 @@ jobs:
 
             if (eventName === "issues") {
               const user = context.payload.issue.user.login;
-              const message = `👋 Hi @${user}!  
-              Thanks for opening an issue in **MyCMD**.  
-              We’ll review it soon — meanwhile, please ensure logs and reproduction steps are clear. `;
+              const message = `👋 Hi @${user}!\n\nThanks for opening an issue in **MyCMD**.  
+              We’ll review it soon — meanwhile, please ensure logs and reproduction steps are clear.`;
 
               await github.rest.issues.createComment({
                 owner: repo.owner,
@@ -46,21 +45,22 @@ jobs:
 
             if (eventName === "pull_request") {
               const user = context.payload.pull_request.user.login;
-              const message = `🚀 Hi @${user}!  
-              Thank you for contributing to **MyCMD**.  
+              const prNumber = context.payload.pull_request.number;
+
+              const message = `🚀 Hi @${user}!\n\nThank you for contributing to **MyCMD**.  
               A maintainer will review your PR shortly. 🎉`;
 
               await github.rest.issues.createComment({
                 owner: repo.owner,
                 repo: repo.repo,
-                issue_number: context.payload.pull_request.number,
+                issue_number: prNumber,
                 body: message
               });
 
               await github.rest.reactions.createForIssue({
                 owner: repo.owner,
                 repo: repo.repo,
-                issue_number: context.payload.pull_request.number,
+                issue_number: prNumber,
                 content: "rocket"
               });
             }
