@@ -20,8 +20,8 @@ public class HelpCommand implements Command {
     @Override
     public void execute(String[] args, ShellContext context) {
         // Detailed help for a specific command
-        if (args.length > 1) {
-            String cmdName = args[1];
+        if (args.length > 0) {
+            String cmdName = args[0];
             Command cmd = commands.get(cmdName);
 
             if (cmd != null) {
