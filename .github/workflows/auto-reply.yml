@@ -3,7 +3,9 @@ name: 🤖 Auto Reply to Issues & PRs
 on:
   issues:
     types: [opened, reopened]
-  pull_request:
+  # Use pull_request_target so the job can run in the base-repo context and comment/label PRs from forks.
+  # WARNING: Do NOT check out or run untrusted PR code in this job when using pull_request_target.
+  pull_request_target:
     types: [opened, reopened]
 
 permissions:
@@ -20,35 +22,40 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const eventName = context.eventName;
+            // Prefer checking payload properties rather than exact eventName string,
+            // so this works for both pull_request and pull_request_target events.
             const repo = context.repo;
 
-            if (eventName === "issues") {
-              const user = context.payload.issue.user.login;
-              const message = `👋 Hi @${user}!\n\nThanks for opening an issue in **MyCMD**.  
-              We’ll review it soon — meanwhile, please ensure logs and reproduction steps are clear.`;
+            // ISSUE opened/reopened
+            if (context.payload.issue) {
+              const user = context.payload.issue.user?.login || 'contributor';
+              const message = `👋 Hi @${user}!\n\nThanks for opening an issue in **MyCMD**.\n\nWe’ll review it soon — meanwhile, please ensure logs and reproduction steps are clear.
+              Please visit our Website[here](https://drive-for-java.github.io)`;
 
               await github.rest.issues.createComment({
                 owner: repo.owner,
                 repo: repo.repo,
-                issue_number: context.issue.number,
+                issue_number: context.payload.issue.number,
                 body: message
               });
 
+              // add a reaction if desired (make sure permissions include issues: write)
               await github.rest.reactions.createForIssue({
                 owner: repo.owner,
                 repo: repo.repo,
-                issue_number: context.issue.number,
+                issue_number: context.payload.issue.number,
                 content: "tada"
               });
+
+              return;
             }
 
-            if (eventName === "pull_request") {
-              const user = context.payload.pull_request.user.login;
+            // PULL REQUEST opened/reopened
+            if (context.payload.pull_request) {
+              const user = context.payload.pull_request.user?.login || 'contributor';
               const prNumber = context.payload.pull_request.number;
 
-              const message = `🚀 Hi @${user}!\n\nThank you for contributing to **MyCMD**.  
-              A maintainer will review your PR shortly. 🎉`;
+              const message = `🚀 Hi @${user}!\n\nThank you for contributing to **MyCMD**. A maintainer will review your PR shortly. 🎉`;
 
               await github.rest.issues.createComment({
                 owner: repo.owner,
@@ -63,4 +70,9 @@ jobs:
                 issue_number: prNumber,
                 content: "rocket"
               });
+
+              return;
             }
+
+            // If neither payload is present, do nothing (defensive)
+            core.info("No issue or pull_request payload found; skipping auto-comment.");
