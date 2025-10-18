@@ -78,5 +78,6 @@ public class App {
         commands.put("date", new DateCommand());
         commands.put("history", new HistoryCommand());
         commands.put("pwd", new PwdCommand());
+        commands.put("uptime", new UptimeCommand());
     }
 }
