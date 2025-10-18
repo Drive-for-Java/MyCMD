@@ -1,0 +1,27 @@
+# Allows contributors to choose from multiple PR templates in GitHub’s UI.
+# Place this file inside: .github/PULL_REQUEST_TEMPLATE/config.yml
+
+# Default template (if none is selected)
+default_template: general_pr.md
+
+# Display order and descriptions for PR templates
+templates:
+  - name: 🔧 General Pull Request
+    description: Use this for normal changes, small fixes, or improvements.
+    file: general_pr.md
+
+  - name: 🐞 Bug Fix PR
+    description: Fixes a specific issue or resolves a reported bug.
+    file: bug_fix_pr.md
+
+  - name: ✨ Feature Addition PR
+    description: Adds a new feature or command to MyCMD.
+    file: feature_pr.md
+
+  - name: 🧱 Refactor / Code Cleanup PR
+    description: Internal refactor or optimization without changing features.
+    file: refactor_pr.md
+
+  - name: 🧾 Documentation Update PR
+    description: Improves README, Wiki, or any documentation content.
+    file: documentation_pr.md
