@@ -3,8 +3,8 @@ name: 🤖 Auto Reply to Issues & PRs
 on:
   issues:
     types: [opened, reopened]
-  # Use pull_request_target so the job can run in the base-repo context and comment/label PRs from forks.
-  # WARNING: Do NOT check out or run untrusted PR code in this job when using pull_request_target.
+  # Use pull_request_target so this job can write comments/labels on PRs from forks.
+  # SECURITY: Do NOT check out or execute untrusted PR code in this workflow.
   pull_request_target:
     types: [opened, reopened]
 
@@ -15,45 +15,54 @@ permissions:
 jobs:
   auto-comment:
     runs-on: ubuntu-latest
-
     steps:
       - name: 🧠 Auto Comment
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            // Prefer checking payload properties rather than exact eventName string,
-            // so this works for both pull_request and pull_request_target events.
             const repo = context.repo;
 
-            // ISSUE opened/reopened
+            // Issue opened/reopened
             if (context.payload.issue) {
-              const user = context.payload.issue.user?.login || 'contributor';
-              const message = `👋 Hi @${user}!\n\nThanks for opening an issue in **MyCMD**.\n\nWe’ll review it soon — meanwhile, please ensure logs and reproduction steps are clear.
-              Please visit our Website[here](https://drive-for-java.github.io)`;
+              const issue = context.payload.issue;
+              const user = issue.user?.login || 'contributor';
+              const issueNumber = issue.number;
+              const message = `👋 Hi @${user}!\n\nThanks for opening an issue in **MyCMD**.\n\nWe’ll review it soon — please ensure reproduction steps and logs are included.`;
 
               await github.rest.issues.createComment({
                 owner: repo.owner,
                 repo: repo.repo,
-                issue_number: context.payload.issue.number,
+                issue_number: issueNumber,
                 body: message
               });
 
-              // add a reaction if desired (make sure permissions include issues: write)
               await github.rest.reactions.createForIssue({
                 owner: repo.owner,
                 repo: repo.repo,
-                issue_number: context.payload.issue.number,
+                issue_number: issueNumber,
                 content: "tada"
               });
+
+              try {
+                await github.rest.issues.addLabels({
+                  owner: repo.owner,
+                  repo: repo.repo,
+                  issue_number: issueNumber,
+                  labels: ["triage", "needs-info"]
+                });
+              } catch (err) {
+                core && core.info && core.info("Could not add labels to issue: " + err.message);
+              }
 
               return;
             }
 
-            // PULL REQUEST opened/reopened
+            // Pull request opened/reopened (or synchronized)
             if (context.payload.pull_request) {
-              const user = context.payload.pull_request.user?.login || 'contributor';
-              const prNumber = context.payload.pull_request.number;
+              const pr = context.payload.pull_request;
+              const user = pr.user?.login || 'contributor';
+              const prNumber = pr.number;
 
               const message = `🚀 Hi @${user}!\n\nThank you for contributing to **MyCMD**. A maintainer will review your PR shortly. 🎉`;
 
@@ -71,8 +80,25 @@ jobs:
                 content: "rocket"
               });
 
+              const headRepoFull = pr.head && pr.head.repo && pr.head.repo.full_name ? pr.head.repo.full_name : '';
+              const baseFull = `${repo.owner}/${repo.repo}`;
+              const isFork = headRepoFull.toLowerCase() !== baseFull.toLowerCase();
+
+              const labels = ["needs-review"];
+              if (isFork) labels.push("from-fork");
+
+              try {
+                await github.rest.issues.addLabels({
+                  owner: repo.owner,
+                  repo: repo.repo,
+                  issue_number: prNumber,
+                  labels: labels
+                });
+              } catch (err) {
+                core && core.info && core.info("Could not add labels to PR: " + err.message);
+              }
+
               return;
             }
 
-            // If neither payload is present, do nothing (defensive)
-            core.info("No issue or pull_request payload found; skipping auto-comment.");
+            core && core.info && core.info('No issue or pull_request payload found. Nothing to do.');
