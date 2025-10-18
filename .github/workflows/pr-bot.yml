@@ -1,0 +1,115 @@
+# PR Bot: comments & labels (runs in base-repo context)
+# SECURITY: This workflow uses pull_request_target so it can write comments/labels on PRs from forks.
+# DO NOT check out or execute untrusted PR code in this workflow.
+name: 🤖 PR Bot — Auto Comment & Label
+
+on:
+  issues:
+    types: [opened, reopened]
+  # Use pull_request_target to be able to write to PRs that originate from forks.
+  # Do NOT checkout or run untrusted repo code here.
+  pull_request_target:
+    types: [opened, reopened, synchronize]
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  comment_and_label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto comment and label issues / PRs
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const repo = context.repo;
+
+            // ISSUES (opened / reopened)
+            if (context.payload.issue) {
+              const issue = context.payload.issue;
+              const user = issue.user?.login || 'contributor';
+              const issueNumber = issue.number;
+
+              const message = `👋 Hi @${user}!\n\nThanks for opening an issue in **MyCMD**.\n\nWe’ll review it soon — please ensure reproduction steps and logs are included.`;
+
+              await github.rest.issues.createComment({
+                owner: repo.owner,
+                repo: repo.repo,
+                issue_number: issueNumber,
+                body: message
+              });
+
+              await github.rest.reactions.createForIssue({
+                owner: repo.owner,
+                repo: repo.repo,
+                issue_number: issueNumber,
+                content: "tada"
+              });
+
+              // Optionally add labels to issues
+              try {
+                await github.rest.issues.addLabels({
+                  owner: repo.owner,
+                  repo: repo.repo,
+                  issue_number: issueNumber,
+                  labels: ["triage", "needs-info"]
+                });
+              } catch (err) {
+                core && core.info && core.info("Could not add labels to issue: " + err.message);
+              }
+
+              return;
+            }
+
+            // PULL REQUESTS (opened / reopened / synchronize)
+            if (context.payload.pull_request) {
+              const pr = context.payload.pull_request;
+              const user = pr.user?.login || 'contributor';
+              const prNumber = pr.number;
+
+              // Comment
+              const message = `🚀 Hi @${user}!\n\nThank you for contributing to **MyCMD**. A maintainer will review your PR shortly. 🎉`;
+
+              await github.rest.issues.createComment({
+                owner: repo.owner,
+                repo: repo.repo,
+                issue_number: prNumber,
+                body: message
+              });
+
+              await github.rest.reactions.createForIssue({
+                owner: repo.owner,
+                repo: repo.repo,
+                issue_number: prNumber,
+                content: "rocket"
+              });
+
+              // Determine if PR is from a fork
+              const headRepoFull = pr.head && pr.head.repo && pr.head.repo.full_name ? pr.head.repo.full_name : '';
+              const baseFull = `${repo.owner}/${repo.repo}`;
+              const isFork = headRepoFull.toLowerCase() !== baseFull.toLowerCase();
+
+              // Example labeling strategy:
+              // - mark fork PRs with 'from-fork' so reviewers know it's external
+              // - always mark with 'needs-review'
+              const labels = ["needs-review"];
+              if (isFork) labels.push("from-fork");
+
+              try {
+                await github.rest.issues.addLabels({
+                  owner: repo.owner,
+                  repo: repo.repo,
+                  issue_number: prNumber,
+                  labels: labels
+                });
+              } catch (err) {
+                core && core.info && core.info("Could not add labels to PR: " + err.message);
+              }
+
+              return;
+            }
+
+            // If neither payload present, do nothing
+            core && core.info && core.info('No issue or pull_request payload found. Nothing to do.');
