@@ -1,36 +1,48 @@
+# Java CI Build — runs on pull_request (executes PR code)
+# This job does not attempt to write comments/labels; keep write actions in pull_request_target workflows.
 name: ⚙️ Java CI Build
 
 on:
-  push:
-    branches: [ main, master ]
   pull_request:
-    branches: [ main, master ]
+    types: [opened, reopened, synchronize]
 
 permissions:
   contents: read
+  pull-requests: read
 
 jobs:
   build:
+    name: Build and Test
     runs-on: ubuntu-latest
-
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout PR code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: ☕ Set up JDK 17
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
           java-version: '17'
+          distribution: 'temurin'
 
-      - name: 🧱 Build with Maven
-        run: mvn -B package --file pom.xml
+      - name: Cache Maven local repository
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
 
-      - name: 🧪 Run tests
-        run: mvn test
+      - name: Build (Maven)
+        run: mvn -B -DskipTests=false package
 
-      - name: 📦 Upload build artifact
+      - name: Run tests
+        run: mvn test -B
+
+      - name: Upload build artifact (optional)
+        if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: mycmd-artifact
+          name: mycmd-build
           path: target/*.jar
