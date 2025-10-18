@@ -34,4 +34,20 @@ public class ShellContext {
             }
         }
     }
+
+    /**
+     * Resolve the given path (absolute or relative) to a File using the current directory.
+     * If the provided path is absolute, returns it directly; otherwise returns a File rooted at currentDir.
+     */
+    public File resolvePath(String path) {
+        if (path == null || path.trim().isEmpty()) {
+            return currentDir;
+        }
+        File f = new File(path);
+        if (f.isAbsolute()) {
+            return f;
+        } else {
+            return new File(currentDir, path);
+        }
+    }
 }
