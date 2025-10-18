@@ -1,28 +1,38 @@
-import java.nio.file.*;
+package com.mycmd.commands;
+
+import com.mycmd.Command;
+import com.mycmd.ShellContext;
+
 import java.io.IOException;
+import java.nio.file.*;
 
 /**
- * Lists files and directories using Java NIO (New I/O) API.
- * 
- * This is a standalone utility class that demonstrates directory listing
- * using the modern java.nio.file package. It lists all entries in the
- * current directory, marking directories with [DIR] prefix and files with
- * spacing for alignment.
- * 
- * Usage: java ListFilesNIO
- * 
- * Note: This class has a main method and can be run independently. It uses
- * DirectoryStream for efficient directory traversal and automatically closes
- * resources using try-with-resources.
+ * LsCommand - lists files and directories in the shell's current directory.
  */
-public class ListFilesNIO {
-    public static void main(String[] args) throws IOException {
-        Path dir = Paths.get("."); // Current directory
+public class LsCommand implements Command {
+
+    @Override
+    public void execute(String[] args, ShellContext context) throws IOException {
+        Path dir = context.getCurrentDir().toPath();
 
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
             for (Path path : stream) {
-                System.out.println(Files.isDirectory(path) ? "[DIR]  " + path.getFileName() : "       " + path.getFileName());
+                if (Files.isDirectory(path)) {
+                    System.out.println("[DIR]  " + path.getFileName());
+                } else {
+                    System.out.println("       " + path.getFileName());
+                }
             }
         }
+    }
+
+    @Override
+    public String description() {
+        return "List files and directories in the current directory.";
+    }
+
+    @Override
+    public String usage() {
+        return "ls";
     }
 }
