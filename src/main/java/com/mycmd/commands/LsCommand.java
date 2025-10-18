@@ -1,4 +1,9 @@
-import java.nio.file.*;
+package com.mycmd.commands;
+
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.io.IOException;
 
 /**
@@ -15,7 +20,7 @@ import java.io.IOException;
  * DirectoryStream for efficient directory traversal and automatically closes
  * resources using try-with-resources.
  */
-public class ListFilesNIO {
+class ListFilesNIO {
     public static void main(String[] args) throws IOException {
         Path dir = Paths.get("."); // Current directory
 

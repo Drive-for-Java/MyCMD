@@ -23,4 +23,8 @@ public interface Command {
      * current date/time to standard output. See their implementations for formatting details.
      */
     void execute(String[] args, ShellContext context);
+
+    String description();
+
+    String usage();
 }

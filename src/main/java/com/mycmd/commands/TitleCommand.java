@@ -26,5 +26,15 @@ public class TitleCommand implements Command {
             System.out.println("Usage: title <new title>");
         }
     }
+    @Override
+    public String description() {
+        return "Sets the title of the console window.";
+    }
+
+    @Override
+    public String usage() {
+
+        return "Usage: title <text>";
+    }
     
 }

@@ -43,4 +43,13 @@ public class CopyCommand implements Command {
             System.out.println("Error copying file: " + e.getMessage());
         }
     }
+    @Override
+    public String description() {
+        return "Copia um ou mais ficheiros para outro local.";
+    }
+
+    @Override
+    public String usage() {
+        return "Usage: copy <source> <destination>";
+    }
 }

@@ -51,4 +51,13 @@ public class TreeCommand implements Command {
             }
         }
     }
+    @Override
+    public String description() {
+        return "Graphically displays the folder structure of a directory.";
+    }
+
+    @Override
+    public String usage() {
+        return "Usage: tree [path]";
+    }
 }

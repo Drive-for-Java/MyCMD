@@ -31,4 +31,13 @@ public class DirCommand implements Command {
             System.out.println((f.isDirectory() ? "<DIR> " : "      ") + f.getName());
         }
     }
+    @Override
+    public String description() {
+        return "Lists files and subdirectories in the current directory.";
+    }
+
+    @Override
+    public String usage() {
+        return "Usage: dir [path]";
+    }
 }

@@ -25,4 +25,13 @@ public class EchoCommand implements Command {
             System.out.println(String.join(" ", args));
         }
     }
+    @Override
+    public String description() {
+        return "Displays a message on the screen.";
+    }
+
+    @Override
+    public String usage() {
+        return "Usage: echo <message>";
+    }
 }

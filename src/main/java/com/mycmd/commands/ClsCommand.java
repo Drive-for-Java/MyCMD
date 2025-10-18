@@ -21,4 +21,13 @@ public class ClsCommand implements Command {
             System.out.println();
         }
     }
+    @Override
+    public String description() {
+        return "Clears the terminal screen.";
+    }
+
+    @Override
+    public String usage() {
+        return "Usage: cls";
+    }
 }
