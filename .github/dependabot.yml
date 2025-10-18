@@ -3,7 +3,7 @@ updates:
   - package-ecosystem: "maven"
     directory: "/"            # pom.xml is at repository root
     schedule:
-      interval: "weekly"     # change to "daily" or "monthly" if you prefer
+      interval: "weekly"
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
