@@ -77,5 +77,6 @@ public class App {
         commands.put("tree", new TreeCommand());
         commands.put("date", new DateCommand());
         commands.put("history", new HistoryCommand());
+        commands.put("ping", new PingCommand());
     }
 }
