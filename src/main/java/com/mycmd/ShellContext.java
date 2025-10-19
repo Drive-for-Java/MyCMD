@@ -7,11 +7,13 @@ import java.util.List;
 public class ShellContext {
     private File currentDir;
     private List<String> commandHistory;
+    private final long startTime;
     private static final int MAX_HISTORY = 10;
 
     public ShellContext() {
         this.currentDir = new File(System.getProperty("user.dir"));
         this.commandHistory = new ArrayList<>();
+        this.startTime = System.currentTimeMillis();
     }
 
     public File getCurrentDir() {
@@ -20,6 +22,10 @@ public class ShellContext {
 
     public void setCurrentDir(File dir) {
         this.currentDir = dir;
+    }
+
+    public long getStartTime() {
+        return startTime;
     }
 
     public List<String> getCommandHistory() {
@@ -33,6 +39,10 @@ public class ShellContext {
                 commandHistory.remove(0);
             }
         }
+    }
+
+    public void clearHistory() {
+        commandHistory.clear();
     }
 
     /**

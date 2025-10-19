@@ -3,10 +3,8 @@ name: 🤖 Auto Reply to Issues & PRs
 on:
   issues:
     types: [opened, reopened]
-  # Use pull_request_target so this job can write comments/labels on PRs from forks.
-  # SECURITY: Do NOT check out or execute untrusted PR code in this workflow.
   pull_request_target:
-    types: [opened, reopened]
+    types: [opened, reopened, synchronize]
 
 permissions:
   issues: write
@@ -23,82 +21,105 @@ jobs:
           script: |
             const repo = context.repo;
 
-            // Issue opened/reopened
-            if (context.payload.issue) {
-              const issue = context.payload.issue;
-              const user = issue.user?.login || 'contributor';
-              const issueNumber = issue.number;
-              const message = `👋 Hi @${user}!\n\nThanks for opening an issue in **MyCMD**.\n\nWe’ll review it soon — please ensure reproduction steps and logs are included.`;
-
-              await github.rest.issues.createComment({
+            async function commentExists(issue_number, messageSnippet) {
+              const comments = await github.rest.issues.listComments({
                 owner: repo.owner,
                 repo: repo.repo,
-                issue_number: issueNumber,
-                body: message
+                issue_number
               });
+              return comments.data.some(c => c.body.includes(messageSnippet));
+            }
 
-              await github.rest.reactions.createForIssue({
+            async function addReaction(issue_number, reaction) {
+              const reactions = await github.rest.reactions.listForIssue({
                 owner: repo.owner,
                 repo: repo.repo,
-                issue_number: issueNumber,
-                content: "tada"
+                issue_number
               });
+              if (!reactions.data.some(r => r.content === reaction)) {
+                await github.rest.reactions.createForIssue({
+                  owner: repo.owner,
+                  repo: repo.repo,
+                  issue_number,
+                  content: reaction
+                });
+              }
+            }
 
+            async function addLabels(issue_number, labels) {
               try {
                 await github.rest.issues.addLabels({
                   owner: repo.owner,
                   repo: repo.repo,
-                  issue_number: issueNumber,
-                  labels: ["triage", "needs-info"]
+                  issue_number,
+                  labels
                 });
               } catch (err) {
-                core && core.info && core.info("Could not add labels to issue: " + err.message);
+                core?.info?.("Could not add labels: " + err.message);
               }
-
-              return;
             }
 
-            // Pull request opened/reopened (or synchronized)
+            // Handle Pull Requests
             if (context.payload.pull_request) {
               const pr = context.payload.pull_request;
               const user = pr.user?.login || 'contributor';
               const prNumber = pr.number;
 
-              const message = `🚀 Hi @${user}!\n\nThank you for contributing to **MyCMD**. A maintainer will review your PR shortly. 🎉`;
+              const message = `🚀 Hi @${user}!
 
-              await github.rest.issues.createComment({
-                owner: repo.owner,
-                repo: repo.repo,
-                issue_number: prNumber,
-                body: message
-              });
+Thank you for contributing to **MyCMD**. A maintainer will review your PR shortly. 🎉
 
-              await github.rest.reactions.createForIssue({
-                owner: repo.owner,
-                repo: repo.repo,
-                issue_number: prNumber,
-                content: "rocket"
-              });
+### Thank you for raising this issue!
+We'll review it as soon as possible. We truly appreciate your contributions! ✨ Meanwhile make sure you've visited the README.md, CONTRIBUTING.md, and CODE_OF_CONDUCT.md before creating a PR for this. Also, please do NOT create a PR until this issue has been assigned to you. 😊`;
 
-              const headRepoFull = pr.head && pr.head.repo && pr.head.repo.full_name ? pr.head.repo.full_name : '';
-              const baseFull = `${repo.owner}/${repo.repo}`;
-              const isFork = headRepoFull.toLowerCase() !== baseFull.toLowerCase();
+              const gif = "![TrustTheProcess](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbWtoOWpsMnozdXd0MmJxejhiNGwwdjltY3dyNW80NHg2Ym01YTdlMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mPKa6OI5oRsmextwBq/giphy.gif)";
 
-              const labels = ["needs-review"];
-              if (isFork) labels.push("from-fork");
-
-              try {
-                await github.rest.issues.addLabels({
+              if (!(await commentExists(prNumber, "Thank you for contributing to **MyCMD**"))) {
+                await github.rest.issues.createComment({
                   owner: repo.owner,
                   repo: repo.repo,
                   issue_number: prNumber,
-                  labels: labels
+                  body: message + "\n\n" + gif
                 });
-              } catch (err) {
-                core && core.info && core.info("Could not add labels to PR: " + err.message);
               }
+
+              await addReaction(prNumber, "rocket");
+
+              const headRepoFull = pr.head?.repo?.full_name || '';
+              const baseFull = `${repo.owner}/${repo.repo}`;
+              const isFork = headRepoFull.toLowerCase() !== baseFull.toLowerCase();
+              const labels = ["needs-review"];
+              if (isFork) labels.push("from-fork");
+
+              await addLabels(prNumber, labels);
 
               return;
             }
 
-            core && core.info && core.info('No issue or pull_request payload found. Nothing to do.');
+            // Handle Issues
+            if (context.payload.issue) {
+              const issue = context.payload.issue;
+              const user = issue.user?.login || 'contributor';
+              const issueNumber = issue.number;
+
+              const message = `👋 Hi @${user}!
+
+Thanks for opening an issue in **MyCMD**. We’ll review it soon — please ensure reproduction steps and logs are included.`;
+
+              if (!(await commentExists(issueNumber, "Thanks for opening an issue in **MyCMD**"))) {
+                await github.rest.issues.createComment({
+                  owner: repo.owner,
+                  repo: repo.repo,
+                  issue_number: issueNumber,
+                  body: message
+                });
+              }
+
+              await addReaction(issueNumber, "tada");
+
+              await addLabels(issueNumber, ["triage", "needs-info"]);
+
+              return;
+            }
+
+            core?.info?.('No issue or pull_request payload found. Nothing to do.');
