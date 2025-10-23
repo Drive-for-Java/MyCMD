@@ -81,5 +81,6 @@ public class App {
         commands.put("pwd", new PwdCommand());
         commands.put("uptime", new UptimeCommand());
         commands.put("clearhistory", new ClearHistoryCommand());
+        commands.put("ipconfig", new IpConfig());
     }
 }
