@@ -3,6 +3,10 @@ package com.mycmd.commands;
 import com.mycmd.Command;
 import com.mycmd.ShellContext;
 
+import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
+
 /**
  * Displays how long the shell has been running since startup.
  * 
@@ -13,10 +17,7 @@ import com.mycmd.ShellContext;
  * Usage:
  * - uptime : Display shell uptime in hours, minutes, and seconds
  * 
- * The output format shows the uptime as "Up since Xh Ym Zs" where:
- * - X is hours
- * - Y is minutes  
- * - Z is seconds
+ * The output format shows the uptime as "Uptime: Xh Ym Zs" or with days if applicable.
  * 
  * This is useful for monitoring how long a shell session has been active.
  */
@@ -44,7 +45,7 @@ public class UptimeCommand implements Command {
 
     @Override
     public String description() {
-        return "Display how long the shell has been running.";
+        return "Display how long the shell has been running since startup.";
     }
 
     @Override
