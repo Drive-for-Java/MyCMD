@@ -2,6 +2,7 @@ package com.mycmd;
 
 import java.io.*;
 import java.util.*;
+import java.time.Instant;
 
 public class ShellContext {
     private File currentDir;
@@ -9,11 +10,15 @@ public class ShellContext {
     private Map<String, String> aliases;
     private static final String ALIAS_FILE = ".mycmd_aliases";
     private static final int MAX_HISTORY = 100;
+    private final List<String> commandHistory;
+    private final Instant startTime;
 
     public ShellContext() {
         this.currentDir = new File(System.getProperty("user.dir"));
         this.history = new ArrayList<>();
         this.aliases = new HashMap<>();
+        this.commandHistory = new ArrayList<>();
+        this.startTime = Instant.now();
         loadAliases();
     }
 
@@ -27,6 +32,7 @@ public class ShellContext {
 
     public void addToHistory(String command) {
         history.add(command);
+        commandHistory.add(command); // Add to command history
         if (history.size() > MAX_HISTORY) {
             history.remove(0);
         }
@@ -34,6 +40,14 @@ public class ShellContext {
 
     public List<String> getHistory() {
         return new ArrayList<>(history);
+    }
+
+    public List<String> getCommandHistory() {
+        return commandHistory;
+    }
+
+    public Instant getStartTime() {
+        return startTime;
     }
 
     public void clearHistory() {
