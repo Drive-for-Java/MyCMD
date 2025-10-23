@@ -24,6 +24,9 @@ public class App {
             String input = sc.nextLine().trim();
             if (input.isEmpty()) continue;
 
+            // Resolve aliases before processing
+            input = resolveAliases(input, context);
+
             String[] parts = input.split("\\s+");
             String cmd = parts[0].toLowerCase();
             String[] cmdArgs = Arrays.copyOfRange(parts, 1, parts.length);
@@ -55,6 +58,21 @@ public class App {
         }
     }
 
+    private static String resolveAliases(String input, ShellContext context) {
+        String[] parts = input.split("\\s+", 2);
+        String cmd = parts[0];
+        String rest = parts.length > 1 ? parts[1] : "";
+
+        // Check if the command is an alias
+        if (context.hasAlias(cmd)) {
+            String aliasCommand = context.getAlias(cmd);
+            // Replace the alias with its command, preserving arguments
+            return rest.isEmpty() ? aliasCommand : aliasCommand + " " + rest;
+        }
+
+        return input;
+    }
+
     private static void registerCommands(Map<String, Command> commands) {
         commands.put("dir", new DirCommand());
         commands.put("cd", new CdCommand());
@@ -81,5 +99,7 @@ public class App {
         commands.put("pwd", new PwdCommand());
         commands.put("uptime", new UptimeCommand());
         commands.put("clearhistory", new ClearHistoryCommand());
+        commands.put("alias", new AliasCommand());
+        commands.put("unalias", new UnaliasCommand());
     }
 }
