@@ -102,5 +102,6 @@ public class App {
         commands.put("clearhistory", new ClearHistoryCommand());
         commands.put("alias", new AliasCommand());
         commands.put("unalias", new UnaliasCommand());
+        commands.put("tasklist", new TasklistCommand());
     }
 }
