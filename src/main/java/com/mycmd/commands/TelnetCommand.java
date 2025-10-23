@@ -1,5 +1,6 @@
 package com.mycmd.commands;
 
+import com.mycmd.Command;
 import com.mycmd.ShellContext;
 
 import java.io.*;
@@ -16,7 +17,7 @@ import java.net.Socket;
 public class TelnetCommand implements Command {
 
     @Override
-    public void execute(String[] args, ShellContext context) throws Exception {
+    public void execute(String[] args, ShellContext context) throws IOException {
         if (args.length < 1) {
             System.out.println("Usage: telnet <host> [port]");
             return;
@@ -79,5 +80,15 @@ public class TelnetCommand implements Command {
         } catch (IOException e) {
             System.out.println("Connection failed: " + e.getMessage());
         }
+    }
+
+    @Override
+    public String description() {
+        return "Simple TCP client for interactive sessions.";
+    }
+
+    @Override
+    public String usage() {
+        return "telnet <host> [port]";
     }
 }
