@@ -100,6 +100,7 @@ public class App {
         commands.put("pwd", new PwdCommand());
         commands.put("uptime", new UptimeCommand());
         commands.put("clearhistory", new ClearHistoryCommand());
+        commands.put("ipconfig", new IpConfig());
         commands.put("alias", new AliasCommand());
         commands.put("unalias", new UnaliasCommand());
         commands.put("tasklist", new TasklistCommand());
