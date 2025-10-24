@@ -97,18 +97,19 @@ To build MyCMD you need:
 ---
 
 ## 🛠️ Build Instructions
+Building MyCMD is simple and automated for both Windows 🪟 and Linux 🐧 platforms
 
 ### 🔹 Windows
 ```bash
 scripts\build-windows.bat
 ```
-👆🏻 This will:
+📦 This script will automatically:
 
-- Build the JAR with Maven
+1.🧩 Build the JAR using Apache Maven
 
-- Wrap it into an .exe with Launch4j
+2.⚙️ Wrap it into an .exe using Launch4j
 
-- Generate a setup.exe installer with Inno Setup
+3.🪄 Generate a setup.exe installer via Inno Setup
 
 ### Final Output 
 ```
