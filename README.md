@@ -66,15 +66,22 @@ MyCMD/
 
 ---
 
-## 🚀 Features
+## 🚀 Key Features ✨
 
-- ✅ Windows-like commands (`dir`, `cd`, `mkdir`, `del`, `copy`, `type`, `cls`)  
-- ✅ Extensible via Java classes (easy to add new commands)  
-- ✅ Packaged into `.exe` using **Launch4j**  
-- ✅ Installer wizard using **Inno Setup**  
-- ✅ Works on **Windows** and **Linux** (via `jpackage`)  
+<div align="center">
+
+| Feature | Description |
+|---------|-------------|
+| ✅ **Windows-like Commands** | Supports `dir`, `cd`, `mkdir`, `del`, `copy`, `type`, `cls` |
+| ⚡ **Extensible** | Easily add new commands via Java classes |
+| 🖥️ **Executable Packaging** | Packaged into `.exe` using **Launch4j** |
+| 🛠️ **Installer Wizard** | Simple setup using **Inno Setup** |
+| 🌐 **Cross-Platform** | Works on **Windows** and **Linux** (via `jpackage`) |
+
+</div>
 
 ---
+
 
 ## 📦 Requirements
 
@@ -140,20 +147,27 @@ You can now use commands like:
 > [!NOTE]
 > There are many commands left like `ls` and `Ping Command`
 
-### 🤝 Contributing
+## 🤝 Contributing
 
-- Fork the repo (or request an invite if it’s in the org)
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create! 💪  
 
-- Create a feature branch
+We welcome all kinds of improvements — from fixing bugs 🐛 to adding new commands ⚙️.
 
-- Commit your changes
+### 🪜 Steps to Contribute
 
-- Open a Pull Request
+1. 🍴 **Fork** the repository  
+2. 🌿 **Create a new branch**  
+   ```bash
+   git checkout -b feature/your-feature-name
 
 ## 📜 License
 
-Licensed under the Apache License
-You are free to use, modify, and distribute.
+🧾 **Apache License 2.0**  
+This project is open-source and available for anyone to use, modify, and share under the terms of the Apache License.
+
+> ✨ Attribution is appreciated but not required.  
+> 📎 For complete terms, check the [LICENSE](./LICENSE) file.
+
 
 
  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=120&section=footer&text=Java,%20Java,%20and%20My%20Java&fontSize=20&fontColor=fff&animation=twinkling"/>
