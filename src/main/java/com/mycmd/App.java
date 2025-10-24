@@ -92,6 +92,7 @@ public class App {
         commands.put("whoami", new WhoamiCommand());
         commands.put("touch", new TouchCommand());
         commands.put("time", new TimeCommand());
+        commands.put("tasklist", new TasklistCommand());
         commands.put("tree", new TreeCommand());
         commands.put("date", new DateCommand());
         commands.put("history", new HistoryCommand());
@@ -105,6 +106,7 @@ public class App {
         commands.put("unalias", new UnaliasCommand());
         commands.put("rename", new RenameCommand());
         commands.put("set", new SetCommand());
-        commands.put("tasklist", new TasklistCommand());
-    }
+          }
 }
+
+        
