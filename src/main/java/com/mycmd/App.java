@@ -103,6 +103,7 @@ public class App {
         commands.put("ipconfig", new IpConfig());
         commands.put("alias", new AliasCommand());
         commands.put("unalias", new UnaliasCommand());
+        commands.put("rename", new RenameCommand());
         commands.put("tasklist", new TasklistCommand());
     }
 }
