@@ -103,5 +103,6 @@ public class App {
         commands.put("alias", new AliasCommand());
         commands.put("unalias", new UnaliasCommand());
         commands.put("rename", new RenameCommand());
+        commands.put("set", new SetCommand());
     }
 }

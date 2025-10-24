@@ -130,4 +130,22 @@ public class ShellContext {
             return new File(currentDir, path);
         }
     }
+
+    // environmental variable map
+    // author: Kaveesha Fernando
+    // date: 2024-06-10
+    private final Map<String, String> envVars = new HashMap<>();
+
+    public void setEnvVar(String key, String value) {
+        envVars.put(key, value);
+    }
+
+    public String getEnvVar(String key) {
+        return envVars.get(key);
+    }
+
+    public Map<String, String> getEnvVars() {
+        return new HashMap<>(envVars);
+    }
+
 }
