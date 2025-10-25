@@ -25,4 +25,14 @@ public class EchoCommand implements Command {
             System.out.println(String.join(" ", args));
         }
     }
+
+    @Override
+    public String description() {
+        return "Display a line of text";
+    }
+
+    @Override
+    public String usage() {
+        return "echo <text>";
+    }
 }
