@@ -31,4 +31,14 @@ public class DirCommand implements Command {
             System.out.println((f.isDirectory() ? "<DIR> " : "      ") + f.getName());
         }
     }
+
+    @Override
+    public String description() {
+        return "Display the contents of working directory.";
+    }
+
+    @Override
+    public String usage() {
+        return "dir";
+    }
 }
