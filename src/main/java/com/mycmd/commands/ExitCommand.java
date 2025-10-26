@@ -21,4 +21,14 @@ public class ExitCommand implements Command {
         System.out.println("Exiting MyCMD...");
         System.exit(0);
     }
+
+    @Override
+    public String description() {
+        return "Exit the program.";
+    }
+
+    @Override
+    public String usage() {
+        return "exit";
+    }
 }
