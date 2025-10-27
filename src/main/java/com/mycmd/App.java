@@ -106,6 +106,7 @@ public class App {
         commands.put("unalias", new UnaliasCommand());
         commands.put("rename", new RenameCommand());
         commands.put("set", new SetCommand());
+        commands.put("cls", new ClsCommand());
           }
 }
 
