@@ -42,7 +42,7 @@ public class App {
                 }
             } else {
                 // Single, clear not-recognized message + optional suggestion
-                System.out.println("'" + cmd + "' is not recognized as an internal or external command.");
+                System.out.println("Unknown command: '" + cmd + "'. Enter 'help' to list all available commands.");
 
                 // compute suggestion safely
                 try {

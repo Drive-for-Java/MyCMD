@@ -22,4 +22,14 @@ public class DateCommand implements Command {
     public void execute(String[] args, ShellContext context) {
         System.out.println("The current date is: " + java.time.LocalDate.now());
     }
+
+    @Override
+    public String description() {
+        return "Display current date.";
+    }
+
+    @Override
+    public String usage() {
+        return "date";
+    }
 }
