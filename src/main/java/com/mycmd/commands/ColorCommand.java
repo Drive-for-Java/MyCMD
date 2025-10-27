@@ -67,4 +67,17 @@ public class ColorCommand implements Command {
             System.out.println("\033[0m");
         }
     }
+
+    @Override
+    public String description() {
+        return "Change console text and background colors.";
+    }
+
+    @Override
+    public String usage() {
+        return "color [<background><text>]\n" +
+               "  <background> and <text> are hexadecimal digits (0-9, A-F).\n" +
+               "  Example: color 0A sets black background with bright green text.\n" +
+               "  Call without arguments to reset to default colors.";
+    }
 }

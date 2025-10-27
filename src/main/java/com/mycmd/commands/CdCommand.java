@@ -53,4 +53,14 @@ public class CdCommand implements Command {
             System.out.println("The system cannot find the path specified.");
         }
     }
+
+    @Override
+    public String description() {
+        return "Change the current working directory or display it.";
+    }
+
+    @Override
+    public String usage() {
+        return "cd [path]";
+    }
 }

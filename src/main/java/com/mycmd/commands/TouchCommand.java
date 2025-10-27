@@ -36,4 +36,14 @@ public class TouchCommand implements Command {
             System.out.println("File timestamp updated: " + args[0]);  // ✅ Use args[0]
         }
     }
+
+    @Override
+    public String description() {
+        return "Create a new empty file or update the timestamp of an existing file.";
+    }
+
+    @Override
+    public String usage() {
+        return "touch <filename>";
+    }
 }

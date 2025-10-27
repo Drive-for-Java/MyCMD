@@ -32,4 +32,14 @@ public class TimeCommand implements Command {
         String formattedTime = now.format(formatter);
         System.out.println("The current time is: " + formattedTime);
     }
+
+    @Override
+    public String description() {
+        return "Display the current local time.";
+    }
+
+    @Override
+    public String usage() {
+        return "time";
+    }
 }

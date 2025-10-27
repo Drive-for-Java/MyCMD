@@ -35,4 +35,14 @@ public class DelCommand implements Command {
             }
         }
     }
+
+    @Override
+    public String description() {
+        return "Delete one or more files.";
+    }
+
+    @Override
+    public String usage() {
+        return "del <file1> [file2 ...]";
+    }
 }

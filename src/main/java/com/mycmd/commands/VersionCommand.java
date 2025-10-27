@@ -20,4 +20,14 @@ public class VersionCommand implements Command {
     public void execute(String[] args, ShellContext context) {
         System.out.println("MyCMD Java Shell v1.0");
     }
+
+    @Override
+    public String description() {
+        return "Display the version information of the MyCMD shell.";
+    }
+
+    @Override
+    public String usage() {
+        return "ver";
+    }
 }

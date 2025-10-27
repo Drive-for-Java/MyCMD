@@ -32,4 +32,14 @@ public class MkdirCommand implements Command {
             System.out.println("Failed to create directory.");
         }
     }
+
+    @Override
+    public String description() {
+        return "Create a new directory.";
+    }
+
+    @Override
+    public String usage() {
+        return "mkdir <directory_name>";
+    }
 }

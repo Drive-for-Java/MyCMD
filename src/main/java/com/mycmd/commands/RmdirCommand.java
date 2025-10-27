@@ -37,4 +37,14 @@ public class RmdirCommand implements Command {
             System.out.println("Failed to delete directory.");
         }
     }
+
+    @Override
+    public String description() {
+        return "Remove an empty directory.";
+    }
+
+    @Override
+    public String usage() {
+        return "rmdir <directory_name>";
+    }
 }

@@ -51,4 +51,14 @@ public class TreeCommand implements Command {
             }
         }
     }
+
+    @Override
+    public String description() {
+        return "Display the directory tree structure.";
+    }
+
+    @Override
+    public String usage() {
+        return "tree";
+    }
 }

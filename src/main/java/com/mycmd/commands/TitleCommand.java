@@ -27,4 +27,13 @@ public class TitleCommand implements Command {
         }
     }
     
+    @Override
+    public String description() {
+        return "Set the terminal window title.";
+    }
+
+    @Override
+    public String usage() {
+        return "title <new title>";
+    }
 }
