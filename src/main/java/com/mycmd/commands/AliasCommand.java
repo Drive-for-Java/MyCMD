@@ -44,8 +44,7 @@ public class AliasCommand implements Command {
             }
             String cmd = sb.toString();
             if (name.trim().isEmpty() || cmd.trim().isEmpty()) {
-                System.out.println(
-                        "Invalid alias. Usage: \n" + usage());
+                System.out.println("Invalid alias. Usage: \n" + usage());
                 return;
             }
             context.addAlias(name, cmd);
@@ -53,7 +52,7 @@ public class AliasCommand implements Command {
             return;
         }
 
-        System.out.println("Invalid usage. Usage: alias [name=command] | alias [name command...]");
+        System.out.println("Invalid usage. Usage: " + usage());
     }
 
     @Override
