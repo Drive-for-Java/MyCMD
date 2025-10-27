@@ -20,7 +20,7 @@ public class MkdirCommand implements Command {
     @Override
     public void execute(String[] args, ShellContext context) {
         if (args.length == 0) {
-            System.out.println("Usage: mkdir <directory_name>");
+            System.out.println("Usage: " + usage());
             return;
         }
         File dir = new File(context.getCurrentDir(), args[0]);

@@ -23,7 +23,7 @@ public class MoveCommand implements Command {
     @Override
     public void execute(String[] args, ShellContext context) throws IOException {
         if (args.length < 2) {
-            System.out.println("Usage: move <source> <destination>");
+            System.out.println("Usage: " + usage());
             return;
         }
 

@@ -23,7 +23,7 @@ public class TypeCommand implements Command {
     @Override
     public void execute(String[] args, ShellContext context) {
         if (args.length == 0) {
-            System.out.println("Usage: type <file_name>");
+            System.out.println("Usage: " + usage());
             return;
         }
         File file = new File(context.getCurrentDir(), args[0]);

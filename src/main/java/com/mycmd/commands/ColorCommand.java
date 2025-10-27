@@ -26,7 +26,7 @@ public class ColorCommand implements Command {
             String color = args[0];
 
             if (color.length() != 2) {
-                System.out.println("Usage: color <background><text>");
+                System.out.println("Usage: " + usage());
                 return;
             }
 

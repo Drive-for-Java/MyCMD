@@ -22,8 +22,8 @@ import java.io.IOException;
 public class TouchCommand implements Command {
     @Override
     public void execute(String[] args, ShellContext context) throws IOException {
-        if (args.length < 1) {  // ✅ Check for at least 1 argument
-            System.out.println("Usage: touch <filename>");
+        if (args.length < 1) { // ✅ Check for at least 1 argument
+            System.out.println("Usage: " + usage());
             return;
         }
         

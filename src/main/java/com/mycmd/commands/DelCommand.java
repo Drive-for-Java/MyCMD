@@ -21,7 +21,7 @@ public class DelCommand implements Command {
     @Override
     public void execute(String[] args, ShellContext context) {
         if (args.length == 0) {
-            System.out.println("Usage: del <file_name>");
+            System.out.println("Usage: " + usage());
             return;
         }
         for (String name : args) {
