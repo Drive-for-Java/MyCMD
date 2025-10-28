@@ -6,6 +6,16 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TimeoutCommand implements Command {
+    /**
+     * Execute the timeout command.
+     *
+     * <p>This command will wait for the specified number of seconds before continuing. If the user
+     * presses Enter before the timeout expires, the command will terminate immediately.
+     *
+     * @param args The arguments to the command.
+     * @param context The context of the shell.
+     * @throws IOException If an I/O error occurs.
+     */
     @Override
     public void execute(String[] args, ShellContext context) {
         int seconds = -1;
@@ -44,6 +54,9 @@ public class TimeoutCommand implements Command {
             } else if (args[i].equalsIgnoreCase("/t")) {
                 System.out.println("Error: Invalid syntax. Value expected for '/t'.");
                 return;
+            } else {
+                System.out.println("Error: Invalid syntax. Unrecognized argument: " + args[i]);
+                return;
             }
         }
 
@@ -66,6 +79,7 @@ public class TimeoutCommand implements Command {
         }
 
         AtomicBoolean interrupted = new AtomicBoolean(false);
+        AtomicBoolean stopInput = new AtomicBoolean(false);
         Thread inputThread = null;
 
         if (!noBreak) {
@@ -73,17 +87,27 @@ public class TimeoutCommand implements Command {
                     new Thread(
                             () -> {
                                 try {
-                                    int r;
-                                    // Read until a newline is encountered so we only exit on Enter
-                                    while ((r = System.in.read()) != -1) {
-                                        if (r == '\n') {
-                                            interrupted.set(true);
-                                            break;
+                                    // Poll non-blocking so we can stop the thread
+                                    // deterministically.
+                                    while (!stopInput.get()) {
+                                        if (System.in.available() > 0) {
+                                            int r = System.in.read();
+                                            // Treat CR or LF as Enter across platforms
+                                            if (r == '\n' || r == '\r') {
+                                                interrupted.set(true);
+                                                break;
+                                            }
+                                        } else {
+                                            try {
+                                                Thread.sleep(25);
+                                            } catch (InterruptedException ie) {
+                                                Thread.currentThread().interrupt();
+                                                break;
+                                            }
                                         }
                                     }
                                 } catch (IOException e) {
-                                    // Ignore: if System.in is closed or an I/O error occurs we
-                                    // cannot reliably wait for Enter; treat as no-interrupt.
+                                    // Best-effort only; fall through.
                                 }
                             });
             inputThread.setDaemon(true);
@@ -95,8 +119,13 @@ public class TimeoutCommand implements Command {
             if (!noBreak && interrupted.get()) {
                 System.out.println("\r");
                 System.out.println();
-                if (inputThread != null && inputThread.isAlive()) {
-                    inputThread.interrupt();
+                if (inputThread != null) {
+                    stopInput.set(true);
+                    try {
+                        inputThread.join(200);
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                    }
                 }
                 return;
             }
@@ -119,6 +148,15 @@ public class TimeoutCommand implements Command {
             }
         }
 
+        // Normal completion: stop the input thread before draining.
+        if (!noBreak && inputThread != null) {
+            stopInput.set(true);
+            try {
+                inputThread.join(200);
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+            }
+        }
         try {
             // Drain any remaining bytes so subsequent commands don't immediately see
             // leftover input. This is a best-effort drain; System.in.available() may
