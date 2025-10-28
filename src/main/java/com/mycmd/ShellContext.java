@@ -32,6 +32,7 @@ public class ShellContext {
         loadAliases();
     }
 
+
     public void addToHistory(String command) {
         history.add(command);
         commandHistory.add(command); 
@@ -40,20 +41,16 @@ public class ShellContext {
         }
     }
 
-    /** * OVERRIDES Lombok's generated getter to return a DEFENSIVE COPY 
-     * to prevent external code from modifying the shell directly.
-     */
-    @Override
+    
+    /** * RETAINED FOR SAFETY: Returns a DEFENSIVE COPY instead of the raw Map. */
     public List<String> getHistory() {
         return new ArrayList<>(history);
     }
 
-    @Override
     public Map<String, String> getAliases() {
         return new HashMap<>(aliases);
     }
     
-    @Override
     public Map<String, String> getEnvVars() {
         return new HashMap<>(envVars);
     }
@@ -63,7 +60,6 @@ public class ShellContext {
         history.clear();
     }
 
-    // Alias management methods
     public void addAlias(String name, String command) {
         aliases.put(name, command);
         saveAliases();
@@ -82,7 +78,6 @@ public class ShellContext {
         return aliases.containsKey(name);
     }
 
-    // Environmental variable accessors
     public void setEnvVar(String key, String value) {
         envVars.put(key, value);
     }
@@ -92,7 +87,6 @@ public class ShellContext {
     }
 
 
-    // --- Private Persistence Methods ---
 
     private void loadAliases() {
         File aliasFile = new File(System.getProperty("user.home"), ALIAS_FILE);
