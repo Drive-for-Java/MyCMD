@@ -117,7 +117,7 @@
 - [x] date  
 - [ ] shutdown  
 - [ ] choice  
-- [ ] timeout  
+- [x] timeout  
 - [ ] call  
 - [ ] start  
 - [ ] taskkill  
