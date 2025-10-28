@@ -9,7 +9,7 @@ public class UnaliasCommand implements Command {
     @Override
     public void execute(String[] args, ShellContext context) throws IOException {
         if (args == null || args.length == 0) {
-            System.out.println("Usage: unalias name [name2 ...]");
+            System.out.println("Usage: " + usage());
             return;
         }
 

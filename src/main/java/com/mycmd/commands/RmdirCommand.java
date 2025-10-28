@@ -23,7 +23,7 @@ public class RmdirCommand implements Command {
     @Override
     public void execute(String[] args, ShellContext context) {
         if (args.length == 0) {
-            System.out.println("Usage: rmdir <directory_name>");
+            System.out.println("Usage: " + usage());
             return;
         }
         File dir = new File(context.getCurrentDir(), args[0]);
@@ -36,5 +36,15 @@ public class RmdirCommand implements Command {
         } else {
             System.out.println("Failed to delete directory.");
         }
+    }
+
+    @Override
+    public String description() {
+        return "Remove an empty directory.";
+    }
+
+    @Override
+    public String usage() {
+        return "rmdir <directory_name>";
     }
 }

@@ -21,7 +21,7 @@ public class DelCommand implements Command {
     @Override
     public void execute(String[] args, ShellContext context) {
         if (args.length == 0) {
-            System.out.println("Usage: del <file_name>");
+            System.out.println("Usage: " + usage());
             return;
         }
         for (String name : args) {
@@ -34,5 +34,15 @@ public class DelCommand implements Command {
                 System.out.println("Failed to delete: " + name);
             }
         }
+    }
+
+    @Override
+    public String description() {
+        return "Delete one or more files.";
+    }
+
+    @Override
+    public String usage() {
+        return "del <file1> [file2 ...]";
     }
 }
