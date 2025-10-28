@@ -13,8 +13,9 @@ public class ShellContext {
     @Setter
     @NonNull 
     private File currentDir;
-    
+    @Getter(AccessLevel.NONE)
     private List<String> history;
+    @Getter(AccessLevel.NONE)
     private Map<String, String> aliases;
     private static final String ALIAS_FILE = ".mycmd_aliases";
     private static final int MAX_HISTORY = 100;
