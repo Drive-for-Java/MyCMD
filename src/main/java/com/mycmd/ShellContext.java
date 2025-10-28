@@ -1,9 +1,13 @@
 package com.mycmd;
 
+import lombok.Getter;
+import lombok.Setter;
 import java.io.*;
 import java.util.*;
 import java.time.Instant;
 
+@Getter 
+@Setter 
 public class ShellContext {
     private File currentDir;
     private List<String> history;
@@ -12,6 +16,8 @@ public class ShellContext {
     private static final int MAX_HISTORY = 100;
     private final List<String> commandHistory;
     private final Instant startTime;
+
+    private final Map<String, String> envVars = new HashMap<>();
 
     public ShellContext() {
         this.currentDir = new File(System.getProperty("user.dir"));
@@ -22,14 +28,6 @@ public class ShellContext {
         loadAliases();
     }
 
-    public File getCurrentDir() {
-        return currentDir;
-    }
-
-    public void setCurrentDir(File dir) {
-        this.currentDir = dir;
-    }
-
     public void addToHistory(String command) {
         history.add(command);
         commandHistory.add(command); // Add to command history
@@ -38,17 +36,6 @@ public class ShellContext {
         }
     }
 
-    public List<String> getHistory() {
-        return new ArrayList<>(history);
-    }
-
-    public List<String> getCommandHistory() {
-        return commandHistory;
-    }
-
-    public Instant getStartTime() {
-        return startTime;
-    }
 
     public void clearHistory() {
         history.clear();
@@ -63,14 +50,6 @@ public class ShellContext {
     public void removeAlias(String name) {
         aliases.remove(name);
         saveAliases();
-    }
-
-    public String getAlias(String name) {
-        return aliases.get(name);
-    }
-
-    public Map<String, String> getAliases() {
-        return new HashMap<>(aliases);
     }
 
     public boolean hasAlias(String name) {
@@ -129,23 +108,6 @@ public class ShellContext {
         } else {
             return new File(currentDir, path);
         }
-    }
-
-    // environmental variable map
-    // author: Kaveesha Fernando
-    // date: 2024-06-10
-    private final Map<String, String> envVars = new HashMap<>();
-
-    public void setEnvVar(String key, String value) {
-        envVars.put(key, value);
-    }
-
-    public String getEnvVar(String key) {
-        return envVars.get(key);
-    }
-
-    public Map<String, String> getEnvVars() {
-        return new HashMap<>(envVars);
     }
 
 }
