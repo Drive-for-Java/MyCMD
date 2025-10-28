@@ -107,5 +107,6 @@ public class App {
         commands.put("rename", new RenameCommand());
         commands.put("set", new SetCommand());
         commands.put("systeminfo", new SysteminfoCommand());
+        commands.put("pause", new PauseCommand());
     }
 }
