@@ -3,24 +3,25 @@ package com.mycmd;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NonNull;
+import lombok.AccessLevel; 
 import java.io.*;
 import java.util.*;
 import java.time.Instant;
 
-@Getter 
+@Getter(AccessLevel.PUBLIC) 
 public class ShellContext {
     
     @Setter
     @NonNull 
     private File currentDir;
-    @Getter(AccessLevel.NONE)
     private List<String> history;
-    @Getter(AccessLevel.NONE)
     private Map<String, String> aliases;
+    
     private static final String ALIAS_FILE = ".mycmd_aliases";
     private static final int MAX_HISTORY = 100;
+    
     private final List<String> commandHistory;
-    private final Instant startTime;
+    private final Instant startTime; 
 
     private final Map<String, String> envVars = new HashMap<>();
 
@@ -43,7 +44,7 @@ public class ShellContext {
     }
 
     
-    /** * RETAINED FOR SAFETY: Returns a DEFENSIVE COPY instead of the raw Map. */
+    /** RETAINED FOR SAFETY: Returns a DEFENSIVE COPY instead of the raw Map. */
     public List<String> getHistory() {
         return new ArrayList<>(history);
     }
@@ -87,10 +88,9 @@ public class ShellContext {
         return envVars.get(key);
     }
 
-
-
     private void loadAliases() {
         File aliasFile = new File(System.getProperty("user.home"), ALIAS_FILE);
+        // ... (method body remains the same)
         if (!aliasFile.exists()) {
             return;
         }
@@ -116,6 +116,7 @@ public class ShellContext {
 
     private void saveAliases() {
         File aliasFile = new File(System.getProperty("user.home"), ALIAS_FILE);
+        // ... (method body remains the same)
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(aliasFile))) {
             writer.write("# MyCMD Aliases Configuration\n");
             writer.write("# Format: aliasName=command\n\n");
