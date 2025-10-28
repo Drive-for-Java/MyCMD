@@ -2,14 +2,18 @@ package com.mycmd;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.NonNull;
 import java.io.*;
 import java.util.*;
 import java.time.Instant;
 
 @Getter 
-@Setter 
 public class ShellContext {
+    
+    @Setter
+    @NonNull 
     private File currentDir;
+    
     private List<String> history;
     private Map<String, String> aliases;
     private static final String ALIAS_FILE = ".mycmd_aliases";
@@ -30,10 +34,28 @@ public class ShellContext {
 
     public void addToHistory(String command) {
         history.add(command);
-        commandHistory.add(command); // Add to command history
+        commandHistory.add(command); 
         if (history.size() > MAX_HISTORY) {
             history.remove(0);
         }
+    }
+
+    /** * OVERRIDES Lombok's generated getter to return a DEFENSIVE COPY 
+     * to prevent external code from modifying the shell directly.
+     */
+    @Override
+    public List<String> getHistory() {
+        return new ArrayList<>(history);
+    }
+
+    @Override
+    public Map<String, String> getAliases() {
+        return new HashMap<>(aliases);
+    }
+    
+    @Override
+    public Map<String, String> getEnvVars() {
+        return new HashMap<>(envVars);
     }
 
 
@@ -51,10 +73,26 @@ public class ShellContext {
         aliases.remove(name);
         saveAliases();
     }
+    
+    public String getAlias(String name) {
+        return aliases.get(name);
+    }
 
     public boolean hasAlias(String name) {
         return aliases.containsKey(name);
     }
+
+    // Environmental variable accessors
+    public void setEnvVar(String key, String value) {
+        envVars.put(key, value);
+    }
+
+    public String getEnvVar(String key) {
+        return envVars.get(key);
+    }
+
+
+    // --- Private Persistence Methods ---
 
     private void loadAliases() {
         File aliasFile = new File(System.getProperty("user.home"), ALIAS_FILE);
@@ -109,5 +147,4 @@ public class ShellContext {
             return new File(currentDir, path);
         }
     }
-
 }
