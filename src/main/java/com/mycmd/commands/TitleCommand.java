@@ -23,8 +23,17 @@ public class TitleCommand implements Command {
             String title = String.join(" ", args);
             System.out.println("\033]0;" + title + "\007");
         } else {
-            System.out.println("Usage: title <new title>");
+            System.out.println("Usage: " + usage());
         }
     }
     
+    @Override
+    public String description() {
+        return "Set the terminal window title.";
+    }
+
+    @Override
+    public String usage() {
+        return "title <new title>";
+    }
 }

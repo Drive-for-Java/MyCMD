@@ -26,7 +26,7 @@ public class AliasCommand implements Command {
             String name = parts[0].trim();
             String cmd = parts[1].trim();
             if (name.isEmpty() || cmd.isEmpty()) {
-                System.out.println("Invalid alias format. Usage: alias name=command");
+                System.out.println("Invalid alias format. Usage: \n" + usage());
                 return;
             }
             context.addAlias(name, cmd);
@@ -44,7 +44,7 @@ public class AliasCommand implements Command {
             }
             String cmd = sb.toString();
             if (name.trim().isEmpty() || cmd.trim().isEmpty()) {
-                System.out.println("Invalid alias. Usage: alias name command... or alias name=command");
+                System.out.println("Invalid alias. Usage: \n" + usage());
                 return;
             }
             context.addAlias(name, cmd);
@@ -52,7 +52,7 @@ public class AliasCommand implements Command {
             return;
         }
 
-        System.out.println("Invalid usage. Usage: alias [name=command] | alias [name command...]");
+        System.out.println("Invalid usage. Usage: " + usage());
     }
 
     @Override

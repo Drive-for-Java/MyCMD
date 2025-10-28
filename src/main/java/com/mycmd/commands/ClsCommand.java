@@ -34,4 +34,14 @@ public class ClsCommand implements Command {
             System.out.println("Error while clearing the screen: " + e.getMessage());
         }
     }
+
+    @Override
+    public String description() {
+        return "Clear the console screen.";
+    }
+
+    @Override
+    public String usage() {
+        return "cls";
+    }
 }

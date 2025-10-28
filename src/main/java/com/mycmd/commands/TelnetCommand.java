@@ -19,7 +19,7 @@ public class TelnetCommand implements Command {
     @Override
     public void execute(String[] args, ShellContext context) throws IOException {
         if (args.length < 1) {
-            System.out.println("Usage: telnet <host> [port]");
+            System.out.println("Usage: " + usage());
             return;
         }
 

@@ -22,7 +22,7 @@ public class CopyCommand implements Command {
     @Override
     public void execute(String[] args, ShellContext context) {
         if (args.length < 2) {
-            System.out.println("Usage: copy <source> <destination>");
+            System.out.println("Usage: " + usage());
             return;
         }
         File src = new File(context.getCurrentDir(), args[0]);
@@ -42,5 +42,15 @@ public class CopyCommand implements Command {
         } catch (IOException e) {
             System.out.println("Error copying file: " + e.getMessage());
         }
+    }
+
+    @Override
+    public String description() {
+        return "Copy a file from source to destination.";
+    }
+
+    @Override
+    public String usage() {
+        return "copy <source> <destination>";
     }
 }
