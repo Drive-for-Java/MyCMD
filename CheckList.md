@@ -108,7 +108,7 @@
 
 ## ⚙️ Automation & Scripting
 - [x] echo  
-- [ ] pause  
+- [x] pause  
 - [x] cls  
 - [x] exit  
 - [x] title  
@@ -188,7 +188,7 @@
 - [x] md / mkdir  
 - [x] move  
 - [ ] path  
-- [ ] pause  
+- [x] pause  
 - [ ] popd  
 - [ ] prompt  
 - [ ] pushd
