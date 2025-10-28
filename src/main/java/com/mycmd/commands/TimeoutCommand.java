@@ -64,26 +64,39 @@ public class TimeoutCommand implements Command {
             return;
         }
 
-        Thread inputThread =
-                new Thread(
-                        () -> {
-                            try {
-                                System.in.read();
-                            } catch (IOException e) {
-                                // Ignore
-                            }
-                        });
-        inputThread.setDaemon(true);
+        AtomicBoolean interrupted = new AtomicBoolean(false);
+        Thread inputThread = null;
 
         if (!noBreak) {
+            inputThread =
+                    new Thread(
+                            () -> {
+                                try {
+                                    int r;
+                                    // Read until a newline is encountered so we only exit on Enter
+                                    while ((r = System.in.read()) != -1) {
+                                        if (r == '\n') {
+                                            interrupted.set(true);
+                                            break;
+                                        }
+                                    }
+                                } catch (IOException e) {
+                                    // Ignore: if System.in is closed or an I/O error occurs we
+                                    // cannot reliably wait for Enter; treat as no-interrupt.
+                                }
+                            });
+            inputThread.setDaemon(true);
             inputThread.start();
         }
         System.out.println();
 
         for (; seconds > 0; seconds--) {
-            if (!noBreak && !inputThread.isAlive()) {
+            if (!noBreak && interrupted.get()) {
                 System.out.println("\r");
                 System.out.println();
+                if (inputThread != null && inputThread.isAlive()) {
+                    inputThread.interrupt();
+                }
                 return;
             }
 
@@ -104,13 +117,19 @@ public class TimeoutCommand implements Command {
                 break;
             }
         }
+
         try {
+            // Drain any remaining bytes so subsequent commands don't immediately see
+            // leftover input. This is a best-effort drain; System.in.available() may
+            // not be supported on all streams, but for typical console streams it helps.
             while (System.in.available() > 0) {
                 System.in.read();
             }
         } catch (IOException e) {
-            // Ignore
+            // Ignore: if we can't drain the stream it's non-fatal; any leftover input
+            // will be handled by the next read and is acceptable.
         }
+
         System.out.println("\r");
         System.out.println();
     }
