@@ -42,7 +42,7 @@ public class App {
                 }
             } else {
                 // Single, clear not-recognized message + optional suggestion
-                System.out.println("Unknown command: '" + cmd + "'. Enter 'help' to list all available commands.");
+                System.out.println("Unknown command: '" + cmd + "'. Enter '" + CommandNames.HELP + "' to list all available commands.");
 
                 // compute suggestion safely
                 try {
@@ -73,8 +73,8 @@ public class App {
         return input;
     }
 
-    public final class CommandNames {
-        private CommandNames() {} 
+    private static final class CommandNames {
+        private CommandNames() {}
         public static final String DIR          = "dir";
         public static final String CD           = "cd";
         public static final String ECHO         = "echo";
