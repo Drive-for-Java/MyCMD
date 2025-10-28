@@ -75,40 +75,40 @@ public class App {
 
     private static final class CommandNames {
         private CommandNames() {}
-        private static final String ALIAS          = "alias";
-        private static final String CD               = "cd";
+        private static final String ALIAS = "alias";
+        private static final String CD = "cd";
         private static final String CLEARHISTORY = "clearhistory";
-        private static final String CLS            = "cls";
-        private static final String COLOR          = "color";
-        private static final String COPY           = "copy";
-        private static final String DATE           = "date";
-        private static final String DEL            = "del";
-        private static final String DIR             = "dir";
-        private static final String ECHO             = "echo";
-        private static final String EXIT           = "exit";
-        private static final String HELP           = "help";
-        private static final String HISTORY        = "history";
-        private static final String HOSTNAME       = "hostname";
-        private static final String IPCONFIG       = "ipconfig";
-        private static final String MKDIR          = "mkdir";
-        private static final String PAUSE          = "pause";      
-        private static final String PING           = "ping";
-        private static final String PWD            = "pwd";
-        private static final String RENAME         = "rename";
-        private static final String RMDIR          = "rmdir";
-        private static final String SET            = "set";
-        private static final String SYSTEMINFO     = "systeminfo";
-        private static final String TASKLIST       = "tasklist";
-        private static final String TELNET         = "telnet";
-        private static final String TIME           = "time";
-        private static final String TITLE          = "title";
-        private static final String TOUCH          = "touch";
-        private static final String TREE           = "tree";
-        private static final String TYPE           = "type";
-        private static final String UNALIAS        = "unalias";
-        private static final String UPTIME         = "uptime";
-        private static final String VER            = "ver";
-        private static final String WHOAMI         = "whoami";
+        private static final String CLS = "cls";
+        private static final String COLOR = "color";
+        private static final String COPY  = "copy";
+        private static final String DATE = "date";
+        private static final String DEL = "del";
+        private static final String DIR = "dir";
+        private static final String ECHO = "echo";
+        private static final String EXIT = "exit";
+        private static final String HELP = "help";
+        private static final String HISTORY = "history";
+        private static final String HOSTNAME = "hostname";
+        private static final String IPCONFIG = "ipconfig";
+        private static final String MKDIR = "mkdir";
+        private static final String PAUSE = "pause";      
+        private static final String PING = "ping";
+        private static final String PWD = "pwd";
+        private static final String RENAME = "rename";
+        private static final String RMDIR = "rmdir";
+        private static final String SET = "set";
+        private static final String SYSTEMINFO = "systeminfo";
+        private static final String TASKLIST = "tasklist";
+        private static final String TELNET = "telnet";
+        private static final String TIME = "time";
+        private static final String TITLE = "title";
+        private static final String TOUCH = "touch";
+        private static final String TREE = "tree";
+        private static final String TYPE = "type";
+        private static final String UNALIAS = "unalias";
+        private static final String UPTIME = "uptime";
+        private static final String VER = "ver";
+        private static final String WHOAMI = "whoami";
     }
     
     private static void registerCommands(Map<String, Command> commands) {
