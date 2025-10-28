@@ -20,7 +20,7 @@ public class MkdirCommand implements Command {
     @Override
     public void execute(String[] args, ShellContext context) {
         if (args.length == 0) {
-            System.out.println("Usage: mkdir <directory_name>");
+            System.out.println("Usage: " + usage());
             return;
         }
         File dir = new File(context.getCurrentDir(), args[0]);
@@ -31,5 +31,15 @@ public class MkdirCommand implements Command {
         } else {
             System.out.println("Failed to create directory.");
         }
+    }
+
+    @Override
+    public String description() {
+        return "Create a new directory.";
+    }
+
+    @Override
+    public String usage() {
+        return "mkdir <directory_name>";
     }
 }

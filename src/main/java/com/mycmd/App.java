@@ -42,7 +42,7 @@ public class App {
                 }
             } else {
                 // Single, clear not-recognized message + optional suggestion
-                System.out.println("Unknown command: '" + cmd + "'. Enter 'help' to list all available commands.");
+                System.out.println("Unknown command: '" + cmd + "'. Enter '" + CommandNames.HELP + "' to list all available commands.");
 
                 // compute suggestion safely
                 try {
@@ -73,40 +73,78 @@ public class App {
         return input;
     }
 
+    private static final class CommandNames {
+        private CommandNames() {}
+        private static final String ALIAS = "alias";
+        private static final String CD = "cd";
+        private static final String CLEARHISTORY = "clearhistory";
+        private static final String CLS = "cls";
+        private static final String COLOR = "color";
+        private static final String COPY  = "copy";
+        private static final String DATE = "date";
+        private static final String DEL = "del";
+        private static final String DIR = "dir";
+        private static final String ECHO = "echo";
+        private static final String EXIT = "exit";
+        private static final String HELP = "help";
+        private static final String HISTORY = "history";
+        private static final String HOSTNAME = "hostname";
+        private static final String IPCONFIG = "ipconfig";
+        private static final String MKDIR = "mkdir";
+        private static final String PAUSE = "pause";      
+        private static final String PING = "ping";
+        private static final String PWD = "pwd";
+        private static final String RENAME = "rename";
+        private static final String RMDIR = "rmdir";
+        private static final String SET = "set";
+        private static final String SYSTEMINFO = "systeminfo";
+        private static final String TASKLIST = "tasklist";
+        private static final String TELNET = "telnet";
+        private static final String TIME = "time";
+        private static final String TITLE = "title";
+        private static final String TOUCH = "touch";
+        private static final String TREE = "tree";
+        private static final String TYPE = "type";
+        private static final String UNALIAS = "unalias";
+        private static final String UPTIME = "uptime";
+        private static final String VER = "ver";
+        private static final String WHOAMI = "whoami";
+    }
+    
     private static void registerCommands(Map<String, Command> commands) {
-        commands.put("dir", new DirCommand());
-        commands.put("cd", new CdCommand());
-        commands.put("echo", new EchoCommand());
-        commands.put("mkdir", new MkdirCommand());
-        commands.put("rmdir", new RmdirCommand());
-        commands.put("copy", new CopyCommand());
-        commands.put("del", new DelCommand());
-        commands.put("type", new TypeCommand());
-        commands.put("cls", new ClsCommand());
-        commands.put("help", new HelpCommand(commands));
-        commands.put("exit", new ExitCommand());
-        commands.put("ver", new VersionCommand());
-        commands.put("title", new TitleCommand());
-        commands.put("color", new ColorCommand());
-        commands.put("hostname", new HostnameCommand());
-        commands.put("whoami", new WhoamiCommand());
-        commands.put("touch", new TouchCommand());
-        commands.put("time", new TimeCommand());
-        commands.put("tasklist", new TasklistCommand());
-        commands.put("tree", new TreeCommand());
-        commands.put("date", new DateCommand());
-        commands.put("history", new HistoryCommand());
-        commands.put("ping", new PingCommand());
-        commands.put("telnet", new TelnetCommand());
-        commands.put("pwd", new PwdCommand());
-        commands.put("uptime", new UptimeCommand());
-        commands.put("clearhistory", new ClearHistoryCommand());
-        commands.put("ipconfig", new IpConfig());
-        commands.put("alias", new AliasCommand());
-        commands.put("unalias", new UnaliasCommand());
-        commands.put("rename", new RenameCommand());
-        commands.put("set", new SetCommand());
-          }
+        commands.put(CommandNames.ALIAS, new AliasCommand());
+        commands.put(CommandNames.CD, new CdCommand());
+        commands.put(CommandNames.CLEARHISTORY, new ClearHistoryCommand());
+        commands.put(CommandNames.CLS, new ClsCommand());
+        commands.put(CommandNames.COLOR, new ColorCommand());
+        commands.put(CommandNames.COPY, new CopyCommand());
+        commands.put(CommandNames.DATE, new DateCommand());
+        commands.put(CommandNames.DEL, new DelCommand());
+        commands.put(CommandNames.DIR, new DirCommand());
+        commands.put(CommandNames.ECHO, new EchoCommand());
+        commands.put(CommandNames.EXIT, new ExitCommand());
+        commands.put(CommandNames.HELP, new HelpCommand(commands));
+        commands.put(CommandNames.HISTORY, new HistoryCommand());
+        commands.put(CommandNames.HOSTNAME, new HostnameCommand());
+        commands.put(CommandNames.IPCONFIG, new IpConfig());
+        commands.put(CommandNames.MKDIR, new MkdirCommand());
+        commands.put(CommandNames.PAUSE, new PauseCommand());
+        commands.put(CommandNames.PING, new PingCommand());
+        commands.put(CommandNames.PWD, new PwdCommand());
+        commands.put(CommandNames.RENAME, new RenameCommand());
+        commands.put(CommandNames.RMDIR, new RmdirCommand());
+        commands.put(CommandNames.SET, new SetCommand());
+        commands.put(CommandNames.SYSTEMINFO, new SysteminfoCommand()); 
+        commands.put(CommandNames.TASKLIST, new TasklistCommand());
+        commands.put(CommandNames.TELNET, new TelnetCommand());
+        commands.put(CommandNames.TIME, new TimeCommand());
+        commands.put(CommandNames.TITLE, new TitleCommand());
+        commands.put(CommandNames.TOUCH, new TouchCommand());
+        commands.put(CommandNames.TREE, new TreeCommand());
+        commands.put(CommandNames.TYPE, new TypeCommand());
+        commands.put(CommandNames.UNALIAS, new UnaliasCommand());
+        commands.put(CommandNames.UPTIME, new UptimeCommand());
+        commands.put(CommandNames.VER, new VersionCommand());
+        commands.put(CommandNames.WHOAMI, new WhoamiCommand());
+    }
 }
-
-        

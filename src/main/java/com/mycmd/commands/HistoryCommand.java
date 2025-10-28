@@ -20,4 +20,14 @@ public class HistoryCommand implements Command {
             System.out.println((i + 1) + ". " + history.get(i));
         }
     }
+
+    @Override
+    public String description() {
+        return "Display the list of previously executed commands.";
+    }
+
+    @Override
+    public String usage() {
+        return "history";
+    }
 }

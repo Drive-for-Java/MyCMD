@@ -31,4 +31,14 @@ public class HostnameCommand implements Command {
         }
         System.out.println(hostname);
     }
+
+    @Override
+    public String description() {
+        return "Display the hostname of the current computer.";
+    }
+
+    @Override
+    public String usage() {
+        return "hostname";
+    }
 }
