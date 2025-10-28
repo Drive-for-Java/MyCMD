@@ -7,7 +7,7 @@
 ---
 
 ## 🧭 System Information & Management
-- [ ] systeminfo  
+- [x] systeminfo  
 - [x] hostname  
 - [x] ver  
 - [ ] vol  
