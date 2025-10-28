@@ -108,5 +108,6 @@ public class App {
         commands.put("set", new SetCommand());
         commands.put("systeminfo", new SysteminfoCommand());
         commands.put("pause", new PauseCommand());
+        commands.put("timeout", new TimeoutCommand());
     }
 }
