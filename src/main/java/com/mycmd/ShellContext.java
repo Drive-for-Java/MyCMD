@@ -1,17 +1,29 @@
 package com.mycmd;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NonNull;
+import lombok.AccessLevel; 
 import java.io.*;
 import java.util.*;
 import java.time.Instant;
 
+@Getter(AccessLevel.PUBLIC) 
 public class ShellContext {
+    
+    @Setter
+    @NonNull 
     private File currentDir;
     private List<String> history;
     private Map<String, String> aliases;
+    
     private static final String ALIAS_FILE = ".mycmd_aliases";
     private static final int MAX_HISTORY = 100;
+    
     private final List<String> commandHistory;
-    private final Instant startTime;
+    private final Instant startTime; 
+
+    private final Map<String, String> envVars = new HashMap<>();
 
     public ShellContext() {
         this.currentDir = new File(System.getProperty("user.dir"));
@@ -22,39 +34,34 @@ public class ShellContext {
         loadAliases();
     }
 
-    public File getCurrentDir() {
-        return currentDir;
-    }
-
-    public void setCurrentDir(File dir) {
-        this.currentDir = dir;
-    }
 
     public void addToHistory(String command) {
         history.add(command);
-        commandHistory.add(command); // Add to command history
+        commandHistory.add(command); 
         if (history.size() > MAX_HISTORY) {
             history.remove(0);
         }
     }
 
+    
+    /** RETAINED FOR SAFETY: Returns a DEFENSIVE COPY instead of the raw Map. */
     public List<String> getHistory() {
         return new ArrayList<>(history);
     }
 
-    public List<String> getCommandHistory() {
-        return commandHistory;
+    public Map<String, String> getAliases() {
+        return new HashMap<>(aliases);
+    }
+    
+    public Map<String, String> getEnvVars() {
+        return new HashMap<>(envVars);
     }
 
-    public Instant getStartTime() {
-        return startTime;
-    }
 
     public void clearHistory() {
         history.clear();
     }
 
-    // Alias management methods
     public void addAlias(String name, String command) {
         aliases.put(name, command);
         saveAliases();
@@ -64,21 +71,26 @@ public class ShellContext {
         aliases.remove(name);
         saveAliases();
     }
-
+    
     public String getAlias(String name) {
         return aliases.get(name);
-    }
-
-    public Map<String, String> getAliases() {
-        return new HashMap<>(aliases);
     }
 
     public boolean hasAlias(String name) {
         return aliases.containsKey(name);
     }
 
+    public void setEnvVar(String key, String value) {
+        envVars.put(key, value);
+    }
+
+    public String getEnvVar(String key) {
+        return envVars.get(key);
+    }
+
     private void loadAliases() {
         File aliasFile = new File(System.getProperty("user.home"), ALIAS_FILE);
+        // ... (method body remains the same)
         if (!aliasFile.exists()) {
             return;
         }
@@ -104,6 +116,7 @@ public class ShellContext {
 
     private void saveAliases() {
         File aliasFile = new File(System.getProperty("user.home"), ALIAS_FILE);
+        // ... (method body remains the same)
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(aliasFile))) {
             writer.write("# MyCMD Aliases Configuration\n");
             writer.write("# Format: aliasName=command\n\n");
@@ -130,22 +143,4 @@ public class ShellContext {
             return new File(currentDir, path);
         }
     }
-
-    // environmental variable map
-    // author: Kaveesha Fernando
-    // date: 2024-06-10
-    private final Map<String, String> envVars = new HashMap<>();
-
-    public void setEnvVar(String key, String value) {
-        envVars.put(key, value);
-    }
-
-    public String getEnvVar(String key) {
-        return envVars.get(key);
-    }
-
-    public Map<String, String> getEnvVars() {
-        return new HashMap<>(envVars);
-    }
-
 }
