@@ -101,6 +101,7 @@ public class App {
         private static final String TASKLIST = "tasklist";
         private static final String TELNET = "telnet";
         private static final String TIME = "time";
+        private static final String TIMEOUT = "timeout";
         private static final String TITLE = "title";
         private static final String TOUCH = "touch";
         private static final String TREE = "tree";
@@ -138,6 +139,7 @@ public class App {
         commands.put(CommandNames.TASKLIST, new TasklistCommand());
         commands.put(CommandNames.TELNET, new TelnetCommand());
         commands.put(CommandNames.TIME, new TimeCommand());
+        commands.put(CommandNames.TIMEOUT, new TimeoutCommand());
         commands.put(CommandNames.TITLE, new TitleCommand());
         commands.put(CommandNames.TOUCH, new TouchCommand());
         commands.put(CommandNames.TREE, new TreeCommand());
