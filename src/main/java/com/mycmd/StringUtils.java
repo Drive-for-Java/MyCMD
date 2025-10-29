@@ -4,16 +4,16 @@ import java.util.Collection;
 import java.util.Objects;
 
 /**
- * Small utility for string-based helper methods.
- * Provides a findClosest(...) implementation using Levenshtein distance.
+ * Small utility for string-based helper methods. Provides a findClosest(...) implementation using
+ * Levenshtein distance.
  */
 public final class StringUtils {
 
     private StringUtils() {}
 
     /**
-     * Find the closest string in candidates to the input.
-     * Returns null when no candidate is close enough.
+     * Find the closest string in candidates to the input. Returns null when no candidate is close
+     * enough.
      *
      * @param input the input string
      * @param candidates candidate strings

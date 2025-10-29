@@ -1,8 +1,8 @@
 package com.mycmd;
 
 import java.io.*;
-import java.util.*;
 import java.time.Instant;
+import java.util.*;
 
 public class ShellContext {
     private File currentDir;
@@ -116,8 +116,9 @@ public class ShellContext {
     }
 
     /**
-     * Resolve the given path (absolute or relative) to a File using the current directory.
-     * If the provided path is absolute, returns it directly; otherwise returns a File rooted at currentDir.
+     * Resolve the given path (absolute or relative) to a File using the current directory. If the
+     * provided path is absolute, returns it directly; otherwise returns a File rooted at
+     * currentDir.
      */
     public File resolvePath(String path) {
         if (path == null || path.trim().isEmpty()) {
@@ -147,5 +148,4 @@ public class ShellContext {
     public Map<String, String> getEnvVars() {
         return new HashMap<>(envVars);
     }
-
 }

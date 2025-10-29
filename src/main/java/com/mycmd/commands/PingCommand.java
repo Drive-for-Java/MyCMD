@@ -2,33 +2,28 @@ package com.mycmd.commands;
 
 import com.mycmd.Command;
 import com.mycmd.ShellContext;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
  * Tests network connectivity to a given hostname or IP address.
- * 
- * This command wraps the system ping utility to send ICMP echo requests
- * and displays response times or timeout status for each attempt. It uses
- * the native ping command available on the operating system.
- * 
- * Usage:
- * - ping <hostname>     : Ping the specified host with default count (4 packets)
- * - ping <hostname> -t  : Ping continuously until stopped (Windows-style)
- * - ping <hostname> -n <count> : Ping with specified packet count (Windows-style)
- * 
- * Examples:
- * - ping google.com
- * - ping 8.8.8.8
- * - ping google.com -n 10
- * 
- * Note: This implementation uses the system's native ping command for
- * accurate network connectivity testing and proper ICMP handling.
+ *
+ * <p>This command wraps the system ping utility to send ICMP echo requests and displays response
+ * times or timeout status for each attempt. It uses the native ping command available on the
+ * operating system.
+ *
+ * <p>Usage: - ping <hostname> : Ping the specified host with default count (4 packets) - ping
+ * <hostname> -t : Ping continuously until stopped (Windows-style) - ping <hostname> -n <count> :
+ * Ping with specified packet count (Windows-style)
+ *
+ * <p>Examples: - ping google.com - ping 8.8.8.8 - ping google.com -n 10
+ *
+ * <p>Note: This implementation uses the system's native ping command for accurate network
+ * connectivity testing and proper ICMP handling.
  */
 public class PingCommand implements Command {
-    
+
     @Override
     public void execute(String[] args, ShellContext context) throws IOException {
         if (args.length == 0) {
@@ -45,7 +40,7 @@ public class PingCommand implements Command {
         }
 
         String host = args[0];
-        
+
         // Build ping command based on operating system
         String[] command = buildPingCommand(host, args);
 
@@ -55,19 +50,17 @@ public class PingCommand implements Command {
             Process process = pb.start();
 
             // Read and display output in real-time
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream())
-            );
-            BufferedReader errorReader = new BufferedReader(
-                    new InputStreamReader(process.getErrorStream())
-            );
+            BufferedReader reader =
+                    new BufferedReader(new InputStreamReader(process.getInputStream()));
+            BufferedReader errorReader =
+                    new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
             String line;
             // Display standard output
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
             }
-            
+
             // Display error output if any
             while ((line = errorReader.readLine()) != null) {
                 System.err.println(line);
@@ -75,7 +68,7 @@ public class PingCommand implements Command {
 
             // Wait for the process to complete
             int exitCode = process.waitFor();
-            
+
             if (exitCode != 0) {
                 System.out.println("Ping command failed with exit code: " + exitCode);
             }
@@ -88,12 +81,10 @@ public class PingCommand implements Command {
         }
     }
 
-    /**
-     * Builds the appropriate ping command based on the operating system and arguments.
-     */
+    /** Builds the appropriate ping command based on the operating system and arguments. */
     private String[] buildPingCommand(String host, String[] args) {
         String os = System.getProperty("os.name").toLowerCase();
-        
+
         if (os.contains("win")) {
             return buildWindowsPingCommand(host, args);
         } else {
@@ -101,17 +92,15 @@ public class PingCommand implements Command {
         }
     }
 
-    /**
-     * Builds ping command for Windows systems.
-     */
+    /** Builds ping command for Windows systems. */
     private String[] buildWindowsPingCommand(String host, String[] args) {
         java.util.List<String> command = new java.util.ArrayList<>();
         command.add("ping");
-        
+
         // Parse arguments for Windows ping options
         boolean continuous = false;
         int count = 4; // Default count
-        
+
         for (int i = 1; i < args.length; i++) {
             if ("-t".equals(args[i])) {
                 continuous = true;
@@ -124,28 +113,26 @@ public class PingCommand implements Command {
                 }
             }
         }
-        
+
         if (continuous) {
             command.add("-t");
         } else {
             command.add("-n");
             command.add(String.valueOf(count));
         }
-        
+
         command.add(host);
         return command.toArray(new String[0]);
     }
 
-    /**
-     * Builds ping command for Unix-like systems (Linux, macOS).
-     */
+    /** Builds ping command for Unix-like systems (Linux, macOS). */
     private String[] buildUnixPingCommand(String host, String[] args) {
         java.util.List<String> command = new java.util.ArrayList<>();
         command.add("ping");
-        
+
         // Parse arguments for Unix ping options
         int count = 4; // Default count
-        
+
         for (int i = 1; i < args.length; i++) {
             if ("-t".equals(args[i])) {
                 // Unix ping doesn't use -t, just omit count for continuous
@@ -159,12 +146,12 @@ public class PingCommand implements Command {
                 }
             }
         }
-        
+
         if (count > 0) {
             command.add("-c");
             command.add(String.valueOf(count));
         }
-        
+
         command.add(host);
         return command.toArray(new String[0]);
     }
