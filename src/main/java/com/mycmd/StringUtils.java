@@ -1,4 +1,4 @@
-package com.mycmd.utils;
+package com.mycmd;
 
 import java.util.Collection;
 import java.util.Objects;
