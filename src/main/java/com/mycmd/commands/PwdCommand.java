@@ -5,17 +5,15 @@ import com.mycmd.ShellContext;
 
 /**
  * Prints the current working directory.
- * 
- * This command displays the absolute path of the current working directory
- * stored in the shell context. It's equivalent to the Unix/Linux 'pwd' command
- * and provides the same functionality as 'cd' without arguments.
- * 
- * Usage:
- * - pwd : Print the current working directory path
- * 
- * The command always prints the absolute path of the current directory,
- * making it useful for scripts and when you need to know your exact location
- * in the file system.
+ *
+ * <p>This command displays the absolute path of the current working directory stored in the shell
+ * context. It's equivalent to the Unix/Linux 'pwd' command and provides the same functionality as
+ * 'cd' without arguments.
+ *
+ * <p>Usage: - pwd : Print the current working directory path
+ *
+ * <p>The command always prints the absolute path of the current directory, making it useful for
+ * scripts and when you need to know your exact location in the file system.
  */
 public class PwdCommand implements Command {
     @Override

@@ -10,19 +10,19 @@
 - [x] systeminfo  
 - [x] hostname  
 - [x] ver  
-- [ ] vol  
-- [ ] set  
+- [x] vol  
+- [x] set  
 - [ ] setx  
-- [ ] wmic  
-- [ ] driverquery  
-- [ ] tasklist  
-- [ ] taskkill  
-- [ ] sfc  
-- [ ] chkdsk  
-- [ ] label  
-- [ ] fsutil  
-- [ ] assoc  
-- [ ] ftype  
+- [x] wmic  
+- [x] driverquery  
+- [x] tasklist  
+- [x] taskkill  
+- [x] sfc  
+- [x] chkdsk  
+- [x] label  
+- [x] fsutil  
+- [x] assoc  
+- [x] ftype  
 
 ---
 
@@ -33,46 +33,46 @@
 - [x] rd / rmdir  
 - [x] del / erase  
 - [x] copy  
-- [ ] xcopy  
-- [ ] robocopy  
+- [x] xcopy  
+- [x] robocopy  
 - [x] move  
-- [ ] rename / ren  
-- [ ] attrib  
+- [x] rename / ren  
+- [x] attrib  
 - [x] tree  
 - [x] type  
-- [ ] more  
-- [ ] find  
-- [ ] findstr  
-- [ ] sort  
-- [ ] fc  
-- [ ] forfiles  
-- [ ] compact  
-- [ ] replace  
+- [x] more  
+- [x] find  
+- [x] findstr  
+- [x] sort  
+- [x] fc  
+- [x] forfiles  
+- [x] compact  
+- [x] replace  
 
 ---
 
 ## 🌐 Network & Internet Commands
 - [x] ping  
-- [ ] ipconfig  
-- [ ] getmac  
-- [ ] nslookup  
-- [ ] netstat  
-- [ ] tracert  
+- [x] ipconfig  
+- [x] getmac  
+- [x] nslookup  
+- [x] netstat  
+- [x] tracert  
 - [ ] pathping  
-- [ ] arp  
-- [ ] route  
-- [ ] netsh  
+- [x] arp  
+- [x] route  
+- [x] netsh  
 - [ ] ftp  
 - [ ] tftp  
-- [ ] telnet  
+- [x] telnet  
 - [ ] nbtstat  
-- [ ] net  
-  - [ ] net user  
-  - [ ] net use  
-  - [ ] net share  
-  - [ ] net start  
-  - [ ] net stop  
-  - [ ] net session  
+- [x] net  
+  - [x] net user  
+  - [x] net use  
+  - [x] net share  
+  - [x] net start  
+  - [x] net stop  
+  - [x] net session  
 - [ ] curl  
 - [ ] powershell  
 
@@ -119,8 +119,8 @@
 - [ ] choice  
 - [x] timeout  
 - [ ] call  
-- [ ] start  
-- [ ] taskkill  
+- [x] start  
+- [x] taskkill  
 - [ ] schtasks  
 - [ ] for  
 - [ ] if  
@@ -158,11 +158,11 @@
 - [ ] mode  
 - [ ] print  
 - [ ] subst  
-- [ ] clip  
-- [ ] msg  
+- [x] clip  
+- [x] msg  
 - [x] ver  
-- [ ] verify  
-- [ ] vol  
+- [x] verify  
+- [x] vol  
 
 ---
 

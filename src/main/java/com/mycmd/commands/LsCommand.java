@@ -2,13 +2,10 @@ package com.mycmd.commands;
 
 import com.mycmd.Command;
 import com.mycmd.ShellContext;
-
 import java.io.IOException;
 import java.nio.file.*;
 
-/**
- * LsCommand - lists files and directories in the shell's current directory.
- */
+/** LsCommand - lists files and directories in the shell's current directory. */
 public class LsCommand implements Command {
 
     @Override

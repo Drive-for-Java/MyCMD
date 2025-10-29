@@ -6,18 +6,15 @@ import java.io.File;
 
 /**
  * Removes an empty directory from the file system.
- * 
- * This command deletes a directory that must be empty. It verifies that the
- * specified path exists, is a directory, and contains no files or subdirectories
- * before attempting deletion. The directory path is resolved relative to the
- * current working directory.
- * 
- * Usage: rmdir directory_name
- * 
- * Safety features:
- * - Refuses to delete non-empty directories
- * - Verifies target is actually a directory before deletion
- * - Provides clear error messages for each failure condition
+ *
+ * <p>This command deletes a directory that must be empty. It verifies that the specified path
+ * exists, is a directory, and contains no files or subdirectories before attempting deletion. The
+ * directory path is resolved relative to the current working directory.
+ *
+ * <p>Usage: rmdir directory_name
+ *
+ * <p>Safety features: - Refuses to delete non-empty directories - Verifies target is actually a
+ * directory before deletion - Provides clear error messages for each failure condition
  */
 public class RmdirCommand implements Command {
     @Override

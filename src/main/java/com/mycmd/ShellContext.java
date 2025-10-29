@@ -1,27 +1,25 @@
 package com.mycmd;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NonNull;
-import lombok.AccessLevel; 
 import java.io.*;
-import java.util.*;
 import java.time.Instant;
+import java.util.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 
-@Getter(AccessLevel.PUBLIC) 
+@Getter(AccessLevel.PUBLIC)
 public class ShellContext {
-    
-    @Setter
-    @NonNull 
-    private File currentDir;
+
+    @Setter @NonNull private File currentDir;
     private List<String> history;
     private Map<String, String> aliases;
-    
+
     private static final String ALIAS_FILE = ".mycmd_aliases";
     private static final int MAX_HISTORY = 100;
-    
+
     private final List<String> commandHistory;
-    private final Instant startTime; 
+    private final Instant startTime;
 
     private final Map<String, String> envVars = new HashMap<>();
 
@@ -34,16 +32,14 @@ public class ShellContext {
         loadAliases();
     }
 
-
     public void addToHistory(String command) {
         history.add(command);
-        commandHistory.add(command); 
+        commandHistory.add(command);
         if (history.size() > MAX_HISTORY) {
             history.remove(0);
         }
     }
 
-    
     /** RETAINED FOR SAFETY: Returns a DEFENSIVE COPY instead of the raw Map. */
     public List<String> getHistory() {
         return new ArrayList<>(history);
@@ -52,11 +48,10 @@ public class ShellContext {
     public Map<String, String> getAliases() {
         return new HashMap<>(aliases);
     }
-    
+
     public Map<String, String> getEnvVars() {
         return new HashMap<>(envVars);
     }
-
 
     public void clearHistory() {
         history.clear();
@@ -71,7 +66,7 @@ public class ShellContext {
         aliases.remove(name);
         saveAliases();
     }
-    
+
     public String getAlias(String name) {
         return aliases.get(name);
     }
@@ -129,8 +124,9 @@ public class ShellContext {
     }
 
     /**
-     * Resolve the given path (absolute or relative) to a File using the current directory.
-     * If the provided path is absolute, returns it directly; otherwise returns a File rooted at currentDir.
+     * Resolve the given path (absolute or relative) to a File using the current directory. If the
+     * provided path is absolute, returns it directly; otherwise returns a File rooted at
+     * currentDir.
      */
     public File resolvePath(String path) {
         if (path == null || path.trim().isEmpty()) {

@@ -5,10 +5,8 @@ import com.mycmd.ShellContext;
 import java.util.Map;
 
 /**
- * Enhanced HelpCommand
- * --------------------
- * Dynamically lists all available commands with their descriptions.
- * Supports detailed help for individual commands using 'help <command>'.
+ * Enhanced HelpCommand -------------------- Dynamically lists all available commands with their
+ * descriptions. Supports detailed help for individual commands using 'help <command>'.
  */
 public class HelpCommand implements Command {
     private final Map<String, Command> commands;
@@ -27,7 +25,8 @@ public class HelpCommand implements Command {
             if (cmd != null) {
                 System.out.println("\nCommand: " + cmdName);
                 System.out.println("Description: " + cmd.description());
-                System.out.println("Usage: " + (cmd.usage() != null ? cmd.usage() : cmdName + " [options]"));
+                System.out.println(
+                        "Usage: " + (cmd.usage() != null ? cmd.usage() : cmdName + " [options]"));
             } else {
                 System.out.println("No such command: " + cmdName);
             }
@@ -39,9 +38,10 @@ public class HelpCommand implements Command {
         for (Map.Entry<String, Command> entry : commands.entrySet()) {
             String name = entry.getKey();
             Command cmd = entry.getValue();
-            String description = (cmd.description() != null && !cmd.description().isEmpty())
-                    ? cmd.description()
-                    : "No description available";
+            String description =
+                    (cmd.description() != null && !cmd.description().isEmpty())
+                            ? cmd.description()
+                            : "No description available";
             System.out.printf("  %-12s : %s%n", name, description);
         }
         System.out.println("\nType 'help <command>' for detailed info about a specific command.\n");

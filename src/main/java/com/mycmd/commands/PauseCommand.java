@@ -6,10 +6,12 @@ import com.mycmd.ShellContext;
 public class PauseCommand implements Command {
     /**
      * Execute the pause command.
-     * 
-     * <p>Prints "Press Enter to continue..." and waits for the user to press Enter before continuing.</p>
-     * <p>If an exception occurs during the pause, it is ignored.</p>
-     * 
+     *
+     * <p>Prints "Press Enter to continue..." and waits for the user to press Enter before
+     * continuing.
+     *
+     * <p>If an exception occurs during the pause, it is ignored.
+     *
      * @param args The arguments to the command.
      * @param context The context of the shell.
      */
