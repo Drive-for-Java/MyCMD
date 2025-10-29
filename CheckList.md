@@ -115,8 +115,8 @@
 - [x] color  
 - [x] time  
 - [x] date  
-- [x] shutdown  
-- [x] choice  
+- [ ] shutdown  
+- [ ] choice  
 - [x] timeout  
 - [ ] call  
 - [x] start  
