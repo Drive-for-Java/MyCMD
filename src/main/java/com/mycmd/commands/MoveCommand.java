@@ -2,22 +2,21 @@ package com.mycmd.commands;
 
 import com.mycmd.Command;
 import com.mycmd.ShellContext;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 
 /**
  * Moves or renames a file or directory from source to destination.
- * 
- * This command uses the Java NIO Files.move() operation to relocate files
- * or directories. It supports both moving files between directories and
- * renaming them. If the destination already exists, it will be replaced.
- * 
- * Usage: move source destination
- * 
- * Both source and destination paths are resolved relative to the current
- * working directory using ShellContext.resolvePath(). The command verifies
- * that the source exists before attempting the move operation.
+ *
+ * <p>This command uses the Java NIO Files.move() operation to relocate files or directories. It
+ * supports both moving files between directories and renaming them. If the destination already
+ * exists, it will be replaced.
+ *
+ * <p>Usage: move source destination
+ *
+ * <p>Both source and destination paths are resolved relative to the current working directory using
+ * ShellContext.resolvePath(). The command verifies that the source exists before attempting the
+ * move operation.
  */
 public class MoveCommand implements Command {
     @Override

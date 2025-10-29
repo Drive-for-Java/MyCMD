@@ -2,19 +2,18 @@ package com.mycmd.commands;
 
 import com.mycmd.Command;
 import com.mycmd.ShellContext;
-
 import java.io.IOException;
 
 /**
  * Clears the console screen using the native OS command.
  *
- * This command clears the terminal screen by executing the 'cls' command
- * on Windows or the 'clear' command on Unix-like systems (macOS, Linux).
- * This provides a true clear-screen functionality.
+ * <p>This command clears the terminal screen by executing the 'cls' command on Windows or the
+ * 'clear' command on Unix-like systems (macOS, Linux). This provides a true clear-screen
+ * functionality.
  *
- * Usage: cls
+ * <p>Usage: cls
  *
- * Note: This command does not accept any arguments.
+ * <p>Note: This command does not accept any arguments.
  */
 public class ClsCommand implements Command {
 

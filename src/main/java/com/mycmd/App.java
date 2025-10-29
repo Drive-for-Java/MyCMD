@@ -1,7 +1,6 @@
 package com.mycmd;
 
 import com.mycmd.commands.*;
-
 import java.util.*;
 import java.util.Scanner;
 
@@ -41,7 +40,12 @@ public class App {
                 }
             } else {
                 // Single, clear not-recognized message + optional suggestion
-                System.out.println("Unknown command: '" + cmd + "'. Enter '" + CommandNames.HELP + "' to list all available commands.");
+                System.out.println(
+                        "Unknown command: '"
+                                + cmd
+                                + "'. Enter '"
+                                + CommandNames.HELP
+                                + "' to list all available commands.");
 
                 // compute suggestion safely
                 try {
@@ -74,6 +78,7 @@ public class App {
 
     private static final class CommandNames {
         private CommandNames() {}
+
         private static final String ALIAS = "alias";
         private static final String ARP = "arp";
         private static final String ASSOC = "assoc";
@@ -86,7 +91,7 @@ public class App {
         private static final String CLS = "cls";
         private static final String COLOR = "color";
         private static final String COMPACT = "compact";
-        private static final String COPY  = "copy";
+        private static final String COPY = "copy";
         private static final String DATE = "date";
         private static final String DEL = "del";
         private static final String DIR = "dir";
@@ -115,7 +120,7 @@ public class App {
         private static final String NETSTAT = "netstat";
         private static final String NSLOOKUP = "nslookup";
         private static final String PATH = "path";
-        private static final String PAUSE = "pause";      
+        private static final String PAUSE = "pause";
         private static final String PING = "ping";
         private static final String PWD = "pwd";
         private static final String REM = "rem";
@@ -149,7 +154,7 @@ public class App {
         private static final String WMIC = "wmic";
         private static final String XCOPY = "xcopy";
     }
-    
+
     private static void registerCommands(Map<String, Command> commands) {
         commands.put(CommandNames.ALIAS, new AliasCommand());
         commands.put(CommandNames.ARP, new ArpCommand());
@@ -206,7 +211,7 @@ public class App {
         commands.put(CommandNames.SHUTDOWN, new ShutdownCommand());
         commands.put(CommandNames.SORT, new SortCommand());
         commands.put(CommandNames.START, new StartCommand());
-        commands.put(CommandNames.SYSTEMINFO, new SysteminfoCommand()); 
+        commands.put(CommandNames.SYSTEMINFO, new SysteminfoCommand());
         commands.put(CommandNames.TASKKILL, new TaskkillCommand());
         commands.put(CommandNames.TASKLIST, new TasklistCommand());
         commands.put(CommandNames.TELNET, new TelnetCommand());

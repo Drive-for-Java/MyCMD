@@ -2,7 +2,6 @@ package com.mycmd.commands;
 
 import com.mycmd.Command;
 import com.mycmd.ShellContext;
-
 import java.io.IOException;
 import java.util.Map;
 
@@ -62,8 +61,8 @@ public class AliasCommand implements Command {
 
     @Override
     public String usage() {
-        return "alias                 # list aliases\n" +
-               "alias name=command    # create alias\n" +
-               "alias name command... # create alias";
+        return "alias                 # list aliases\n"
+                + "alias name=command    # create alias\n"
+                + "alias name command... # create alias";
     }
 }

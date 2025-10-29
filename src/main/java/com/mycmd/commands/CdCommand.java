@@ -6,18 +6,16 @@ import java.io.File;
 
 /**
  * Changes the current working directory or displays the current directory path.
- * 
- * This command allows navigation through the file system hierarchy. When called
- * without arguments, it prints the absolute path of the current directory. When
- * provided with a path argument, it attempts to change to that directory.
- * 
- * Usage:
- * - cd          : Display current directory
- * - cd path     : Change to specified path (absolute or relative)
- * - cd ..       : Navigate to parent directory
- * 
- * The command handles both absolute and relative paths. Relative paths are
- * resolved against the current working directory stored in ShellContext.
+ *
+ * <p>This command allows navigation through the file system hierarchy. When called without
+ * arguments, it prints the absolute path of the current directory. When provided with a path
+ * argument, it attempts to change to that directory.
+ *
+ * <p>Usage: - cd : Display current directory - cd path : Change to specified path (absolute or
+ * relative) - cd .. : Navigate to parent directory
+ *
+ * <p>The command handles both absolute and relative paths. Relative paths are resolved against the
+ * current working directory stored in ShellContext.
  */
 public class CdCommand implements Command {
     @Override

@@ -5,8 +5,8 @@ import lombok.Setter;
 import lombok.NonNull;
 import lombok.AccessLevel; 
 import java.io.*;
-import java.util.*;
 import java.time.Instant;
+import java.util.*;
 
 @Getter(AccessLevel.PUBLIC) 
 public class ShellContext {
@@ -129,8 +129,9 @@ public class ShellContext {
     }
 
     /**
-     * Resolve the given path (absolute or relative) to a File using the current directory.
-     * If the provided path is absolute, returns it directly; otherwise returns a File rooted at currentDir.
+     * Resolve the given path (absolute or relative) to a File using the current directory. If the
+     * provided path is absolute, returns it directly; otherwise returns a File rooted at
+     * currentDir.
      */
     public File resolvePath(String path) {
         if (path == null || path.trim().isEmpty()) {

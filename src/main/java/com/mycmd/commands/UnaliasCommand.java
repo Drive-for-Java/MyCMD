@@ -2,7 +2,6 @@ package com.mycmd.commands;
 
 import com.mycmd.Command;
 import com.mycmd.ShellContext;
-
 import java.io.IOException;
 
 public class UnaliasCommand implements Command {

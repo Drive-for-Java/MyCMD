@@ -2,16 +2,12 @@ package com.mycmd.commands;
 
 import com.mycmd.Command;
 import com.mycmd.ShellContext;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
-/**
- * Implements the "rename" (or "ren") command for MyCMD.
- * Usage: rename <oldName> <newName>
- */
+/** Implements the "rename" (or "ren") command for MyCMD. Usage: rename <oldName> <newName> */
 public class RenameCommand implements Command {
 
     @Override
@@ -31,7 +27,8 @@ public class RenameCommand implements Command {
 
         try {
             Files.move(oldFile.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("File renamed from " + oldFile.getName() + " to " + newFile.getName());
+            System.out.println(
+                    "File renamed from " + oldFile.getName() + " to " + newFile.getName());
         } catch (IOException e) {
             throw new IOException("Failed to rename file: " + e.getMessage(), e);
         }

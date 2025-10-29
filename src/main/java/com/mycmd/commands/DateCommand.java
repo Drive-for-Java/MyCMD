@@ -7,15 +7,15 @@ import java.time.LocalDate;
 /**
  * Command that prints the current date to standard output.
  *
- * <p>This command does not use the provided {@link ShellContext} but keeps the
- * parameter to conform to the {@link Command} contract. The output is produced
- * using {@link LocalDate#now()} and printed in ISO-8601 format (yyyy-MM-dd).</p>
+ * <p>This command does not use the provided {@link ShellContext} but keeps the parameter to conform
+ * to the {@link Command} contract. The output is produced using {@link LocalDate#now()} and printed
+ * in ISO-8601 format (yyyy-MM-dd).
  */
 public class DateCommand implements Command {
     /**
      * Print the current date.
      *
-     * @param args    ignored for this command; may be empty or contain unused tokens.
+     * @param args ignored for this command; may be empty or contain unused tokens.
      * @param context the current shell context; not used by this command.
      */
     @Override

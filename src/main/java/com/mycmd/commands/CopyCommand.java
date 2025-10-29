@@ -6,17 +6,15 @@ import java.io.*;
 
 /**
  * Copies a file from source to destination location.
- * 
- * This command reads the contents of a source file and writes it to a
- * destination file using buffered I/O streams for efficient copying. Both
- * source and destination paths are resolved relative to the current working
- * directory unless absolute paths are provided.
- * 
- * Usage: copy source destination
- * 
- * The command verifies that the source exists and is a regular file before
- * attempting the copy operation. If the destination file already exists, it
- * will be overwritten.
+ *
+ * <p>This command reads the contents of a source file and writes it to a destination file using
+ * buffered I/O streams for efficient copying. Both source and destination paths are resolved
+ * relative to the current working directory unless absolute paths are provided.
+ *
+ * <p>Usage: copy source destination
+ *
+ * <p>The command verifies that the source exists and is a regular file before attempting the copy
+ * operation. If the destination file already exists, it will be overwritten.
  */
 public class CopyCommand implements Command {
     @Override
@@ -32,7 +30,7 @@ public class CopyCommand implements Command {
             return;
         }
         try (InputStream in = new FileInputStream(src);
-             OutputStream out = new FileOutputStream(dest)) {
+                OutputStream out = new FileOutputStream(dest)) {
             byte[] buf = new byte[8192];
             int len;
             while ((len = in.read(buf)) != -1) {

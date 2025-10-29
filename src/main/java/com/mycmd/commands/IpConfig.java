@@ -1,16 +1,14 @@
 package com.mycmd.commands;
 
+import com.mycmd.Command;
+import com.mycmd.ShellContext;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
-import com.mycmd.Command;
-import com.mycmd.ShellContext;
 
-/**
- * Implements the "ipconfig" command for MyCMD.
- */
+/** Implements the "ipconfig" command for MyCMD. */
 public class IpConfig implements Command {
 
     @Override
