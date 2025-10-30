@@ -20,27 +20,30 @@ import java.util.regex.Pattern;
  * for both Windows and Unix-like systems.
  *
  * <p>Usage:
+ *
  * <ul>
- *   <li>ping &lt;hostname&gt; : Ping with default count (4 packets)</li>
- *   <li>ping &lt;hostname&gt; -t : Ping continuously until stopped (Windows/Unix)</li>
- *   <li>ping &lt;hostname&gt; -n &lt;count&gt; : Ping with specified packet count</li>
- *   <li>ping &lt;hostname&gt; -w &lt;timeout&gt; : Set timeout in milliseconds (Windows)</li>
- *   <li>ping &lt;hostname&gt; -l &lt;size&gt; : Set buffer size (Windows)</li>
+ *   <li>ping &lt;hostname&gt; : Ping with default count (4 packets)
+ *   <li>ping &lt;hostname&gt; -t : Ping continuously until stopped (Windows/Unix)
+ *   <li>ping &lt;hostname&gt; -n &lt;count&gt; : Ping with specified packet count
+ *   <li>ping &lt;hostname&gt; -w &lt;timeout&gt; : Set timeout in milliseconds (Windows)
+ *   <li>ping &lt;hostname&gt; -l &lt;size&gt; : Set buffer size (Windows)
  * </ul>
  *
  * <p>Examples:
+ *
  * <ul>
- *   <li>ping google.com</li>
- *   <li>ping 8.8.8.8</li>
- *   <li>ping google.com -n 10</li>
- *   <li>ping google.com -t</li>
- *   <li>ping 1.1.1.1 -n 5 -w 1000</li>
+ *   <li>ping google.com
+ *   <li>ping 8.8.8.8
+ *   <li>ping google.com -n 10
+ *   <li>ping google.com -t
+ *   <li>ping 1.1.1.1 -n 5 -w 1000
  * </ul>
  *
  * <p>Statistics displayed:
+ *
  * <ul>
- *   <li>Packets: Sent, Received, Lost (with percentage)</li>
- *   <li>Round-trip times: Minimum, Maximum, Average</li>
+ *   <li>Packets: Sent, Received, Lost (with percentage)
+ *   <li>Round-trip times: Minimum, Maximum, Average
  * </ul>
  *
  * <p>Note: This implementation uses the system's native ping command for accurate network
@@ -108,8 +111,7 @@ public class PingCommand implements Command {
             System.out.println(
                     "    -w timeout     Timeout in milliseconds to wait for each reply.");
         } else {
-            System.out.println(
-                    "    -c count       Number of echo requests to send (Unix-style).");
+            System.out.println("    -c count       Number of echo requests to send (Unix-style).");
             System.out.println(
                     "    -i interval    Wait interval seconds between sending each packet.");
         }
@@ -154,8 +156,7 @@ public class PingCommand implements Command {
         ProcessBuilder pb = new ProcessBuilder(command);
         Process process = pb.start();
 
-        BufferedReader reader =
-                new BufferedReader(new InputStreamReader(process.getInputStream()));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         BufferedReader errorReader =
                 new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
@@ -212,7 +213,8 @@ public class PingCommand implements Command {
         }
 
         // Count sent/received packets
-        if (line.toLowerCase().contains("reply from") || line.toLowerCase().contains("bytes from")) {
+        if (line.toLowerCase().contains("reply from")
+                || line.toLowerCase().contains("bytes from")) {
             stats.received++;
             stats.sent++;
         } else if (line.toLowerCase().contains("request timed out")
