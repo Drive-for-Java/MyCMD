@@ -22,8 +22,11 @@ It mimics the behavior of Windows `cmd.exe` with commands like `dir`, `cd`, `ech
 
 ---
 
-## 📂 Project Structure
-```
+## 📚 Documentation & Command Reference
+
+For a complete guide detailing the syntax, arguments, and options for every command, please see the full [**COMMANDS.md**](COMMANDS.md) file.
+
+---
 MyCMD/
  ┣ README.md                  # Project description, badges, usage
  ┣ pom.xml                    # Maven build config
