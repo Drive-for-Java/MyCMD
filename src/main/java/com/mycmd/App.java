@@ -153,6 +153,8 @@ public class App {
         private static final String WHOAMI = "whoami";
         private static final String WMIC = "wmic";
         private static final String XCOPY = "xcopy";
+        private static final String SEARCHHISTORY = "searchhistory";
+        private static final String ISEARCH = "isearch";
     }
 
     private static void registerCommands(Map<String, Command> commands) {
@@ -230,5 +232,7 @@ public class App {
         commands.put(CommandNames.WHOAMI, new WhoamiCommand());
         commands.put(CommandNames.WMIC, new WmicCommand());
         commands.put(CommandNames.XCOPY, new XcopyCommand());
+        commands.put(CommandNames.SEARCHHISTORY, new SearchHistoryCommand());
+        commands.put(CommandNames.ISEARCH, new InteractiveSearchCommand());
     }
 }
