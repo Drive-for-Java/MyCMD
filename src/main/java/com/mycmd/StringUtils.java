@@ -27,20 +27,20 @@ public final class StringUtils {
         String best = null;
         int bestDistance = Integer.MAX_VALUE;
 
-        for (String cand : candidates) {
-            if (cand == null || cand.isEmpty()) continue;
-            if (cand.equalsIgnoreCase(input)) {
+        for (String candidate : candidates) {
+            if (candidate == null || candidate.isEmpty()) continue;
+            if (candidate.equalsIgnoreCase(input)) {
                 // exact match ignoring case - return immediately
-                return cand;
+                return candidate;
             }
-            int dist = levenshteinDistance(input.toLowerCase(), cand.toLowerCase());
-            if (dist < bestDistance) {
-                bestDistance = dist;
-                best = cand;
+            int distance = levenshteinDistance(input.toLowerCase(), candidate.toLowerCase());
+            if (distance < bestDistance) {
+                bestDistance = distance;
+                best = candidate;
             }
         }
 
-        // Choose a threshold: allow suggestion only when distance is reasonably small.
+        // Choose a threshold: allow suggestion only when the distance is reasonably small.
         // Here we allow suggestions when distance <= max(1, input.length()/3)
         int threshold = Math.max(1, input.length() / 3);
         if (bestDistance <= threshold) {
@@ -62,24 +62,24 @@ public final class StringUtils {
             b = tmp;
         }
 
-        int[] prev = new int[a.length() + 1];
-        int[] curr = new int[a.length() + 1];
+        int[] previous = new int[a.length() + 1];
+        int[] current = new int[a.length() + 1];
 
-        for (int i = 0; i <= a.length(); i++) prev[i] = i;
+        for (int i = 0; i <= a.length(); i++) previous[i] = i;
 
         for (int j = 1; j <= b.length(); j++) {
-            curr[0] = j;
+            current[0] = j;
             char bj = b.charAt(j - 1);
             for (int i = 1; i <= a.length(); i++) {
                 int cost = (a.charAt(i - 1) == bj) ? 0 : 1;
-                curr[i] = min3(curr[i - 1] + 1, prev[i] + 1, prev[i - 1] + cost);
+                current[i] = min3(current[i - 1] + 1, previous[i] + 1, previous[i - 1] + cost);
             }
-            // swap prev and curr
-            int[] tmp = prev;
-            prev = curr;
-            curr = tmp;
+            // swap previous and current
+            int[] temporary = previous;
+            previous = current;
+            current = temporary;
         }
-        return prev[a.length()];
+        return previous[a.length()];
     }
 
     private static int min3(int x, int y, int z) {
