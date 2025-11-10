@@ -27,6 +27,7 @@ It mimics the behavior of Windows `cmd.exe` with commands like `dir`, `cd`, `ech
 For a complete guide detailing the syntax, arguments, and options for every command, please see the full [**COMMANDS.md**](COMMANDS.md) file.
 
 ---
+```
 MyCMD/
  ┣ README.md                  # Project description, badges, usage
  ┣ pom.xml                    # Maven build config
@@ -175,5 +176,6 @@ This project is open-source and available for anyone to use, modify, and share u
 
 
  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=120&section=footer&text=Java,%20Java,%20and%20My%20Java&fontSize=20&fontColor=fff&animation=twinkling"/>
+
 
 
