@@ -45,3 +45,7 @@ javafx_cache/
 launcher/*.exe
 launcher/*.lnk
 installer/output/
+
+
+.idea/
+.vscode/
