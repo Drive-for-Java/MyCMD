@@ -99,12 +99,12 @@ public class SearchHistoryCommand implements Command {
     }
     
     @Override
-    public String getDescription() {
+    public String description() {
         return "Search through command history";
     }
     
     @Override
-    public String getUsage() {
+    public String usage() {
         return "searchhistory [search_term]\n" +
                "  Examples:\n" +
                "    searchhistory           - Show all history\n" +
