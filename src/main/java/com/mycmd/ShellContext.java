@@ -23,6 +23,8 @@ public class ShellContext {
 
     private final Map<String, String> envVars = new HashMap<>();
 
+    private Scanner scanner;
+
     public ShellContext() {
         this.currentDir = new File(System.getProperty("user.dir"));
         this.history = new ArrayList<>();
