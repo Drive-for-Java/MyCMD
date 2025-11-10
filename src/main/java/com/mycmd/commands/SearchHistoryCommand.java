@@ -1,5 +1,6 @@
 package com.mycmd.commands;
 
+import com.mycmd.Command;
 import com.mycmd.ShellContext;
 import java.util.List;
 
