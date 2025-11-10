@@ -52,8 +52,8 @@ public final class StringUtils {
     // Classic iterative Levenshtein algorithm (memory O(min(m,n)))
     private static int levenshteinDistance(String a, String b) {
         if (Objects.equals(a, b)) return 0;
-        if (a.length() == 0) return b.length();
-        if (b.length() == 0) return a.length();
+        if (a.isEmpty()) return b.length();
+        if (b.isEmpty()) return a.length();
 
         // ensure a is the shorter
         if (a.length() > b.length()) {
