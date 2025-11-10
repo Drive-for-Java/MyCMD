@@ -10,6 +10,8 @@ public class ShellContext {
     private File currentDir;
     private final Map<String, String> aliases;
 
+    private Scanner scanner;
+
     public ShellContext() {
         this.currentDir = new File(System.getProperty("user.dir"));
         this.aliases = new HashMap<>();
