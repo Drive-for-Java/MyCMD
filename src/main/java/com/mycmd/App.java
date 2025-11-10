@@ -16,6 +16,7 @@ public class App {
         System.out.println("(c) 2025 MyCMD Organization. All rights reserved.");
 
         Scanner sc = new Scanner(System.in);
+        context.setScanner(sc);  // ← Added this line
 
         while (true) {
             System.out.print(context.getCurrentDir().getAbsolutePath() + ">");
