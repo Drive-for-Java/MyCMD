@@ -1,22 +1,11 @@
 #!/bin/bash
-echo "=== Building MyCMD for Linux ==="
+echo "🏗️ Building MyCMD for Linux..."
 
-mvn clean package
+# Clean and package with Maven Wrapper
+./mvnw clean package
 
-rm -rf dist
-mkdir -p dist/bin dist/lib dist/icons
+# Move JAR to dist folder
+mkdir -p dist
+cp target/MyCMD-GUI*.jar dist/MyCMD-GUI.jar
 
-cp target/MyCMD-1.0.jar dist/lib/dependencies.jar
-cp icons/mycmd.ico dist/icons/mycmd.ico
-
-# Example jpackage usage
-jpackage \
-  --name MyCMD \
-  --input dist/lib \
-  --main-jar dependencies.jar \
-  --main-class com.mycmd.App \
-  --icon icons/mycmd.ico \
-  --type deb \
-  --dest dist
-
-echo "Build complete. Installer is in dist/"
+echo "✅ Build complete! File located in dist/MyCMD-GUI.jar"
