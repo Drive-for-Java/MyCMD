@@ -29,9 +29,33 @@ public class ShellContext {
         this.aliases = new HashMap<>();
         this.commandHistory = new ArrayList<>();
         this.startTime = Instant.now();
+        this.scanner = null; // Will be set by App.java
         loadAliases();
     }
 
+    // ==================== Scanner Management ====================
+    
+    /**
+     * Set the shared Scanner instance for all commands to use.
+     * Should only be called once by App.java during initialization.
+     */
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    /**
+     * Get the shared Scanner instance.
+     * All commands should use this instead of creating their own Scanner.
+     * @return the shared Scanner instance
+     * @throws IllegalStateException if Scanner hasn't been initialized
+     */
+    public Scanner getScanner() {
+        if (scanner == null) {
+            throw new IllegalStateException("Scanner not initialized in ShellContext");
+        }
+        return scanner;
+    }
+    
     public void addToHistory(String command) {
         history.add(command);
         commandHistory.add(command);
