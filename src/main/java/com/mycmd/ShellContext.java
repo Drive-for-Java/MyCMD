@@ -42,6 +42,12 @@ public class ShellContext {
      * Should only be called once by App.java during initialization.
      */
     public void setScanner(Scanner scanner) {
+        if (this.scanner != null) {
+            throw new IllegalStateException("Scanner already initialized");
+        }
+        if (scanner == null) {
+            throw new IllegalArgumentException("Scanner cannot be null");
+        }
         this.scanner = scanner;
     }
 
