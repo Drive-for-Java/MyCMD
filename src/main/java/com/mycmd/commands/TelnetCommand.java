@@ -61,8 +61,8 @@ public class TelnetCommand implements Command {
       // Writer loop: read stdin and send to remote
       BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
       try (OutputStream out = socket.getOutputStream();
-      OutputStreamWriter osw = new OutputStreamWriter(out);
-      BufferedWriter bw = new BufferedWriter(osw)) {
+          OutputStreamWriter osw = new OutputStreamWriter(out);
+          BufferedWriter bw = new BufferedWriter(osw)) {
         String line;
         while ((line = stdin.readLine()) != null) {
           if ("exit".equalsIgnoreCase(line.trim())) break;
