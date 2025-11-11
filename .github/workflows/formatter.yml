@@ -1,25 +1,23 @@
-name: Apply Spotless Formatting
+name: 🧼 Apply Spotless Formatting
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
-    branches:
-      - main
+    branches: [main]
+
+permissions:
+  contents: write
 
 jobs:
   format:
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+      group: ${{ github.workflow }}-${{ github.ref_name }}
       cancel-in-progress: true
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref || github.ref_name }}
           fetch-depth: 0
 
       - name: Set up JDK 17
@@ -32,15 +30,15 @@ jobs:
       - name: Apply Spotless formatting
         run: mvn spotless:apply
 
-      - name: Commit changes if any
+      - name: Commit and push formatting changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          if ! git diff --quiet --staged; then
+          git add -A
+          if ! git diff --cached --quiet; then
             git commit -m "Apply Spotless formatting"
-            git pull --rebase origin ${{ github.head_ref || github.ref_name }}
-            git push origin HEAD:${{ github.head_ref || github.ref_name }}
+            git pull --rebase --autostash origin ${{ github.ref_name }}
+            git push origin HEAD:${{ github.ref_name }}
           else
-            echo "No formatting changes to commit."
+            echo "✅ No formatting changes to commit."
           fi
