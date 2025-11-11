@@ -29,8 +29,6 @@ public class DriverqueryCommand implements Command {
     try {
 
       List<String> command = new ArrayList<>();
-      command.add("cmd.exe");
-      command.add("/c");
       command.add("driverquery");
       if (args != null && args.length > 0) {
         command.addAll(Arrays.asList(args));
