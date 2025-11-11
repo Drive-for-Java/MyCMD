@@ -57,7 +57,6 @@ public class AssocCommand implements Command {
       errorGobbler.setDaemon(true);
       errorGobbler.start();
 
-
       try (BufferedReader reader =
           new BufferedReader(new InputStreamReader(process.getInputStream()))) {
         String line;
