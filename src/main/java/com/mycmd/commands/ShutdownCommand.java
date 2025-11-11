@@ -5,6 +5,7 @@ import com.mycmd.ShellContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Shuts down or restarts the computer.
@@ -37,12 +38,13 @@ public class ShutdownCommand implements Command {
     System.out.println("WARNING: This will execute a real shutdown command!");
     System.out.print("Are you sure you want to continue? (yes/no): ");
 
-    java.util.Scanner scanner = new java.util.Scanner(System.in);
-    String confirmation = scanner.nextLine().trim().toLowerCase();
-
-    if (!confirmation.equals("yes")) {
-      System.out.println("Shutdown cancelled.");
-      return;
+    try (java.util.Scanner scanner = new java.util.Scanner(System.in)) {
+      String confirmation = scanner.nextLine().trim().toLowerCase();
+      if (!confirmation.equals("yes")) {
+        System.out.println("Shutdown cancelled.");
+        return;
+      }
+      }
     }
 
     try {
@@ -61,20 +63,14 @@ public class ShutdownCommand implements Command {
       }
 
       Process process = pb.start();
-      BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-      BufferedReader errorReader =
-          new BufferedReader(new InputStreamReader(process.getErrorStream()));
+      try (java.util.Scanner scanner = new java.util.Scanner(System.in)) {
+        String confirmation = scanner.nextLine().trim().toLowerCase();
 
-      String line;
-      while ((line = reader.readLine()) != null) {
-        System.out.println(line);
+        if (!confirmation.equals("yes")) {
+          System.out.println("Shutdown cancelled.");
+          return;
+        }
       }
-
-      while ((line = errorReader.readLine()) != null) {
-        System.err.println(line);
-      }
-
-      process.waitFor();
 
     } catch (Exception e) {
       System.out.println("Error executing shutdown: " + e.getMessage());
