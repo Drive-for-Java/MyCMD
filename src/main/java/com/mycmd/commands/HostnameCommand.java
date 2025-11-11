@@ -17,26 +17,26 @@ import java.net.InetAddress;
  * is typically set.
  */
 public class HostnameCommand implements Command {
-    @Override
-    public void execute(String[] args, ShellContext context) {
-        String hostname = System.getenv("COMPUTERNAME");
-        if (hostname == null) {
-            try {
-                hostname = InetAddress.getLocalHost().getHostName();
-            } catch (Exception e) {
-                hostname = "Unknown Host";
-            }
-        }
-        System.out.println(hostname);
+  @Override
+  public void execute(String[] args, ShellContext context) {
+    String hostname = System.getenv("COMPUTERNAME");
+    if (hostname == null) {
+      try {
+        hostname = InetAddress.getLocalHost().getHostName();
+      } catch (Exception e) {
+        hostname = "Unknown Host";
+      }
     }
+    System.out.println(hostname);
+  }
 
-    @Override
-    public String description() {
-        return "Display the hostname of the current computer.";
-    }
+  @Override
+  public String description() {
+    return "Display the hostname of the current computer.";
+  }
 
-    @Override
-    public String usage() {
-        return "hostname";
-    }
+  @Override
+  public String usage() {
+    return "hostname";
+  }
 }

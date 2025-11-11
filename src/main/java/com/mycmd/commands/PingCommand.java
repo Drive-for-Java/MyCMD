@@ -52,372 +52,358 @@ import java.util.regex.Pattern;
  */
 public class PingCommand implements Command {
 
-    private static final Pattern TIME_PATTERN_WINDOWS =
-            Pattern.compile("time[=<]\\s*(\\d+)\\s*ms", Pattern.CASE_INSENSITIVE);
-    private static final Pattern TIME_PATTERN_UNIX =
-            Pattern.compile("time=(\\d+\\.?\\d*)\\s*ms", Pattern.CASE_INSENSITIVE);
+  private static final Pattern TIME_PATTERN_WINDOWS =
+      Pattern.compile("time[=<]\\s*(\\d+)\\s*ms", Pattern.CASE_INSENSITIVE);
+  private static final Pattern TIME_PATTERN_UNIX =
+      Pattern.compile("time=(\\d+\\.?\\d*)\\s*ms", Pattern.CASE_INSENSITIVE);
 
-    @Override
-    public void execute(String[] args, ShellContext context) throws IOException {
-        if (args.length == 0) {
-            displayHelp();
-            return;
-        }
+  @Override
+  public void execute(String[] args, ShellContext context) throws IOException {
+    if (args.length == 0) {
+      displayHelp();
+      return;
+    }
 
-        String host = args[0];
+    String host = args[0];
 
-        // Validate hostname/IP
-        if (!validateHost(host)) {
-            System.out.println(
-                    "Ping request could not find host "
-                            + host
-                            + ". Please check the name and try again.");
-            return;
-        }
+    // Validate hostname/IP
+    if (!validateHost(host)) {
+      System.out.println(
+          "Ping request could not find host " + host + ". Please check the name and try again.");
+      return;
+    }
 
-        // Resolve hostname to IP
-        String resolvedIP = resolveHost(host);
-        if (resolvedIP == null) {
-            System.out.println(
-                    "Ping request could not find host "
-                            + host
-                            + ". Please check the name and try again.");
-            return;
-        }
+    // Resolve hostname to IP
+    String resolvedIP = resolveHost(host);
+    if (resolvedIP == null) {
+      System.out.println(
+          "Ping request could not find host " + host + ". Please check the name and try again.");
+      return;
+    }
 
-        // Build ping command based on operating system
-        String[] command = buildPingCommand(host, args);
+    // Build ping command based on operating system
+    String[] command = buildPingCommand(host, args);
 
+    try {
+      executePing(command, host, resolvedIP);
+    } catch (InterruptedException e) {
+      System.out.println("\nPing command was interrupted.");
+      Thread.currentThread().interrupt();
+    }
+  }
+
+  /** Displays usage help for the ping command. */
+  private void displayHelp() {
+    String os = System.getProperty("os.name").toLowerCase();
+
+    System.out.println("\nUsage: ping [-t] [-n count] [-l size] [-w timeout] target_name\n");
+    System.out.println("Options:");
+    System.out.println("    -t             Ping the specified host until stopped.");
+    System.out.println("                   To stop - press Control-C.");
+    System.out.println("    -n count       Number of echo requests to send (default: 4).");
+
+    if (os.contains("win")) {
+      System.out.println("    -l size        Send buffer size (default: 32 bytes).");
+      System.out.println("    -w timeout     Timeout in milliseconds to wait for each reply.");
+    } else {
+      System.out.println("    -c count       Number of echo requests to send (Unix-style).");
+      System.out.println("    -i interval    Wait interval seconds between sending each packet.");
+    }
+
+    System.out.println("\nExamples:");
+    System.out.println("    ping google.com");
+    System.out.println("    ping 8.8.8.8");
+    System.out.println("    ping google.com -n 10");
+    System.out.println("    ping 1.1.1.1 -t");
+  }
+
+  /** Validates if the host string is a valid hostname or IP address format. */
+  private boolean validateHost(String host) {
+    if (host == null || host.trim().isEmpty()) {
+      return false;
+    }
+
+    // Basic validation - allow alphanumeric, dots, hyphens for hostnames
+    // More complex validation will happen during resolution
+    return host.matches("^[a-zA-Z0-9.-]+$");
+  }
+
+  /** Resolves hostname to IP address. */
+  private String resolveHost(String host) {
+    try {
+      InetAddress address = InetAddress.getByName(host);
+      return address.getHostAddress();
+    } catch (UnknownHostException e) {
+      return null;
+    }
+  }
+
+  /** Executes the ping command and displays results with statistics. */
+  private void executePing(String[] command, String host, String resolvedIP)
+      throws IOException, InterruptedException {
+
+    String os = System.getProperty("os.name").toLowerCase();
+
+    // Display initial message
+    System.out.println("\nPinging " + host + " [" + resolvedIP + "] with 32 bytes of data:");
+
+    ProcessBuilder pb = new ProcessBuilder(command);
+    Process process = pb.start();
+
+    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+    BufferedReader errorReader =
+        new BufferedReader(new InputStreamReader(process.getErrorStream()));
+
+    // Statistics tracking
+    PingStatistics stats = new PingStatistics();
+
+    String line;
+    boolean statsSection = false;
+
+    // Read and display output in real-time
+    while ((line = reader.readLine()) != null) {
+      System.out.println(line);
+
+      // Parse statistics from output
+      if (line.contains("Packets: Sent") || line.contains("packets transmitted")) {
+        statsSection = true;
+      }
+
+      // Extract time values for custom statistics
+      if (!statsSection) {
+        extractTimeFromLine(line, stats, os);
+      }
+    }
+
+    // Display error output if any
+    while ((line = errorReader.readLine()) != null) {
+      System.err.println(line);
+    }
+
+    int exitCode = process.waitFor();
+
+    // If statistics weren't displayed by the native command, show custom stats
+    if (!statsSection && stats.received > 0) {
+      displayCustomStatistics(stats, resolvedIP);
+    }
+
+    if (exitCode != 0 && stats.received == 0) {
+      System.out.println("\nPing command failed. Host may be unreachable.");
+    }
+  }
+
+  /** Extracts time values from ping output lines for statistics. */
+  private void extractTimeFromLine(String line, PingStatistics stats, String os) {
+    Pattern pattern = os.contains("win") ? TIME_PATTERN_WINDOWS : TIME_PATTERN_UNIX;
+    Matcher matcher = pattern.matcher(line);
+
+    if (matcher.find()) {
+      try {
+        double time = Double.parseDouble(matcher.group(1));
+        stats.addTime(time);
+      } catch (NumberFormatException e) {
+        // Ignore parsing errors
+      }
+    }
+
+    // Count sent/received packets
+    if (line.toLowerCase().contains("reply from") || line.toLowerCase().contains("bytes from")) {
+      stats.received++;
+      stats.sent++;
+    } else if (line.toLowerCase().contains("request timed out")
+        || line.toLowerCase().contains("destination host unreachable")) {
+      stats.sent++;
+      stats.lost++;
+    }
+  }
+
+  /** Displays custom ping statistics when native command doesn't provide them. */
+  private void displayCustomStatistics(PingStatistics stats, String ip) {
+    System.out.println("\nPing statistics for " + ip + ":");
+    System.out.println(
+        "    Packets: Sent = "
+            + stats.sent
+            + ", Received = "
+            + stats.received
+            + ", Lost = "
+            + stats.lost
+            + " ("
+            + stats.getLossPercentage()
+            + "% loss),");
+
+    if (stats.received > 0) {
+      System.out.println("Approximate round trip times in milli-seconds:");
+      System.out.println(
+          "    Minimum = "
+              + String.format("%.0f", stats.minTime)
+              + "ms"
+              + ", Maximum = "
+              + String.format("%.0f", stats.maxTime)
+              + "ms"
+              + ", Average = "
+              + String.format("%.0f", stats.getAverageTime())
+              + "ms");
+    }
+  }
+
+  /** Builds the appropriate ping command based on the operating system and arguments. */
+  private String[] buildPingCommand(String host, String[] args) {
+    String os = System.getProperty("os.name").toLowerCase();
+
+    if (os.contains("win")) {
+      return buildWindowsPingCommand(host, args);
+    } else {
+      return buildUnixPingCommand(host, args);
+    }
+  }
+
+  /** Builds ping command for Windows systems. */
+  private String[] buildWindowsPingCommand(String host, String[] args) {
+    List<String> command = new ArrayList<>();
+    command.add("ping");
+
+    boolean continuous = false;
+    Integer count = null;
+    Integer timeout = null;
+    Integer bufferSize = null;
+
+    // Parse arguments
+    for (int i = 1; i < args.length; i++) {
+      String arg = args[i].toLowerCase();
+
+      if ("-t".equals(arg)) {
+        continuous = true;
+      } else if (("-n".equals(arg) || "-c".equals(arg)) && i + 1 < args.length) {
         try {
-            executePing(command, host, resolvedIP);
-        } catch (InterruptedException e) {
-            System.out.println("\nPing command was interrupted.");
-            Thread.currentThread().interrupt();
+          count = Integer.parseInt(args[i + 1]);
+          i++; // Skip next argument
+        } catch (NumberFormatException e) {
+          System.out.println(
+              "Warning: Invalid count value '" + args[i + 1] + "', using default (4)");
         }
-    }
-
-    /** Displays usage help for the ping command. */
-    private void displayHelp() {
-        String os = System.getProperty("os.name").toLowerCase();
-
-        System.out.println("\nUsage: ping [-t] [-n count] [-l size] [-w timeout] target_name\n");
-        System.out.println("Options:");
-        System.out.println("    -t             Ping the specified host until stopped.");
-        System.out.println("                   To stop - press Control-C.");
-        System.out.println("    -n count       Number of echo requests to send (default: 4).");
-
-        if (os.contains("win")) {
-            System.out.println("    -l size        Send buffer size (default: 32 bytes).");
-            System.out.println(
-                    "    -w timeout     Timeout in milliseconds to wait for each reply.");
-        } else {
-            System.out.println("    -c count       Number of echo requests to send (Unix-style).");
-            System.out.println(
-                    "    -i interval    Wait interval seconds between sending each packet.");
-        }
-
-        System.out.println("\nExamples:");
-        System.out.println("    ping google.com");
-        System.out.println("    ping 8.8.8.8");
-        System.out.println("    ping google.com -n 10");
-        System.out.println("    ping 1.1.1.1 -t");
-    }
-
-    /** Validates if the host string is a valid hostname or IP address format. */
-    private boolean validateHost(String host) {
-        if (host == null || host.trim().isEmpty()) {
-            return false;
-        }
-
-        // Basic validation - allow alphanumeric, dots, hyphens for hostnames
-        // More complex validation will happen during resolution
-        return host.matches("^[a-zA-Z0-9.-]+$");
-    }
-
-    /** Resolves hostname to IP address. */
-    private String resolveHost(String host) {
+      } else if ("-w".equals(arg) && i + 1 < args.length) {
         try {
-            InetAddress address = InetAddress.getByName(host);
-            return address.getHostAddress();
-        } catch (UnknownHostException e) {
-            return null;
+          timeout = Integer.parseInt(args[i + 1]);
+          i++; // Skip next argument
+        } catch (NumberFormatException e) {
+          System.out.println("Warning: Invalid timeout value '" + args[i + 1] + "', using default");
         }
+      } else if ("-l".equals(arg) && i + 1 < args.length) {
+        try {
+          bufferSize = Integer.parseInt(args[i + 1]);
+          i++; // Skip next argument
+        } catch (NumberFormatException e) {
+          System.out.println(
+              "Warning: Invalid buffer size '" + args[i + 1] + "', using default (32)");
+        }
+      }
     }
 
-    /** Executes the ping command and displays results with statistics. */
-    private void executePing(String[] command, String host, String resolvedIP)
-            throws IOException, InterruptedException {
-
-        String os = System.getProperty("os.name").toLowerCase();
-
-        // Display initial message
-        System.out.println("\nPinging " + host + " [" + resolvedIP + "] with 32 bytes of data:");
-
-        ProcessBuilder pb = new ProcessBuilder(command);
-        Process process = pb.start();
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        BufferedReader errorReader =
-                new BufferedReader(new InputStreamReader(process.getErrorStream()));
-
-        // Statistics tracking
-        PingStatistics stats = new PingStatistics();
-
-        String line;
-        boolean statsSection = false;
-
-        // Read and display output in real-time
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
-
-            // Parse statistics from output
-            if (line.contains("Packets: Sent") || line.contains("packets transmitted")) {
-                statsSection = true;
-            }
-
-            // Extract time values for custom statistics
-            if (!statsSection) {
-                extractTimeFromLine(line, stats, os);
-            }
-        }
-
-        // Display error output if any
-        while ((line = errorReader.readLine()) != null) {
-            System.err.println(line);
-        }
-
-        int exitCode = process.waitFor();
-
-        // If statistics weren't displayed by the native command, show custom stats
-        if (!statsSection && stats.received > 0) {
-            displayCustomStatistics(stats, resolvedIP);
-        }
-
-        if (exitCode != 0 && stats.received == 0) {
-            System.out.println("\nPing command failed. Host may be unreachable.");
-        }
+    // Add options to command
+    if (continuous) {
+      command.add("-t");
+    } else if (count != null && count > 0) {
+      command.add("-n");
+      command.add(String.valueOf(count));
+    } else {
+      command.add("-n");
+      command.add("4"); // Default count
     }
 
-    /** Extracts time values from ping output lines for statistics. */
-    private void extractTimeFromLine(String line, PingStatistics stats, String os) {
-        Pattern pattern = os.contains("win") ? TIME_PATTERN_WINDOWS : TIME_PATTERN_UNIX;
-        Matcher matcher = pattern.matcher(line);
-
-        if (matcher.find()) {
-            try {
-                double time = Double.parseDouble(matcher.group(1));
-                stats.addTime(time);
-            } catch (NumberFormatException e) {
-                // Ignore parsing errors
-            }
-        }
-
-        // Count sent/received packets
-        if (line.toLowerCase().contains("reply from")
-                || line.toLowerCase().contains("bytes from")) {
-            stats.received++;
-            stats.sent++;
-        } else if (line.toLowerCase().contains("request timed out")
-                || line.toLowerCase().contains("destination host unreachable")) {
-            stats.sent++;
-            stats.lost++;
-        }
+    if (timeout != null && timeout > 0) {
+      command.add("-w");
+      command.add(String.valueOf(timeout));
     }
 
-    /** Displays custom ping statistics when native command doesn't provide them. */
-    private void displayCustomStatistics(PingStatistics stats, String ip) {
-        System.out.println("\nPing statistics for " + ip + ":");
-        System.out.println(
-                "    Packets: Sent = "
-                        + stats.sent
-                        + ", Received = "
-                        + stats.received
-                        + ", Lost = "
-                        + stats.lost
-                        + " ("
-                        + stats.getLossPercentage()
-                        + "% loss),");
-
-        if (stats.received > 0) {
-            System.out.println("Approximate round trip times in milli-seconds:");
-            System.out.println(
-                    "    Minimum = "
-                            + String.format("%.0f", stats.minTime)
-                            + "ms"
-                            + ", Maximum = "
-                            + String.format("%.0f", stats.maxTime)
-                            + "ms"
-                            + ", Average = "
-                            + String.format("%.0f", stats.getAverageTime())
-                            + "ms");
-        }
+    if (bufferSize != null && bufferSize > 0) {
+      command.add("-l");
+      command.add(String.valueOf(bufferSize));
     }
 
-    /** Builds the appropriate ping command based on the operating system and arguments. */
-    private String[] buildPingCommand(String host, String[] args) {
-        String os = System.getProperty("os.name").toLowerCase();
+    command.add(host);
+    return command.toArray(new String[0]);
+  }
 
-        if (os.contains("win")) {
-            return buildWindowsPingCommand(host, args);
-        } else {
-            return buildUnixPingCommand(host, args);
+  /** Builds ping command for Unix-like systems (Linux, macOS). */
+  private String[] buildUnixPingCommand(String host, String[] args) {
+    List<String> command = new ArrayList<>();
+    command.add("ping");
+
+    boolean continuous = false;
+    Integer count = null;
+    Integer interval = null;
+
+    // Parse arguments
+    for (int i = 1; i < args.length; i++) {
+      String arg = args[i].toLowerCase();
+
+      if ("-t".equals(arg)) {
+        continuous = true;
+      } else if (("-n".equals(arg) || "-c".equals(arg)) && i + 1 < args.length) {
+        try {
+          count = Integer.parseInt(args[i + 1]);
+          i++; // Skip next argument
+        } catch (NumberFormatException e) {
+          System.out.println(
+              "Warning: Invalid count value '" + args[i + 1] + "', using default (4)");
         }
+      } else if ("-i".equals(arg) && i + 1 < args.length) {
+        try {
+          interval = Integer.parseInt(args[i + 1]);
+          i++; // Skip next argument
+        } catch (NumberFormatException e) {
+          System.out.println(
+              "Warning: Invalid interval value '" + args[i + 1] + "', using default");
+        }
+      }
     }
 
-    /** Builds ping command for Windows systems. */
-    private String[] buildWindowsPingCommand(String host, String[] args) {
-        List<String> command = new ArrayList<>();
-        command.add("ping");
-
-        boolean continuous = false;
-        Integer count = null;
-        Integer timeout = null;
-        Integer bufferSize = null;
-
-        // Parse arguments
-        for (int i = 1; i < args.length; i++) {
-            String arg = args[i].toLowerCase();
-
-            if ("-t".equals(arg)) {
-                continuous = true;
-            } else if (("-n".equals(arg) || "-c".equals(arg)) && i + 1 < args.length) {
-                try {
-                    count = Integer.parseInt(args[i + 1]);
-                    i++; // Skip next argument
-                } catch (NumberFormatException e) {
-                    System.out.println(
-                            "Warning: Invalid count value '"
-                                    + args[i + 1]
-                                    + "', using default (4)");
-                }
-            } else if ("-w".equals(arg) && i + 1 < args.length) {
-                try {
-                    timeout = Integer.parseInt(args[i + 1]);
-                    i++; // Skip next argument
-                } catch (NumberFormatException e) {
-                    System.out.println(
-                            "Warning: Invalid timeout value '" + args[i + 1] + "', using default");
-                }
-            } else if ("-l".equals(arg) && i + 1 < args.length) {
-                try {
-                    bufferSize = Integer.parseInt(args[i + 1]);
-                    i++; // Skip next argument
-                } catch (NumberFormatException e) {
-                    System.out.println(
-                            "Warning: Invalid buffer size '"
-                                    + args[i + 1]
-                                    + "', using default (32)");
-                }
-            }
-        }
-
-        // Add options to command
-        if (continuous) {
-            command.add("-t");
-        } else if (count != null && count > 0) {
-            command.add("-n");
-            command.add(String.valueOf(count));
-        } else {
-            command.add("-n");
-            command.add("4"); // Default count
-        }
-
-        if (timeout != null && timeout > 0) {
-            command.add("-w");
-            command.add(String.valueOf(timeout));
-        }
-
-        if (bufferSize != null && bufferSize > 0) {
-            command.add("-l");
-            command.add(String.valueOf(bufferSize));
-        }
-
-        command.add(host);
-        return command.toArray(new String[0]);
+    // Add options to command
+    if (!continuous) {
+      command.add("-c");
+      command.add(count != null && count > 0 ? String.valueOf(count) : "4");
     }
 
-    /** Builds ping command for Unix-like systems (Linux, macOS). */
-    private String[] buildUnixPingCommand(String host, String[] args) {
-        List<String> command = new ArrayList<>();
-        command.add("ping");
-
-        boolean continuous = false;
-        Integer count = null;
-        Integer interval = null;
-
-        // Parse arguments
-        for (int i = 1; i < args.length; i++) {
-            String arg = args[i].toLowerCase();
-
-            if ("-t".equals(arg)) {
-                continuous = true;
-            } else if (("-n".equals(arg) || "-c".equals(arg)) && i + 1 < args.length) {
-                try {
-                    count = Integer.parseInt(args[i + 1]);
-                    i++; // Skip next argument
-                } catch (NumberFormatException e) {
-                    System.out.println(
-                            "Warning: Invalid count value '"
-                                    + args[i + 1]
-                                    + "', using default (4)");
-                }
-            } else if ("-i".equals(arg) && i + 1 < args.length) {
-                try {
-                    interval = Integer.parseInt(args[i + 1]);
-                    i++; // Skip next argument
-                } catch (NumberFormatException e) {
-                    System.out.println(
-                            "Warning: Invalid interval value '" + args[i + 1] + "', using default");
-                }
-            }
-        }
-
-        // Add options to command
-        if (!continuous) {
-            command.add("-c");
-            command.add(count != null && count > 0 ? String.valueOf(count) : "4");
-        }
-
-        if (interval != null && interval > 0) {
-            command.add("-i");
-            command.add(String.valueOf(interval));
-        }
-
-        command.add(host);
-        return command.toArray(new String[0]);
+    if (interval != null && interval > 0) {
+      command.add("-i");
+      command.add(String.valueOf(interval));
     }
 
-    @Override
-    public String description() {
-        return "Tests network connectivity to a hostname or IP address.";
+    command.add(host);
+    return command.toArray(new String[0]);
+  }
+
+  @Override
+  public String description() {
+    return "Tests network connectivity to a hostname or IP address.";
+  }
+
+  @Override
+  public String usage() {
+    return "ping [-t] [-n count] [-w timeout] [-l size] <hostname|IP>";
+  }
+
+  /** Helper class to track ping statistics. */
+  private static class PingStatistics {
+    int sent = 0;
+    int received = 0;
+    int lost = 0;
+    double minTime = Double.MAX_VALUE;
+    double maxTime = 0;
+    double totalTime = 0;
+
+    void addTime(double time) {
+      if (time < minTime) minTime = time;
+      if (time > maxTime) maxTime = time;
+      totalTime += time;
     }
 
-    @Override
-    public String usage() {
-        return "ping [-t] [-n count] [-w timeout] [-l size] <hostname|IP>";
+    double getAverageTime() {
+      return received > 0 ? totalTime / received : 0;
     }
 
-    /** Helper class to track ping statistics. */
-    private static class PingStatistics {
-        int sent = 0;
-        int received = 0;
-        int lost = 0;
-        double minTime = Double.MAX_VALUE;
-        double maxTime = 0;
-        double totalTime = 0;
-
-        void addTime(double time) {
-            if (time < minTime) minTime = time;
-            if (time > maxTime) maxTime = time;
-            totalTime += time;
-        }
-
-        double getAverageTime() {
-            return received > 0 ? totalTime / received : 0;
-        }
-
-        int getLossPercentage() {
-            return sent > 0 ? (lost * 100) / sent : 0;
-        }
+    int getLossPercentage() {
+      return sent > 0 ? (lost * 100) / sent : 0;
     }
+  }
 }

@@ -16,18 +16,18 @@ import com.mycmd.ShellContext;
  * scripts and when you need to know your exact location in the file system.
  */
 public class PwdCommand implements Command {
-    @Override
-    public void execute(String[] args, ShellContext context) {
-        System.out.println(context.getCurrentDir().getAbsolutePath());
-    }
+  @Override
+  public void execute(String[] args, ShellContext context) {
+    System.out.println(context.getCurrentDir().getAbsolutePath());
+  }
 
-    @Override
-    public String description() {
-        return "Print the current working directory path.";
-    }
+  @Override
+  public String description() {
+    return "Print the current working directory path.";
+  }
 
-    @Override
-    public String usage() {
-        return "pwd";
-    }
+  @Override
+  public String usage() {
+    return "pwd";
+  }
 }

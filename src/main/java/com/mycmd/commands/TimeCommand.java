@@ -20,27 +20,27 @@ import java.time.format.DateTimeFormatter;
  * Example output: "The current time is: 13.5.07.12"
  */
 public class TimeCommand implements Command {
-    /**
-     * Print the current time.
-     *
-     * @param args ignored for this command; may be empty or contain unused tokens.
-     * @param context the current shell context; not used by this command.
-     */
-    @Override
-    public void execute(String[] args, ShellContext context) {
-        LocalTime now = LocalTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H.mm.ss.SS");
-        String formattedTime = now.format(formatter);
-        System.out.println("The current time is: " + formattedTime);
-    }
+  /**
+   * Print the current time.
+   *
+   * @param args ignored for this command; may be empty or contain unused tokens.
+   * @param context the current shell context; not used by this command.
+   */
+  @Override
+  public void execute(String[] args, ShellContext context) {
+    LocalTime now = LocalTime.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H.mm.ss.SS");
+    String formattedTime = now.format(formatter);
+    System.out.println("The current time is: " + formattedTime);
+  }
 
-    @Override
-    public String description() {
-        return "Display the current local time.";
-    }
+  @Override
+  public String description() {
+    return "Display the current local time.";
+  }
 
-    @Override
-    public String usage() {
-        return "time";
-    }
+  @Override
+  public String usage() {
+    return "time";
+  }
 }
