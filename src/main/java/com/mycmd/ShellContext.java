@@ -17,7 +17,7 @@ public class ShellContext {
 
   public ShellContext() {
     this.currentDir = new File(System.getProperty("user.dir"));
-    this.environment = new HashMap<>();
+    this.environment = new HashMap<>()(System.getenv());
     this.history = new ArrayList<>();
     this.aliases = new HashMap<>();
     this.scanner = null;
