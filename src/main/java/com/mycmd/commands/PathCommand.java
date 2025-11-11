@@ -19,7 +19,7 @@ public class PathCommand implements Command {
       if (path == null || path.isEmpty()) {
         path = System.getenv("PATH");
       }
-      
+
       if (path != null) {
         System.out.println("PATH=" + path);
       } else {
