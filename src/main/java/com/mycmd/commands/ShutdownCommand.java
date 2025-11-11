@@ -59,22 +59,38 @@ public class ShutdownCommand implements Command {
         pb.command("cmd.exe", "/c", cmdBuilder.toString());
       } else if (os.contains("nix") || os.contains("nux") || os.contains("mac")) {
         pb.command("sh", "-c", cmdBuilder.toString());
-      }
+      } else {
+        System.out.println("Unsupported operating system: " + os);
+        return;
+       }
 
       Process process = pb.start();
-      try (BufferedReader reader =
-              new BufferedReader(new InputStreamReader(process.getInputStream()));
-          BufferedReader errorReader =
-              new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-          System.out.println(line);
+      Thread outputThread = new Thread(() -> {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+          String line;
+          while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+          }
+        } catch (IOException e) {
+          System.err.println("Error reading output: " + e.getMessage());
         }
-
-        while ((line = errorReader.readLine()) != null) {
-          System.err.println(line);
+      });
+ 
+      Thread errorThread = new Thread(() -> {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+          String line;
+          while ((line = reader.readLine()) != null) {
+            System.err.println(line);
+          }
+        } catch (IOException e) {
+          System.err.println("Error reading error stream: " + e.getMessage());
         }
-      }
+      });
+ 
+      outputThread.start();
+      errorThread.start();
+      outputThread.join();
+      errorThread.join();
 
       if (!process.waitFor(30, TimeUnit.SECONDS)) {
         process.destroyForcibly();
