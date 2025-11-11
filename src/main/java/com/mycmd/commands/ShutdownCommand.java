@@ -95,14 +95,14 @@ public class ShutdownCommand implements Command {
 
       outputThread.start();
       errorThread.start();
-      
+
       boolean finished = process.waitFor(30, TimeUnit.SECONDS);
       if (!finished) {
         process.destroyForcibly();
         System.out.println("Command timed out.");
         process.waitFor();
       }
-      
+
       outputThread.join();
       errorThread.join();
 
