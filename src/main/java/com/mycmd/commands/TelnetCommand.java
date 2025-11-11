@@ -76,6 +76,12 @@ public class TelnetCommand implements Command {
     } catch (IOException e) {
       System.out.println("Connection failed: " + e.getMessage());
     }
+
+    try {
+      reader.join(1000); // wait up to 1 second for reader to finish
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
   }
 
   @Override
