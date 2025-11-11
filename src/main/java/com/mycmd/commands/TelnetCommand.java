@@ -31,12 +31,13 @@ public class TelnetCommand implements Command {
       }
     }
 
+    Thread reader = null;
     try (Socket socket = new Socket(host, port)) {
       socket.setSoTimeout(0); // blocking reads
       System.out.println("Connected to " + host + ":" + port + " (type 'exit' to quit)");
 
       // Reader thread: prints remote data to stdout
-      Thread reader =
+      reader =
           new Thread(
               () -> {
                 try (InputStream in = socket.getInputStream();
@@ -77,10 +78,12 @@ public class TelnetCommand implements Command {
       System.out.println("Connection failed: " + e.getMessage());
     }
 
-    try {
-      reader.join(1000); // wait up to 1 second for reader to finish
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
+    if (reader != null) {
+      try {
+        reader.join(1000); // wait up to 1 second for reader to finish
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+      }
     }
   }
 
