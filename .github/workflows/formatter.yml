@@ -37,7 +37,10 @@ jobs:
           git add -A
           if ! git diff --cached --quiet; then
             git commit -m "Apply Spotless formatting"
-            git pull --rebase --autostash origin ${{ github.ref_name }}
+            if ! git pull --rebase --autostash origin ${{ github.ref_name }}; then
+              echo "❌ Rebase failed; manual intervention required."
+              exit 1
+            fi
             git push origin HEAD:${{ github.ref_name }}
           else
             echo "✅ No formatting changes to commit."
