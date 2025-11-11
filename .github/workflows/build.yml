@@ -6,27 +6,45 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
   build:
     name: 🔨 Build and Package
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: 🧩 Checkout source code
         uses: actions/checkout@v4
-
+        
       - name: ☕ Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
           cache: maven
-
+          
+      - name: 🔧 Make Maven wrapper executable
+        run: chmod +x mvnw
+        
       - name: 🧰 Build using Maven Wrapper
         run: ./mvnw -B clean package
-
+        
       - name: 📦 Upload built JAR artifact
+        if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: MyCMD-GUI
+          name: MyCMD-GUI-${{ github.sha }}
           path: target/*.jar
+          retention-days: 30
+          
+      - name: 📊 Upload test results (if any)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ github.sha }}
+          path: target/surefire-reports/
+          retention-days: 7
+        continue-on-error: true
