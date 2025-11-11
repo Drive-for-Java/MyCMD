@@ -15,7 +15,11 @@ public class PathCommand implements Command {
   public void execute(String[] args, ShellContext context) throws IOException {
     if (args.length == 0) {
       // Display current PATH
-      String path = System.getenv("PATH");
+      String path = context.getEnvVar("PATH");
+      if (path == null || path.isEmpty()) {
+        path = System.getenv("PATH");
+      }
+      
       if (path != null) {
         System.out.println("PATH=" + path);
       } else {
@@ -31,8 +35,10 @@ public class PathCommand implements Command {
     String newPath = String.join(" ", args);
 
     if (newPath.equalsIgnoreCase(";")) {
+      context.setEnvVar("PATH", "");
       System.out.println("PATH cleared (session only)");
     } else {
+      context.setEnvVar("PATH", newPath);
       System.out.println("PATH set to: " + newPath + " (session only)");
     }
   }
