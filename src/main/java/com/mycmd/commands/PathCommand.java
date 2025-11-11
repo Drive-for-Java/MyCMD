@@ -16,12 +16,16 @@ public class PathCommand implements Command {
     if (args.length == 0) {
       // Display current PATH
       String path = context.getEnvVar("PATH");
-      if (path == null || path.isEmpty()) {
+      if (path == null) {
         path = System.getenv("PATH");
       }
 
       if (path != null) {
-        System.out.println("PATH=" + path);
+        if (path.isEmpty()) {
+          System.out.println("PATH is cleared (session only)");
+        } else {
+          System.out.println("PATH=" + path);
+        }
       } else {
         System.out.println("No Path");
       }
