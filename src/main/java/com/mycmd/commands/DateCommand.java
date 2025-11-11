@@ -12,24 +12,24 @@ import java.time.LocalDate;
  * in ISO-8601 format (yyyy-MM-dd).
  */
 public class DateCommand implements Command {
-    /**
-     * Print the current date.
-     *
-     * @param args ignored for this command; may be empty or contain unused tokens.
-     * @param context the current shell context; not used by this command.
-     */
-    @Override
-    public void execute(String[] args, ShellContext context) {
-        System.out.println("The current date is: " + java.time.LocalDate.now());
-    }
+  /**
+   * Print the current date.
+   *
+   * @param args ignored for this command; may be empty or contain unused tokens.
+   * @param context the current shell context; not used by this command.
+   */
+  @Override
+  public void execute(String[] args, ShellContext context) {
+    System.out.println("The current date is: " + java.time.LocalDate.now());
+  }
 
-    @Override
-    public String description() {
-        return "Display current date.";
-    }
+  @Override
+  public String description() {
+    return "Display current date.";
+  }
 
-    @Override
-    public String usage() {
-        return "date";
-    }
+  @Override
+  public String usage() {
+    return "date";
+  }
 }

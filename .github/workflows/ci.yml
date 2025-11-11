@@ -19,13 +19,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
+          
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-
+          
       - name: Cache Maven local repository
         uses: actions/cache@v4
         with:
@@ -33,16 +33,16 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-
-      - name: Build (Maven)
-        run: mvn -B -DskipTests=false package
-
-      - name: Run tests
-        run: mvn test -B
-
-      - name: Upload build artifact (optional)
+            
+      - name: Build and Test with Maven
+        run: mvn -B clean package
+        # 'package' phase includes: compile → test → package
+        # Tests run automatically unless -DskipTests=true is specified
+        
+      - name: Upload build artifact
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: mycmd-build
           path: target/*.jar
+          retention-days: 7  # Auto-cleanup after 7 days

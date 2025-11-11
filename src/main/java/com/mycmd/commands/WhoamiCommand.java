@@ -15,18 +15,18 @@ import com.mycmd.ShellContext;
  * as reported by the Java runtime.
  */
 public class WhoamiCommand implements Command {
-    @Override
-    public void execute(String[] args, ShellContext context) {
-        System.out.println(System.getProperty("user.name"));
-    }
+  @Override
+  public void execute(String[] args, ShellContext context) {
+    System.out.println(System.getProperty("user.name"));
+  }
 
-    @Override
-    public String description() {
-        return "Display the username of logged in user";
-    }
+  @Override
+  public String description() {
+    return "Display the username of logged in user";
+  }
 
-    @Override
-    public String usage() {
-        return "whoami";
-    }
+  @Override
+  public String usage() {
+    return "whoami";
+  }
 }

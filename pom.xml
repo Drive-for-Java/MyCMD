@@ -16,6 +16,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <javafx.version>21</javafx.version>
+        <spotless.version>2.43.0</spotless.version>
     </properties>
 
     <dependencies>
@@ -55,6 +56,7 @@
                 </configuration>
             </plugin>
 
+            <!-- Shade Plugin (for fat jar) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -75,6 +77,30 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Spotless Plugin (Code Formatter) -->
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>${spotless.version}</version>
+                <configuration>
+                    <java>
+                        <!-- Uses Google's Java format -->
+                        <googleJavaFormat />
+                    </java>
+                </configuration>
+                <executions>
+                    <!-- Automatically checks formatting during build -->
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
+
 </project>

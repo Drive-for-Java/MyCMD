@@ -19,25 +19,25 @@ import java.io.File;
  * <p>If the directory is empty or cannot be read, an appropriate message is displayed.
  */
 public class DirCommand implements Command {
-    @Override
-    public void execute(String[] args, ShellContext context) {
-        File[] files = context.getCurrentDir().listFiles();
-        if (files == null || files.length == 0) {
-            System.out.println("No files found.");
-            return;
-        }
-        for (File f : files) {
-            System.out.println((f.isDirectory() ? "<DIR> " : "      ") + f.getName());
-        }
+  @Override
+  public void execute(String[] args, ShellContext context) {
+    File[] files = context.getCurrentDir().listFiles();
+    if (files == null || files.length == 0) {
+      System.out.println("No files found.");
+      return;
     }
+    for (File f : files) {
+      System.out.println((f.isDirectory() ? "<DIR> " : "      ") + f.getName());
+    }
+  }
 
-    @Override
-    public String description() {
-        return "Display the contents of working directory.";
-    }
+  @Override
+  public String description() {
+    return "Display the contents of working directory.";
+  }
 
-    @Override
-    public String usage() {
-        return "dir";
-    }
+  @Override
+  public String usage() {
+    return "dir";
+  }
 }

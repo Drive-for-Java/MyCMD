@@ -17,31 +17,31 @@ import java.io.File;
  * directory before deletion - Provides clear error messages for each failure condition
  */
 public class RmdirCommand implements Command {
-    @Override
-    public void execute(String[] args, ShellContext context) {
-        if (args.length == 0) {
-            System.out.println("Usage: " + usage());
-            return;
-        }
-        File dir = new File(context.getCurrentDir(), args[0]);
-        if (!dir.exists() || !dir.isDirectory()) {
-            System.out.println("Directory not found.");
-        } else if (dir.list().length > 0) {
-            System.out.println("Directory is not empty.");
-        } else if (dir.delete()) {
-            System.out.println("Directory deleted.");
-        } else {
-            System.out.println("Failed to delete directory.");
-        }
+  @Override
+  public void execute(String[] args, ShellContext context) {
+    if (args.length == 0) {
+      System.out.println("Usage: " + usage());
+      return;
     }
+    File dir = new File(context.getCurrentDir(), args[0]);
+    if (!dir.exists() || !dir.isDirectory()) {
+      System.out.println("Directory not found.");
+    } else if (dir.list().length > 0) {
+      System.out.println("Directory is not empty.");
+    } else if (dir.delete()) {
+      System.out.println("Directory deleted.");
+    } else {
+      System.out.println("Failed to delete directory.");
+    }
+  }
 
-    @Override
-    public String description() {
-        return "Remove an empty directory.";
-    }
+  @Override
+  public String description() {
+    return "Remove an empty directory.";
+  }
 
-    @Override
-    public String usage() {
-        return "rmdir <directory_name>";
-    }
+  @Override
+  public String usage() {
+    return "rmdir <directory_name>";
+  }
 }
