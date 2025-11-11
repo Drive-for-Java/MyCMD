@@ -1,6 +1,7 @@
 package com.mycmd;
 
 import java.io.File;
+import java.time.Instant;
 import java.util.*;
 
 /**
@@ -13,7 +14,7 @@ public class ShellContext {
   private final List<String> history;
   private final Map<String, String> aliases;
   private Scanner scanner;
-  private long startTime;
+  private Instant startTime;
 
   public ShellContext() {
     this.currentDir = new File(System.getProperty("user.dir"));
@@ -21,7 +22,7 @@ public class ShellContext {
     this.history = new ArrayList<>();
     this.aliases = new HashMap<>();
     this.scanner = null;
-    this.startTime = System.currentTimeMillis();
+    this.startTime = Instant.now();
   }
 
   // ==================== Scanner Management ====================
@@ -158,11 +159,11 @@ public class ShellContext {
 
   // ==================== Start Time (for uptime command) ====================
 
-  public long getStartTime() {
+  public Instant getStartTime() {
     return startTime;
   }
 
-  public void setStartTime(long startTime) {
+  public void setStartTime(Instant startTime) {
     this.startTime = startTime;
   }
 }
