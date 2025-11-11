@@ -45,7 +45,7 @@ public class ShutdownCommand implements Command {
         return;
       }
     }
-  }
+  
 
     try {
       StringBuilder cmdBuilder = new StringBuilder("shutdown");
