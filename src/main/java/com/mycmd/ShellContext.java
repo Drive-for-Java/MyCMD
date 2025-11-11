@@ -24,7 +24,6 @@ public class ShellContext {
     this.startTime = System.currentTimeMillis();
   }
 
-
   // ==================== Scanner Management ====================
 
   /**
