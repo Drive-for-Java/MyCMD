@@ -5,6 +5,10 @@ import com.mycmd.ShellContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Displays or modifies file extension associations.
@@ -23,20 +27,65 @@ public class AssocCommand implements Command {
     }
 
     try {
-      StringBuilder cmdBuilder = new StringBuilder("assoc");
-      for (String arg : args) {
-        cmdBuilder.append(" ").append(arg);
+
+      List<String> command = new ArrayList<>();
+      command.add("cmd.exe");
+      command.add("/c");
+      command.add("assoc");
+      if (args != null && args.length > 0) {
+        command.addAll(Arrays.asList(args));
       }
 
-      Process process = Runtime.getRuntime().exec(cmdBuilder.toString());
-      BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+      ProcessBuilder pb = new ProcessBuilder(command);
+      Process process = pb.start();
 
-      String line;
-      while ((line = reader.readLine()) != null) {
-        System.out.println(line);
+      Thread errorGobbler =
+          new Thread(
+              () -> {
+                try (BufferedReader errReader =
+                    new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+                  String errLine;
+                  while ((errLine = errReader.readLine()) != null) {
+                    System.err.println(errLine);
+                  }
+                } catch (IOException e) {
+
+                  System.err.println("Error reading process error stream: " + e.getMessage());
+                }
+              },
+              "assoc-error-gobbler");
+      errorGobbler.setDaemon(true);
+      errorGobbler.start();
+
+
+      try (BufferedReader reader =
+          new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+          System.out.println(line);
+        }
       }
 
-      process.waitFor();
+      boolean finished;
+      try {
+        finished = process.waitFor(30, TimeUnit.SECONDS);
+      } catch (InterruptedException ie) {
+
+        Thread.currentThread().interrupt();
+        process.destroyForcibly();
+        throw new IOException("Interrupted while waiting for assoc process", ie);
+      }
+
+      if (!finished) {
+        process.destroyForcibly();
+        System.out.println("Command timed out.");
+      }
+
+      try {
+        errorGobbler.join(1000);
+      } catch (InterruptedException ie) {
+        Thread.currentThread().interrupt();
+      }
 
     } catch (Exception e) {
       System.out.println("Error executing assoc: " + e.getMessage());
