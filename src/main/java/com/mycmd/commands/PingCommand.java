@@ -72,13 +72,13 @@ public class PingCommand implements Command {
       }
       // Skip option payload when present
       if ((args[i].equalsIgnoreCase("-n")
-        || args[i].equalsIgnoreCase("-c")
-        || args[i].equalsIgnoreCase("-w")
-        || args[i].equalsIgnoreCase("-l")
-        || args[i].equalsIgnoreCase("-i"))
-        && i + 1 < args.length) {
-          i++;
-        }
+              || args[i].equalsIgnoreCase("-c")
+              || args[i].equalsIgnoreCase("-w")
+              || args[i].equalsIgnoreCase("-l")
+              || args[i].equalsIgnoreCase("-i"))
+          && i + 1 < args.length) {
+        i++;
+      }
     }
     if (hostIndex == -1) {
       System.out.println("Error: target host is required.");
