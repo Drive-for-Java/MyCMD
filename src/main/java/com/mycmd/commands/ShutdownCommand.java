@@ -44,8 +44,8 @@ public class ShutdownCommand implements Command {
         System.out.println("Shutdown cancelled.");
         return;
       }
-      }
     }
+  }
 
     try {
       StringBuilder cmdBuilder = new StringBuilder("shutdown");
@@ -63,13 +63,21 @@ public class ShutdownCommand implements Command {
       }
 
       Process process = pb.start();
-      try (java.util.Scanner scanner = new java.util.Scanner(System.in)) {
-        String confirmation = scanner.nextLine().trim().toLowerCase();
-
-        if (!confirmation.equals("yes")) {
-          System.out.println("Shutdown cancelled.");
-          return;
+      try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+          BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+          System.out.println(line);
         }
+
+        while ((line = errorReader.readLine()) != null) {
+          System.err.println(line);
+        }
+      }
+
+      if (!process.waitFor(30, TimeUnit.SECONDS)) {
+        process.destroyForcibly();
+        System.out.println("Command timed out.");
       }
 
     } catch (Exception e) {
