@@ -3,6 +3,7 @@ package com.mycmd;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class ShellContext {
 
