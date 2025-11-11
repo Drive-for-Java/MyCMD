@@ -46,22 +46,24 @@ public class RouteCommand implements Command {
       }
 
       Process process = pb.start();
-      try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-      BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+      try (BufferedReader reader =
+              new BufferedReader(new InputStreamReader(process.getInputStream()));
+          BufferedReader errorReader =
+              new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
         String line;
-          while ((line = reader.readLine()) != null) {
-            System.out.println(line);
-          }
+        while ((line = reader.readLine()) != null) {
+          System.out.println(line);
+        }
 
-          while ((line = errorReader.readLine()) != null) {
-            System.err.println(line);
-          }
+        while ((line = errorReader.readLine()) != null) {
+          System.err.println(line);
+        }
       }
 
-        if (!process.waitFor(30, TimeUnit.SECONDS)) {
-          process.destroyForcibly();
-          System.out.println("Command timed out.");
-        }
+      if (!process.waitFor(30, TimeUnit.SECONDS)) {
+        process.destroyForcibly();
+        System.out.println("Command timed out.");
+      }
 
     } catch (Exception e) {
       System.out.println("Error executing route: " + e.getMessage());

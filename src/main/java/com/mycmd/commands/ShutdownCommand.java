@@ -45,7 +45,6 @@ public class ShutdownCommand implements Command {
         return;
       }
     }
-  
 
     try {
       StringBuilder cmdBuilder = new StringBuilder("shutdown");
@@ -63,8 +62,10 @@ public class ShutdownCommand implements Command {
       }
 
       Process process = pb.start();
-      try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-          BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+      try (BufferedReader reader =
+              new BufferedReader(new InputStreamReader(process.getInputStream()));
+          BufferedReader errorReader =
+              new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
         String line;
         while ((line = reader.readLine()) != null) {
           System.out.println(line);
