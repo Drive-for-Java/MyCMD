@@ -145,7 +145,7 @@ public class PingCommand implements Command {
 
     // Basic validation - allow alphanumeric, dots, hyphens for hostnames
     // More complex validation will happen during resolution
-    return host.matches("^[a-zA-Z0-9.-]+$");
+    return host.matches("^[a-zA-Z0-9._:-]+$");
   }
 
   /** Resolves hostname to IP address. */
