@@ -38,12 +38,11 @@ public class ShutdownCommand implements Command {
     System.out.println("WARNING: This will execute a real shutdown command!");
     System.out.print("Are you sure you want to continue? (yes/no): ");
 
-    try (java.util.Scanner scanner = new java.util.Scanner(System.in)) {
-      String confirmation = scanner.nextLine().trim().toLowerCase();
-      if (!confirmation.equals("yes")) {
-        System.out.println("Shutdown cancelled.");
-        return;
-      }
+    java.util.Scanner scanner = new java.util.Scanner(System.in);
+    String confirmation = scanner.nextLine().trim().toLowerCase();
+    if (!confirmation.equals("yes")) {
+      System.out.println("Shutdown cancelled.");
+      return;
     }
 
     try {
