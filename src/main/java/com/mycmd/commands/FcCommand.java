@@ -17,13 +17,11 @@ public class FcCommand implements Command {
   public void execute(String[] args, ShellContext context) throws IOException {
     if (args.length < 2) {
       System.out.println("Compares two files or sets of files and displays the differences.");
-      System.out.println("\nFC [/A] [/B] [/C] [/L] [/LBn] [/N] [/T] [/W] [/nnnn]");
+      System.out.println("\nFC [/B] [/C] [/N]");
       System.out.println("   [drive1:][path1]filename1 [drive2:][path2]filename2");
-      System.out.println(
-          "\n  /A         Displays only first and last lines for each set of differences.");
+      System.out.println("");
       System.out.println("  /B         Performs a binary comparison.");
       System.out.println("  /C         Disregards the case of letters.");
-      System.out.println("  /L         Compares files as ASCII text.");
       System.out.println("  /N         Displays the line numbers on an ASCII comparison.");
       return;
     }
