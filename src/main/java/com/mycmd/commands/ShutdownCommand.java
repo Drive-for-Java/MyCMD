@@ -62,31 +62,37 @@ public class ShutdownCommand implements Command {
       } else {
         System.out.println("Unsupported operating system: " + os);
         return;
-       }
+      }
 
       Process process = pb.start();
-      Thread outputThread = new Thread(() -> {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-          String line;
-          while ((line = reader.readLine()) != null) {
-            System.out.println(line);
-          }
-        } catch (IOException e) {
-          System.err.println("Error reading output: " + e.getMessage());
-        }
-      });
- 
-      Thread errorThread = new Thread(() -> {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
-          String line;
-          while ((line = reader.readLine()) != null) {
-            System.err.println(line);
-          }
-        } catch (IOException e) {
-          System.err.println("Error reading error stream: " + e.getMessage());
-        }
-      });
- 
+      Thread outputThread =
+          new Thread(
+              () -> {
+                try (BufferedReader reader =
+                    new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                  String line;
+                  while ((line = reader.readLine()) != null) {
+                    System.out.println(line);
+                  }
+                } catch (IOException e) {
+                  System.err.println("Error reading output: " + e.getMessage());
+                }
+              });
+
+      Thread errorThread =
+          new Thread(
+              () -> {
+                try (BufferedReader reader =
+                    new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+                  String line;
+                  while ((line = reader.readLine()) != null) {
+                    System.err.println(line);
+                  }
+                } catch (IOException e) {
+                  System.err.println("Error reading error stream: " + e.getMessage());
+                }
+              });
+
       outputThread.start();
       errorThread.start();
       outputThread.join();
