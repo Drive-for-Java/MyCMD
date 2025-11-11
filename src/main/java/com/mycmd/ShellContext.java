@@ -55,9 +55,13 @@ public class ShellContext {
   }
 
   public void setCurrentDir(File dir) {
-    if (dir != null && dir.exists() && dir.isDirectory()) {
-      this.currentDir = dir;
+    if (dir == null || !dir.exists()) {
+      throw new IllegalArgumentException("Directory does not exist: " + dir);
     }
+    if (!dir.isDirectory()) {
+      throw new IllegalArgumentException("Not a directory: " + dir);
+    }
+    this.currentDir = dir;
   }
 
   /**
