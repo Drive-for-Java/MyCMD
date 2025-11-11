@@ -73,13 +73,6 @@ public class TelnetCommand implements Command {
       } catch (IOException ignored) {
         // stdin/socket error, will disconnect
       }
-
-      // ensure socket closes to stop reader
-      try {
-        socket.close();
-      } catch (IOException ignored) {
-      }
-      System.out.println("\nDisconnected.");
     } catch (IOException e) {
       System.out.println("Connection failed: " + e.getMessage());
     }
