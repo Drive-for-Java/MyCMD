@@ -84,10 +84,11 @@ public class AssocCommand implements Command {
                 Thread.currentThread().interrupt();
             }
 
-        } catch (Exception e) {
-            System.out.println("Error executing assoc: " + e.getMessage());
-        }
-    }
+           } catch (IOException e) {
+         throw e;
+         } catch (Exception e) {
+        throw new IOException("Error executing assoc", e);
+     }
 
     @Override
     public String description() {
