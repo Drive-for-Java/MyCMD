@@ -75,7 +75,7 @@ public class AssocCommand implements Command {
 
             if (!finished) {
                 process.destroyForcibly();
-                System.out.println("Command timed out.");
+                throw new IOException("Command timed out after 30 seconds");
             }
 
             try {
