@@ -100,7 +100,7 @@ REM --- Regenerate Launch4j config XML dynamically ---
     echo     ^<path^>%%JAVA_HOME%%;%%PATH%%^</path^>
     echo     ^<requiresJdk^>false^</requiresJdk^>
     echo     ^<requires64Bit^>false^</requires64Bit^>
-    echo     ^<minVersion^>^</minVersion^>
+    echo     ^<minVersion^>17</minVersion^>
     echo     ^<maxVersion^>^</maxVersion^>
     echo   ^</jre^>
     echo ^</launch4jConfig^>
