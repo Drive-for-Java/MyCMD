@@ -14,32 +14,29 @@ jobs:
   build:
     name: 🔨 Build and Package
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: 🧩 Checkout source code
         uses: actions/checkout@v4
-        
+
       - name: ☕ Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
           cache: maven
-          
-      - name: 🔧 Make Maven wrapper executable
-        run: chmod +x mvnw
-        
-      - name: 🧰 Build using Maven Wrapper
-        run: ./mvnw -B clean package
-        
-      - name: 📦 Upload built JAR artifact
+
+      - name: 🧰 Build using Maven
+        run: mvn -B clean package -DskipTests
+
+      - name: 📦 Upload compiled JAR artifact (non-fat)
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: MyCMD-GUI-${{ github.sha }}
-          path: target/*.jar
+          path: target/MyCMD-GUI-*.jar
           retention-days: 30
-          
+
       - name: 📊 Upload test results (if any)
         if: always()
         uses: actions/upload-artifact@v4
