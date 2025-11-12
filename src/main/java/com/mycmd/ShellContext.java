@@ -9,161 +9,161 @@ import java.util.*;
  * command history, aliases, and shared Scanner.
  */
 public class ShellContext {
-  private File currentDir;
-  private final Map<String, String> environment;
-  private final List<String> history;
-  private final Map<String, String> aliases;
-  private Scanner scanner;
-  private Instant startTime;
+    private File currentDir;
+    private final Map<String, String> environment;
+    private final List<String> history;
+    private final Map<String, String> aliases;
+    private Scanner scanner;
+    private Instant startTime;
 
-  public ShellContext() {
-    this.currentDir = new File(System.getProperty("user.dir"));
-    this.environment = new HashMap<>(System.getenv());
-    this.history = new ArrayList<>();
-    this.aliases = new HashMap<>();
-    this.scanner = null;
-    this.startTime = Instant.now();
-  }
-
-  // ==================== Scanner Management ====================
-
-  /**
-   * Set the shared Scanner instance for all commands to use. Should only be called once by App.java
-   * during initialization.
-   */
-  public void setScanner(Scanner scanner) {
-    this.scanner = scanner;
-  }
-
-  /**
-   * Get the shared Scanner instance. All commands should use this instead of creating their own
-   * Scanner.
-   *
-   * @return the shared Scanner instance
-   * @throws IllegalStateException if Scanner hasn't been initialized
-   */
-  public Scanner getScanner() {
-    if (scanner == null) {
-      throw new IllegalStateException("Scanner not initialized in ShellContext");
+    public ShellContext() {
+        this.currentDir = new File(System.getProperty("user.dir"));
+        this.environment = new HashMap<>(System.getenv());
+        this.history = new ArrayList<>();
+        this.aliases = new HashMap<>();
+        this.scanner = null;
+        this.startTime = Instant.now();
     }
-    return scanner;
-  }
 
-  // ==================== Directory Management ====================
+    // ==================== Scanner Management ====================
 
-  public File getCurrentDir() {
-    return currentDir;
-  }
-
-  public void setCurrentDir(File dir) {
-    if (dir == null || !dir.exists()) {
-      throw new IllegalArgumentException("Directory does not exist: " + dir);
+    /**
+     * Set the shared Scanner instance for all commands to use. Should only be called once by App.java
+     * during initialization.
+     */
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
     }
-    if (!dir.isDirectory()) {
-      throw new IllegalArgumentException("Not a directory: " + dir);
+
+    /**
+     * Get the shared Scanner instance. All commands should use this instead of creating their own
+     * Scanner.
+     *
+     * @return the shared Scanner instance
+     * @throws IllegalStateException if Scanner hasn't been initialized
+     */
+    public Scanner getScanner() {
+        if (scanner == null) {
+            throw new IllegalStateException("Scanner not initialized in ShellContext");
+        }
+        return scanner;
     }
-    this.currentDir = dir;
-  }
 
-  /**
-   * Resolve a path relative to the current directory. If the path is absolute, return it as-is. If
-   * relative, resolve it against the current directory.
-   */
-  public File resolvePath(String path) {
-    File file = new File(path);
-    if (file.isAbsolute()) {
-      return file;
+    // ==================== Directory Management ====================
+
+    public File getCurrentDir() {
+        return currentDir;
     }
-    return new File(currentDir, path);
-  }
 
-  // ==================== Environment Variables ====================
+    public void setCurrentDir(File dir) {
+        if (dir == null || !dir.exists()) {
+            throw new IllegalArgumentException("Directory does not exist: " + dir);
+        }
+        if (!dir.isDirectory()) {
+            throw new IllegalArgumentException("Not a directory: " + dir);
+        }
+        this.currentDir = dir;
+    }
 
-  public String getEnvVar(String key) {
-    return environment.get(key);
-  }
+    /**
+     * Resolve a path relative to the current directory. If the path is absolute, return it as-is. If
+     * relative, resolve it against the current directory.
+     */
+    public File resolvePath(String path) {
+        File file = new File(path);
+        if (file.isAbsolute()) {
+            return file;
+        }
+        return new File(currentDir, path);
+    }
 
-  public void setEnvVar(String key, String value) {
-    environment.put(key, value);
-  }
+    // ==================== Environment Variables ====================
 
-  public Map<String, String> getAllEnvVars() {
-    return new HashMap<>(environment);
-  }
+    public String getEnvVar(String key) {
+        return environment.get(key);
+    }
 
-  /** Legacy method name support for compatibility. */
-  public Map<String, String> getEnvVars() {
-    return getAllEnvVars();
-  }
+    public void setEnvVar(String key, String value) {
+        environment.put(key, value);
+    }
 
-  // ==================== Command History ====================
+    public Map<String, String> getAllEnvVars() {
+        return new HashMap<>(environment);
+    }
 
-  public void addToHistory(String command) {
-    history.add(command);
-  }
+    /** Legacy method name support for compatibility. */
+    public Map<String, String> getEnvVars() {
+        return getAllEnvVars();
+    }
 
-  public List<String> getHistory() {
-    return new ArrayList<>(history);
-  }
+    // ==================== Command History ====================
 
-  /** Legacy method name support for compatibility. */
-  public List<String> getCommandHistory() {
-    return getHistory();
-  }
+    public void addToHistory(String command) {
+        history.add(command);
+    }
 
-  public void clearHistory() {
-    history.clear();
-  }
+    public List<String> getHistory() {
+        return new ArrayList<>(history);
+    }
 
-  // ==================== Aliases ====================
+    /** Legacy method name support for compatibility. */
+    public List<String> getCommandHistory() {
+        return getHistory();
+    }
 
-  /** Get all aliases (for compatibility with existing code). */
-  public Map<String, String> getAliases() {
-    return new HashMap<>(aliases);
-  }
+    public void clearHistory() {
+        history.clear();
+    }
 
-  /** Add an alias (for compatibility with existing code). */
-  public void addAlias(String name, String command) {
-    aliases.put(name, command);
-  }
+    // ==================== Aliases ====================
 
-  /** Resolve an alias (for compatibility with existing code). */
-  public String resolveAlias(String cmd) {
-    return aliases.getOrDefault(cmd, cmd);
-  }
+    /** Get all aliases (for compatibility with existing code). */
+    public Map<String, String> getAliases() {
+        return new HashMap<>(aliases);
+    }
 
-  /** Set an alias. */
-  public void setAlias(String alias, String command) {
-    aliases.put(alias, command);
-  }
+    /** Add an alias (for compatibility with existing code). */
+    public void addAlias(String name, String command) {
+        aliases.put(name, command);
+    }
 
-  /** Get alias command. */
-  public String getAlias(String alias) {
-    return aliases.get(alias);
-  }
+    /** Resolve an alias (for compatibility with existing code). */
+    public String resolveAlias(String cmd) {
+        return aliases.getOrDefault(cmd, cmd);
+    }
 
-  /** Check if alias exists. */
-  public boolean hasAlias(String alias) {
-    return aliases.containsKey(alias);
-  }
+    /** Set an alias. */
+    public void setAlias(String alias, String command) {
+        aliases.put(alias, command);
+    }
 
-  /** Remove an alias. */
-  public void removeAlias(String alias) {
-    aliases.remove(alias);
-  }
+    /** Get alias command. */
+    public String getAlias(String alias) {
+        return aliases.get(alias);
+    }
 
-  /** Get all aliases. */
-  public Map<String, String> getAllAliases() {
-    return new HashMap<>(aliases);
-  }
+    /** Check if alias exists. */
+    public boolean hasAlias(String alias) {
+        return aliases.containsKey(alias);
+    }
 
-  // ==================== Start Time (for uptime command) ====================
+    /** Remove an alias. */
+    public void removeAlias(String alias) {
+        aliases.remove(alias);
+    }
 
-  public Instant getStartTime() {
-    return startTime;
-  }
+    /** Get all aliases. */
+    public Map<String, String> getAllAliases() {
+        return new HashMap<>(aliases);
+    }
 
-  public void setStartTime(Instant startTime) {
-    this.startTime = startTime;
-  }
+    // ==================== Start Time (for uptime command) ====================
+
+    public Instant getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Instant startTime) {
+        this.startTime = startTime;
+    }
 }

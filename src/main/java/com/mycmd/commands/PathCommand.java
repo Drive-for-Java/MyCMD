@@ -11,49 +11,48 @@ import java.io.IOException;
  */
 public class PathCommand implements Command {
 
-  @Override
-  public void execute(String[] args, ShellContext context) throws IOException {
-    if (args.length == 0) {
-      // Display current PATH
-      String path = context.getEnvVar("PATH");
-      if (path == null) {
-        path = System.getenv("PATH");
-      }
+    @Override
+    public void execute(String[] args, ShellContext context) throws IOException {
+        if (args.length == 0) {
+            // Display current PATH
+            String path = context.getEnvVar("PATH");
+            if (path == null) {
+                path = System.getenv("PATH");
+            }
 
-      if (path != null) {
-        if (path.isEmpty()) {
-          System.out.println("PATH is cleared (session only)");
-        } else {
-          System.out.println("PATH=" + path);
+            if (path != null) {
+                if (path.isEmpty()) {
+                    System.out.println("PATH is cleared (session only)");
+                } else {
+                    System.out.println("PATH=" + path);
+                }
+            } else {
+                System.out.println("No Path");
+            }
+            return;
         }
-      } else {
-        System.out.println("No Path");
-      }
-      return;
+
+        System.out.println("Note: Modifying PATH in MyCMD only affects the current shell session.");
+        System.out.println("To permanently modify PATH, use Windows System Properties or setx command.");
+
+        String newPath = String.join(" ", args);
+
+        if (newPath.equalsIgnoreCase(";")) {
+            context.setEnvVar("PATH", "");
+            System.out.println("PATH cleared (session only)");
+        } else {
+            context.setEnvVar("PATH", newPath);
+            System.out.println("PATH set to: " + newPath + " (session only)");
+        }
     }
 
-    System.out.println("Note: Modifying PATH in MyCMD only affects the current shell session.");
-    System.out.println(
-        "To permanently modify PATH, use Windows System Properties or setx command.");
-
-    String newPath = String.join(" ", args);
-
-    if (newPath.equalsIgnoreCase(";")) {
-      context.setEnvVar("PATH", "");
-      System.out.println("PATH cleared (session only)");
-    } else {
-      context.setEnvVar("PATH", newPath);
-      System.out.println("PATH set to: " + newPath + " (session only)");
+    @Override
+    public String description() {
+        return "Displays or sets the command path.";
     }
-  }
 
-  @Override
-  public String description() {
-    return "Displays or sets the command path.";
-  }
-
-  @Override
-  public String usage() {
-    return "path [path]";
-  }
+    @Override
+    public String usage() {
+        return "path [path]";
+    }
 }

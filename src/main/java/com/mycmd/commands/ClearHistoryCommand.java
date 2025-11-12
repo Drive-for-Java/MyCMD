@@ -15,19 +15,19 @@ import com.mycmd.ShellContext;
  * history. The history is cleared immediately and cannot be recovered.
  */
 public class ClearHistoryCommand implements Command {
-  @Override
-  public void execute(String[] args, ShellContext context) {
-    context.clearHistory();
-    System.out.println("Command history cleared.");
-  }
+    @Override
+    public void execute(String[] args, ShellContext context) {
+        context.clearHistory();
+        System.out.println("Command history cleared.");
+    }
 
-  @Override
-  public String description() {
-    return "Clear the stored command history.";
-  }
+    @Override
+    public String description() {
+        return "Clear the stored command history.";
+    }
 
-  @Override
-  public String usage() {
-    return "clearhistory";
-  }
+    @Override
+    public String usage() {
+        return "clearhistory";
+    }
 }

@@ -14,22 +14,22 @@ import com.mycmd.ShellContext;
  * <p>Multiple words are automatically joined with spaces between them.
  */
 public class EchoCommand implements Command {
-  @Override
-  public void execute(String[] args, ShellContext context) {
-    if (args.length == 0) {
-      System.out.println();
-    } else {
-      System.out.println(String.join(" ", args));
+    @Override
+    public void execute(String[] args, ShellContext context) {
+        if (args.length == 0) {
+            System.out.println();
+        } else {
+            System.out.println(String.join(" ", args));
+        }
     }
-  }
 
-  @Override
-  public String description() {
-    return "Display a line of text";
-  }
+    @Override
+    public String description() {
+        return "Display a line of text";
+    }
 
-  @Override
-  public String usage() {
-    return "echo <text>";
-  }
+    @Override
+    public String usage() {
+        return "echo <text>";
+    }
 }

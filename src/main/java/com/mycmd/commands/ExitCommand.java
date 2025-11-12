@@ -15,19 +15,19 @@ import com.mycmd.ShellContext;
  * confirmation.
  */
 public class ExitCommand implements Command {
-  @Override
-  public void execute(String[] args, ShellContext context) {
-    System.out.println("Exiting MyCMD...");
-    System.exit(0);
-  }
+    @Override
+    public void execute(String[] args, ShellContext context) {
+        System.out.println("Exiting MyCMD...");
+        System.exit(0);
+    }
 
-  @Override
-  public String description() {
-    return "Exit the program.";
-  }
+    @Override
+    public String description() {
+        return "Exit the program.";
+    }
 
-  @Override
-  public String usage() {
-    return "exit";
-  }
+    @Override
+    public String usage() {
+        return "exit";
+    }
 }

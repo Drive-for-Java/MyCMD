@@ -17,23 +17,23 @@ import com.mycmd.ShellContext;
  * information is displayed.
  */
 public class TitleCommand implements Command {
-  @Override
-  public void execute(String[] args, ShellContext context) {
-    if (args.length > 0) {
-      String title = String.join(" ", args);
-      System.out.println("\033]0;" + title + "\007");
-    } else {
-      System.out.println("Usage: " + usage());
+    @Override
+    public void execute(String[] args, ShellContext context) {
+        if (args.length > 0) {
+            String title = String.join(" ", args);
+            System.out.println("\033]0;" + title + "\007");
+        } else {
+            System.out.println("Usage: " + usage());
+        }
     }
-  }
 
-  @Override
-  public String description() {
-    return "Set the terminal window title.";
-  }
+    @Override
+    public String description() {
+        return "Set the terminal window title.";
+    }
 
-  @Override
-  public String usage() {
-    return "title <new title>";
-  }
+    @Override
+    public String usage() {
+        return "title <new title>";
+    }
 }
