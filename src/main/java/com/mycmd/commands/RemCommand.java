@@ -11,19 +11,19 @@ import java.io.IOException;
  */
 public class RemCommand implements Command {
 
-  @Override
-  public void execute(String[] args, ShellContext context) throws IOException {
-    // REM command does nothing - it's just for comments
-    // Silently ignore the comment
-  }
+    @Override
+    public void execute(String[] args, ShellContext context) throws IOException {
+        // REM command does nothing - it's just for comments
+        // Silently ignore the comment
+    }
 
-  @Override
-  public String description() {
-    return "Records comments (remarks) in batch files or scripts.";
-  }
+    @Override
+    public String description() {
+        return "Records comments (remarks) in batch files or scripts.";
+    }
 
-  @Override
-  public String usage() {
-    return "rem [comment]";
-  }
+    @Override
+    public String usage() {
+        return "rem [comment]";
+    }
 }

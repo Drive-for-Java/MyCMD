@@ -11,33 +11,37 @@ import javafx.scene.input.KeyCode;
 /** Controller for the FXML terminal. */
 public class TerminalController {
 
-  @FXML private TextArea outputArea;
-  @FXML private TextField inputField;
-  @FXML private ScrollPane scrollPane;
+    @FXML
+    private TextArea outputArea;
 
-  private ShellEngine engine;
-  private ShellContext context;
+    @FXML
+    private TextField inputField;
 
-  public void init(ShellEngine engine, ShellContext context) {
-    this.engine = engine;
-    this.context = context;
+    @FXML
+    private ScrollPane scrollPane;
 
-    output("💻 Welcome to MyCMD - Java made Terminal");
-    output("Type 'help' for available commands.\n");
+    private ShellEngine engine;
+    private ShellContext context;
 
-    inputField.setOnKeyPressed(
-        event -> {
-          if (event.getCode() == KeyCode.ENTER) {
-            String input = inputField.getText();
-            inputField.clear();
-            output("> " + input);
-            engine.execute(input);
-            scrollPane.setVvalue(1.0);
-          }
+    public void init(ShellEngine engine, ShellContext context) {
+        this.engine = engine;
+        this.context = context;
+
+        output("💻 Welcome to MyCMD - Java made Terminal");
+        output("Type 'help' for available commands.\n");
+
+        inputField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                String input = inputField.getText();
+                inputField.clear();
+                output("> " + input);
+                engine.execute(input);
+                scrollPane.setVvalue(1.0);
+            }
         });
-  }
+    }
 
-  private void output(String text) {
-    outputArea.appendText(text + "\n");
-  }
+    private void output(String text) {
+        outputArea.appendText(text + "\n");
+    }
 }
