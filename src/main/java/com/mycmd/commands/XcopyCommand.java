@@ -33,9 +33,12 @@ public class XcopyCommand implements Command {
 
         if (os.contains("win")) {
             try {
-                StringBuilder cmdBuilder = new StringBuilder("xcopy");
-                for (String arg : args) {
-                    cmdBuilder.append(" \"").append(arg).append("\"");
+               StringBuilder cmdBuilder = new StringBuilder("xcopy");
+              for (String arg : args) {
+                  // Escape quotes and other special characters
+                  String escaped = arg.replace("\"", "\\\"");
+                  cmdBuilder.append(" \"").append(escaped).append("\"");
+              }
                 }
 
                 ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", cmdBuilder.toString());
