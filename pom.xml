@@ -16,7 +16,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <javafx.version>21</javafx.version>
-        <spotless.version>3.2.0</spotless.version>
+        <spotless.version>3.7.0</spotless.version>
     </properties>
 
     <dependencies>
